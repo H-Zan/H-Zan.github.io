@@ -7,12 +7,13 @@
     <meta name="HandheldFriendly" content="True">
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
     <meta name="description" content="12345678910111213141516171819public class ManifestUtil &amp;#123;    public static String getMetaValue(Context context, String packageName, String attrName) &amp;#123;        String value = null;        Appli">
+<meta name="keywords" content="Android">
 <meta property="og:type" content="article">
 <meta property="og:title" content="获取MetaValue">
 <meta property="og:url" content="http://yoursite.com/2017/09/11/获取MetaValue/index.html">
 <meta property="og:site_name" content="HuZan">
 <meta property="og:description" content="12345678910111213141516171819public class ManifestUtil &amp;#123;    public static String getMetaValue(Context context, String packageName, String attrName) &amp;#123;        String value = null;        Appli">
-<meta property="og:updated_time" content="2017-09-11T09:52:56.000Z">
+<meta property="og:updated_time" content="2017-09-11T09:53:44.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="获取MetaValue">
 <meta name="twitter:description" content="12345678910111213141516171819public class ManifestUtil &amp;#123;    public static String getMetaValue(Context context, String packageName, String attrName) &amp;#123;        String value = null;        Appli">
@@ -123,6 +124,11 @@
 
 
       
+    <div class="article-tag">
+        <i class="fa fa-tag"></i>
+        <a class="tag-link" href="/tags/Android/">Android</a>
+    </div>
+
 
     </div>
   </header>
@@ -130,6 +136,8 @@
 
   <div class="content" itemprop="articleBody">
     <figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div></pre></td><td class="code"><pre><div class="line">public class ManifestUtil &#123;</div><div class="line"></div><div class="line">    public static String getMetaValue(Context context, String packageName, String attrName) &#123;</div><div class="line">        String value = null;</div><div class="line">        ApplicationInfo applicationInfo;</div><div class="line">        try &#123;</div><div class="line">            applicationInfo = context.getPackageManager().getApplicationInfo(</div><div class="line">                    packageName, PackageManager.GET_META_DATA);</div><div class="line">            Object obj = (applicationInfo.metaData != null ? applicationInfo.metaData.get(attrName) : null);</div><div class="line">            if (obj != null) &#123;</div><div class="line">                value = String.valueOf(obj);</div><div class="line">            &#125;</div><div class="line">        &#125; catch (Exception e) &#123;</div><div class="line">            e.printStackTrace();</div><div class="line">        &#125;</div><div class="line">        return value;</div><div class="line">    &#125;</div><div class="line">    </div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p><strong><em>Peace.</em></strong></p>
+
   </div>
 </article>
 
