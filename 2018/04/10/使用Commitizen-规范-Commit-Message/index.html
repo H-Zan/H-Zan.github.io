@@ -14,7 +14,7 @@
 <meta property="og:site_name" content="HuZan">
 <meta property="og:description" content="1. 安装 NPM (待完善)2. Commitizen 配置及使用 Commitizen是一个格式化commit message的工具  1npm install -g commitizen  使用 Angular 的 commit message，那么就在我们项目的目录下输入以下命令：  1commitizen init cz-conventional-changelog --save --s">
 <meta property="og:locale" content="default">
-<meta property="og:updated_time" content="2018-04-10T06:55:21.032Z">
+<meta property="og:updated_time" content="2018-04-10T07:52:09.189Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="使用Commitizen 规范 Commit Message">
 <meta name="twitter:description" content="1. 安装 NPM (待完善)2. Commitizen 配置及使用 Commitizen是一个格式化commit message的工具  1npm install -g commitizen  使用 Angular 的 commit message，那么就在我们项目的目录下输入以下命令：  1commitizen init cz-conventional-changelog --save --s">
@@ -175,6 +175,8 @@
 </ul>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">$ npm install -g conventional-changelog-cli</span><br><span class="line">$ cd my-project</span><br><span class="line">$ conventional-changelog -p angular -i CHANGELOG.md -s</span><br></pre></td></tr></table></figure>
 <p>你会发现在项目中多了CHANGELOG.md文件，表示生成 Change log成功。</p>
+<p>&gt;<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"># 增量生成changelog 不会覆盖以前的changelog</span><br><span class="line"># 不会覆盖以前的 Change log，只会在 CHANGELOG.md 的头部加上自从上次发布以来的变动</span><br><span class="line">$ conventional-changelog -p angular -i CHANGELOG.md -s</span><br></pre></td></tr></table></figure></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"># 全部重新生成 Change log</span><br><span class="line">$ conventional-changelog -p angular -i CHANGELOG.md -s -r 0</span><br></pre></td></tr></table></figure>
 <hr>
 <p>本文参考 <a href="https://www.jianshu.com/p/00c9ec4e552e" target="_blank" rel="noopener">Commit Message &amp; Change Log</a></p>
 <p><strong><em>Peace</em></strong></p>
