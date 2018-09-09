@@ -6,18 +6,18 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="HandheldFriendly" content="True">
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
-    <meta name="description" content="List localList = getPackageManager().getInstalledPackages(0); Peace">
-<meta name="keywords" content="Android">
+    <meta name="description" content="Kotlin 中 var、val、const 关键字解析  Peace">
+<meta name="keywords" content="Kotlin">
 <meta property="og:type" content="article">
-<meta property="og:title" content="得到手机中所安装的包">
-<meta property="og:url" content="http://yoursite.com/2017/09/10/得到手机中所安装的包/index.html">
+<meta property="og:title" content="Kotlin文章收集">
+<meta property="og:url" content="http://yoursite.com/2018/04/12/Kotlin文章收集/index.html">
 <meta property="og:site_name" content="HuZan">
-<meta property="og:description" content="List localList = getPackageManager().getInstalledPackages(0); Peace">
+<meta property="og:description" content="Kotlin 中 var、val、const 关键字解析  Peace">
 <meta property="og:locale" content="default">
-<meta property="og:updated_time" content="2018-09-09T04:55:47.000Z">
+<meta property="og:updated_time" content="2018-09-09T05:18:22.000Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="得到手机中所安装的包">
-<meta name="twitter:description" content="List localList = getPackageManager().getInstalledPackages(0); Peace">
+<meta name="twitter:title" content="Kotlin文章收集">
+<meta name="twitter:description" content="Kotlin 中 var、val、const 关键字解析  Peace">
     
     
         
@@ -37,7 +37,7 @@
         
     
     <!-- title -->
-    <title>得到手机中所安装的包</title>
+    <title>Kotlin文章收集</title>
     <!-- styles -->
     <link rel="stylesheet" href="/css/style.css">
     <!-- rss -->
@@ -69,10 +69,10 @@
     <span id="actions">
       <ul>
         
-        <li><a class="icon" href="/2017/09/11/获取MetaValue/"><i class="fa fa-chevron-left" aria-hidden="true" onmouseover="$('#i-prev').toggle();" onmouseout="$('#i-prev').toggle();"></i></a></li>
+        <li><a class="icon" href="/2018/04/15/Android遇到的问题以及解决方法/"><i class="fa fa-chevron-left" aria-hidden="true" onmouseover="$('#i-prev').toggle();" onmouseout="$('#i-prev').toggle();"></i></a></li>
         
         
-        <li><a class="icon" href="/2017/09/09/HttpURLConnection-Post/"><i class="fa fa-chevron-right" aria-hidden="true" onmouseover="$('#i-next').toggle();" onmouseout="$('#i-next').toggle();"></i></a></li>
+        <li><a class="icon" href="/2018/04/11/使用Commitizen-规范-Git-Commit-Message/"><i class="fa fa-chevron-right" aria-hidden="true" onmouseover="$('#i-next').toggle();" onmouseout="$('#i-next').toggle();"></i></a></li>
         
         <li><a class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fa fa-chevron-up" aria-hidden="true" onmouseover="$('#i-top').toggle();" onmouseout="$('#i-top').toggle();"></i></a></li>
         <li><a class="icon" href="#"><i class="fa fa-share-alt" aria-hidden="true" onmouseover="$('#i-share').toggle();" onmouseout="$('#i-share').toggle();" onclick="$('#share').toggle();return false;"></i></a></li>
@@ -85,16 +85,16 @@
     <br/>
     <div id="share" style="display: none">
       <ul>
-  <li><a class="icon" href="http://www.facebook.com/sharer.php?u=http://yoursite.com/2017/09/10/得到手机中所安装的包/"><i class="fa fa-facebook " aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="https://twitter.com/share?url=http://yoursite.com/2017/09/10/得到手机中所安装的包/&text=得到手机中所安装的包"><i class="fa fa-twitter " aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="http://www.linkedin.com/shareArticle?url=http://yoursite.com/2017/09/10/得到手机中所安装的包/&title=得到手机中所安装的包"><i class="fa fa-linkedin " aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="https://pinterest.com/pin/create/bookmarklet/?url=http://yoursite.com/2017/09/10/得到手机中所安装的包/&is_video=false&description=得到手机中所安装的包"><i class="fa fa-pinterest " aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="mailto:?subject=得到手机中所安装的包&body=Check out this article: http://yoursite.com/2017/09/10/得到手机中所安装的包/"><i class="fa fa-envelope " aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="https://getpocket.com/save?url=http://yoursite.com/2017/09/10/得到手机中所安装的包/&title=得到手机中所安装的包"><i class="fa fa-get-pocket " aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="http://reddit.com/submit?url=http://yoursite.com/2017/09/10/得到手机中所安装的包/&title=得到手机中所安装的包"><i class="fa fa-reddit " aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="http://www.stumbleupon.com/submit?url=http://yoursite.com/2017/09/10/得到手机中所安装的包/&title=得到手机中所安装的包"><i class="fa fa-stumbleupon " aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="http://digg.com/submit?url=http://yoursite.com/2017/09/10/得到手机中所安装的包/&title=得到手机中所安装的包"><i class="fa fa-digg " aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="http://www.tumblr.com/share/link?url=http://yoursite.com/2017/09/10/得到手机中所安装的包/&name=得到手机中所安装的包&description="><i class="fa fa-tumblr " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.facebook.com/sharer.php?u=http://yoursite.com/2018/04/12/Kotlin文章收集/"><i class="fa fa-facebook " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://twitter.com/share?url=http://yoursite.com/2018/04/12/Kotlin文章收集/&text=Kotlin文章收集"><i class="fa fa-twitter " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.linkedin.com/shareArticle?url=http://yoursite.com/2018/04/12/Kotlin文章收集/&title=Kotlin文章收集"><i class="fa fa-linkedin " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://pinterest.com/pin/create/bookmarklet/?url=http://yoursite.com/2018/04/12/Kotlin文章收集/&is_video=false&description=Kotlin文章收集"><i class="fa fa-pinterest " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=Kotlin文章收集&body=Check out this article: http://yoursite.com/2018/04/12/Kotlin文章收集/"><i class="fa fa-envelope " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://getpocket.com/save?url=http://yoursite.com/2018/04/12/Kotlin文章收集/&title=Kotlin文章收集"><i class="fa fa-get-pocket " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://reddit.com/submit?url=http://yoursite.com/2018/04/12/Kotlin文章收集/&title=Kotlin文章收集"><i class="fa fa-reddit " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.stumbleupon.com/submit?url=http://yoursite.com/2018/04/12/Kotlin文章收集/&title=Kotlin文章收集"><i class="fa fa-stumbleupon " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://digg.com/submit?url=http://yoursite.com/2018/04/12/Kotlin文章收集/&title=Kotlin文章收集"><i class="fa fa-digg " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.tumblr.com/share/link?url=http://yoursite.com/2018/04/12/Kotlin文章收集/&name=Kotlin文章收集&description="><i class="fa fa-tumblr " aria-hidden="true"></i></a></li>
 </ul>
 
     </div>
@@ -111,7 +111,7 @@
   <header>
     
     <h1 class="posttitle" itemprop="name headline">
-        得到手机中所安装的包
+        Kotlin文章收集
     </h1>
 
 
@@ -122,14 +122,14 @@
       </span>
       
     <div class="postdate">
-        <time datetime="2017-09-10T09:50:35.000Z" itemprop="datePublished">2017-09-10</time>
+        <time datetime="2018-04-12T05:15:13.000Z" itemprop="datePublished">2018-04-12</time>
     </div>
 
 
       
     <div class="article-tag">
         <i class="fa fa-tag"></i>
-        <a class="tag-link" href="/tags/Android/">Android</a>
+        <a class="tag-link" href="/tags/Kotlin/">Kotlin</a>
     </div>
 
 
@@ -138,7 +138,9 @@
   
 
   <div class="content" itemprop="articleBody">
-    <p><code>List localList = getPackageManager().getInstalledPackages(0);</code></p>
+    <blockquote>
+<p> <a href="http://liangfei.me/2018/03/28/kotlin-var-val-const/?utm_source=androidweekly&amp;utm_medium=website" target="_blank" rel="noopener">Kotlin 中 var、val、const 关键字解析</a></p>
+</blockquote>
 <p><strong><em>Peace</em></strong></p>
 
   </div>
@@ -177,16 +179,16 @@
 
     <div id="share-footer" style="display: none">
       <ul>
-  <li><a class="icon" href="http://www.facebook.com/sharer.php?u=http://yoursite.com/2017/09/10/得到手机中所安装的包/"><i class="fa fa-facebook fa-lg" aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="https://twitter.com/share?url=http://yoursite.com/2017/09/10/得到手机中所安装的包/&text=得到手机中所安装的包"><i class="fa fa-twitter fa-lg" aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="http://www.linkedin.com/shareArticle?url=http://yoursite.com/2017/09/10/得到手机中所安装的包/&title=得到手机中所安装的包"><i class="fa fa-linkedin fa-lg" aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="https://pinterest.com/pin/create/bookmarklet/?url=http://yoursite.com/2017/09/10/得到手机中所安装的包/&is_video=false&description=得到手机中所安装的包"><i class="fa fa-pinterest fa-lg" aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="mailto:?subject=得到手机中所安装的包&body=Check out this article: http://yoursite.com/2017/09/10/得到手机中所安装的包/"><i class="fa fa-envelope fa-lg" aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="https://getpocket.com/save?url=http://yoursite.com/2017/09/10/得到手机中所安装的包/&title=得到手机中所安装的包"><i class="fa fa-get-pocket fa-lg" aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="http://reddit.com/submit?url=http://yoursite.com/2017/09/10/得到手机中所安装的包/&title=得到手机中所安装的包"><i class="fa fa-reddit fa-lg" aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="http://www.stumbleupon.com/submit?url=http://yoursite.com/2017/09/10/得到手机中所安装的包/&title=得到手机中所安装的包"><i class="fa fa-stumbleupon fa-lg" aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="http://digg.com/submit?url=http://yoursite.com/2017/09/10/得到手机中所安装的包/&title=得到手机中所安装的包"><i class="fa fa-digg fa-lg" aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="http://www.tumblr.com/share/link?url=http://yoursite.com/2017/09/10/得到手机中所安装的包/&name=得到手机中所安装的包&description="><i class="fa fa-tumblr fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.facebook.com/sharer.php?u=http://yoursite.com/2018/04/12/Kotlin文章收集/"><i class="fa fa-facebook fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://twitter.com/share?url=http://yoursite.com/2018/04/12/Kotlin文章收集/&text=Kotlin文章收集"><i class="fa fa-twitter fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.linkedin.com/shareArticle?url=http://yoursite.com/2018/04/12/Kotlin文章收集/&title=Kotlin文章收集"><i class="fa fa-linkedin fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://pinterest.com/pin/create/bookmarklet/?url=http://yoursite.com/2018/04/12/Kotlin文章收集/&is_video=false&description=Kotlin文章收集"><i class="fa fa-pinterest fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=Kotlin文章收集&body=Check out this article: http://yoursite.com/2018/04/12/Kotlin文章收集/"><i class="fa fa-envelope fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://getpocket.com/save?url=http://yoursite.com/2018/04/12/Kotlin文章收集/&title=Kotlin文章收集"><i class="fa fa-get-pocket fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://reddit.com/submit?url=http://yoursite.com/2018/04/12/Kotlin文章收集/&title=Kotlin文章收集"><i class="fa fa-reddit fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.stumbleupon.com/submit?url=http://yoursite.com/2018/04/12/Kotlin文章收集/&title=Kotlin文章收集"><i class="fa fa-stumbleupon fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://digg.com/submit?url=http://yoursite.com/2018/04/12/Kotlin文章收集/&title=Kotlin文章收集"><i class="fa fa-digg fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.tumblr.com/share/link?url=http://yoursite.com/2018/04/12/Kotlin文章收集/&name=Kotlin文章收集&description="><i class="fa fa-tumblr fa-lg" aria-hidden="true"></i></a></li>
 </ul>
 
     </div>
