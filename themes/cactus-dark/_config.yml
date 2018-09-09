@@ -1,5 +1,6 @@
 nav:
   Home: /
+  # Home: /archives/
   About: /about/
   Writing: /archives/
   Projects: http://github.com/H-Zan
@@ -31,7 +32,7 @@ customize:
         # twitter: /
         # facebook: /
         # linkedin: /
-    show_all_posts: false
+    show_all_posts: true
     post_count: 5
     highlight: rainbow
 
