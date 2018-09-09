@@ -11,3 +11,5 @@ jarsigner -verify -verbose -certs <apk文件>
 `
 
 一般正常情况下如果有Android Debug字样, 就是debug
+
+***Peace***
