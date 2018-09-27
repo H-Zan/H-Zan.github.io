@@ -47,6 +47,10 @@ tags: Jenkins
 
    2. Gradle环境配置: 
 
+      > `command execution failed java.io.IOException: Cannot run program "gradle" (in directory ".jenkins/workspace"): error=2, No such file or directory`
+      >
+      > 不配置的话会出现上述错误
+
       1. 找到Gradle路径
 
          > Gradle 在Android Studio 包下
@@ -177,6 +181,21 @@ tags: Jenkins
 
       > 此时便可以产生apk
 
+5. 将构建好的apk上传到蒲公英
+
+   1. apk路径
+
+      `/Users/zan/.jenkins/workspace/Anyo/app/build/outputs/apk/release/app-release.apk`
+
+   2. 添加上传到蒲公英的脚本
+
+      1. 找到自己的项目 -> 配置 -> 构建 -> 增加构建步骤 -> 执行shell -> 把命令填入
+
+         `curl -F "file=@apk路径" -F "uKey=蒲公英的userkey" -F "_api_key=蒲公英的apikey" http://www.pgyer.com/apiv1/app/upload`
+
+6. 上传完成后发送邮件通知
+
+
 
 
 # issue
@@ -212,11 +231,11 @@ tags: Jenkins
    > 4. Apply and the save the configuration.
    > 5. Build Now again , It took some more time to build , but it will fixed this error.
 
-   > **解决步骤:**
+   >**解决步骤:**
    >
-   > 1. 找到项目
-   > 2. 配置
-   > 3. 源码管理 -> Git
-   > 4. Additional Behaviours -> Advanced clone behaviours
-   > 5. Timeout (in minutes) for clone and fetch operations : 100 (自己填超时的分钟数)
-   > 6. Shallow clone 可以勾选, 用来降低拉取时间
+   >1. 找到项目
+   >2. 配置
+   >3. 源码管理 -> Git
+   >4. Additional Behaviours -> Advanced clone behaviours
+   >5. Timeout (in minutes) for clone and fetch operations : 100 (自己填超时的分钟数)
+   >6. Shallow clone 可以勾选, 用来降低拉取时间
