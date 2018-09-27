@@ -14,7 +14,7 @@
 <meta property="og:site_name" content="HuZan">
 <meta property="og:description" content="Mac - Jenkins - Android 持续集成打包 安装 Jenkins  $ brew install jenkins   启动 Jenkins  命令行启动:  $ jenkins  输入密码：密码的路径就在这个标红的路径下可以找到  浏览器打开 Jenkins:  浏览器地址栏输入 http://localhost:8080    输入密码：  密码的路径就在标红的路径下可以找到">
 <meta property="og:locale" content="default">
-<meta property="og:updated_time" content="2018-09-17T08:51:48.000Z">
+<meta property="og:updated_time" content="2018-09-18T01:24:02.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Mac - Jenkins - Android 持续集成打包">
 <meta name="twitter:description" content="Mac - Jenkins - Android 持续集成打包 安装 Jenkins  $ brew install jenkins   启动 Jenkins  命令行启动:  $ jenkins  输入密码：密码的路径就在这个标红的路径下可以找到  浏览器打开 Jenkins:  浏览器地址栏输入 http://localhost:8080    输入密码：  密码的路径就在标红的路径下可以找到">
@@ -68,6 +68,8 @@
     <br/>
     <span id="actions">
       <ul>
+        
+        <li><a class="icon" href="/2018/09/27/Git修改最后一次提交的commit-message/"><i class="fa fa-chevron-left" aria-hidden="true" onmouseover="$('#i-prev').toggle();" onmouseout="$('#i-prev').toggle();"></i></a></li>
         
         
         <li><a class="icon" href="/2018/09/08/去除button的阴影/"><i class="fa fa-chevron-right" aria-hidden="true" onmouseover="$('#i-next').toggle();" onmouseout="$('#i-next').toggle();"></i></a></li>
@@ -187,6 +189,10 @@
 </blockquote>
 </li>
 <li><p>Gradle环境配置: </p>
+<blockquote>
+<p><code>command execution failed java.io.IOException: Cannot run program &quot;gradle&quot; (in directory &quot;.jenkins/workspace&quot;): error=2, No such file or directory</code></p>
+<p>不配置的话会出现上述错误</p>
+</blockquote>
 <ol>
 <li><p>找到Gradle路径</p>
 <blockquote>
@@ -346,6 +352,22 @@
 </blockquote>
 </li>
 </ol>
+</li>
+<li><p>将构建好的apk上传到蒲公英</p>
+<ol>
+<li><p>apk路径</p>
+<p><code>/Users/zan/.jenkins/workspace/Anyo/app/build/outputs/apk/release/app-release.apk</code></p>
+</li>
+<li><p>添加上传到蒲公英的脚本</p>
+<ol>
+<li><p>找到自己的项目 -&gt; 配置 -&gt; 构建 -&gt; 增加构建步骤 -&gt; 执行shell -&gt; 把命令填入</p>
+<p><code>curl -F &quot;file=@apk路径&quot; -F &quot;uKey=蒲公英的userkey&quot; -F &quot;_api_key=蒲公英的apikey&quot; http://www.pgyer.com/apiv1/app/upload</code></p>
+</li>
+</ol>
+</li>
+</ol>
+</li>
+<li><p>上传完成后发送邮件通知</p>
 </li>
 </ol>
 <h1 id="issue">issue</h1><ol>
