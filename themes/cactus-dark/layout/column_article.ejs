@@ -1,0 +1,155 @@
+<%
+  var levelMap = {
+    beginner: 'L1 · 初级 Beginner',
+    intermediate: 'L2 · 中级 Intermediate',
+    advanced: 'L3 · 高级 Advanced',
+    ultimate: 'L4 · 究极 Ultimate'
+  };
+
+  var isTutorial = page.column === 'ai-tutorials';
+  var isNews = page.column === 'ai-news';
+  var colHref = isTutorial ? '/ai-tutorials/' : (isNews ? '/ai-news/' : '/');
+  var colLabel = isTutorial ? 'AI 教程专栏' : (isNews ? 'AI 热点大事件' : 'Home');
+
+  var siblings = [];
+  site.pages.forEach(function(p) {
+    if (p.column && p.column === page.column) {
+      siblings.push(p);
+    }
+  });
+  if (isTutorial) {
+    siblings.sort(function(a, b) { return (a.order || 999) - (b.order || 999); });
+  } else {
+    siblings.sort(function(a, b) { return new Date(b.date) - new Date(a.date); });
+  }
+  var curIdx = -1;
+  for (var idx = 0; idx < siblings.length; idx++) {
+    if (siblings[idx].path === page.path) { curIdx = idx; break; }
+  }
+  var prevItem = curIdx > 0 ? siblings[curIdx - 1] : null;
+  var nextItem = (curIdx >= 0 && curIdx < siblings.length - 1) ? siblings[curIdx + 1] : null;
+  var tocHtml = toc(page.content, { list_number: false });
+%>
+
+<article class="column-article lang-mode-both" id="column-article-root" itemscope itemtype="http://schema.org/TechArticle">
+  <nav class="col-breadcrumb" aria-label="Breadcrumb">
+    <a href="<%- url_for('/') %>">Home</a>
+    <span class="sep">/</span>
+    <a href="<%- url_for(colHref) %>"><%= colLabel %></a>
+    <% if (isTutorial && page.level && levelMap[page.level]) { %>
+      <span class="sep">/</span>
+      <a href="<%- url_for('/ai-tutorials/#tier-' + page.level) %>"><%= levelMap[page.level] %></a>
+    <% } %>
+  </nav>
+
+  <header class="col-article-header">
+    <div class="col-article-badges">
+      <% if (isTutorial && page.level) { %>
+        <span class="level-badge level-<%= page.level %>"><%= levelMap[page.level] || page.level %></span>
+      <% } %>
+      <% if (isNews) { %>
+        <span class="level-badge level-news">🔥 AI 热点大事件 · BRIEFING</span>
+      <% } %>
+      <% if (page.code) { %>
+        <span class="col-code-pill"><%= page.code %></span>
+      <% } %>
+      <% if (page.read_time) { %>
+        <span class="col-meta-item">⏱ <%= page.read_time %></span>
+      <% } %>
+      <% if (page.date) { %>
+        <time class="col-meta-item" datetime="<%= date_xml(page.date) %>">📅 <%= date(page.date, 'YYYY-MM-DD') %></time>
+      <% } %>
+    </div>
+
+    <h1 class="col-article-title" itemprop="headline"><%= page.title %></h1>
+    <% if (page.title_en) { %>
+      <p class="col-article-title-en"><%= page.title_en %></p>
+    <% } %>
+
+    <% if (page.tags && page.tags.length) { %>
+      <div class="col-article-tags">
+        <% page.tags.forEach(function(tag) { %>
+          <span class="col-tag">#<%= typeof tag === 'string' ? tag : tag.name %></span>
+        <% }); %>
+      </div>
+    <% } %>
+
+    <div class="lang-toolbar" role="group" aria-label="Language display mode">
+      <span class="lang-toolbar-label">🌐 阅读模式 / View Mode:</span>
+      <button type="button" class="lang-btn active" data-mode="both">中英对照 Bilingual</button>
+      <button type="button" class="lang-btn" data-mode="zh">仅中文 ZH</button>
+      <button type="button" class="lang-btn" data-mode="en">English Only</button>
+    </div>
+  </header>
+
+  <% if (tocHtml && tocHtml.trim().length > 0) { %>
+    <details class="col-toc-box" open>
+      <summary>📑 目录 / Table of Contents</summary>
+      <div class="col-toc-inner">
+        <%- tocHtml %>
+      </div>
+    </details>
+  <% } %>
+
+  <div class="col-article-body" itemprop="articleBody">
+    <%- page.content %>
+  </div>
+
+  <footer class="col-article-footer">
+    <div class="col-nav-grid">
+      <% if (prevItem) { %>
+        <a class="col-nav-card col-nav-prev" href="<%- url_for(prevItem.path) %>">
+          <span class="col-nav-dir">← 上一篇 / Previous</span>
+          <span class="col-nav-title"><%= prevItem.title %></span>
+        </a>
+      <% } else { %>
+        <a class="col-nav-card col-nav-prev" href="<%- url_for(colHref) %>">
+          <span class="col-nav-dir">← 返回专栏目录 / Back to Index</span>
+          <span class="col-nav-title"><%= colLabel %></span>
+        </a>
+      <% } %>
+
+      <% if (nextItem) { %>
+        <a class="col-nav-card col-nav-next" href="<%- url_for(nextItem.path) %>">
+          <span class="col-nav-dir">下一篇 / Next →</span>
+          <span class="col-nav-title"><%= nextItem.title %></span>
+        </a>
+      <% } else { %>
+        <a class="col-nav-card col-nav-next" href="<%- url_for(colHref) %>">
+          <span class="col-nav-dir">返回专栏总览 / Column Hub →</span>
+          <span class="col-nav-title"><%= colLabel %></span>
+        </a>
+      <% } %>
+    </div>
+  </footer>
+</article>
+
+<script>
+(function() {
+  var root = document.getElementById('column-article-root');
+  if (!root) return;
+  var buttons = root.querySelectorAll('.lang-btn');
+  var storageKey = 'hzan_ai_lang_mode';
+
+  function applyMode(mode) {
+    if (mode !== 'both' && mode !== 'zh' && mode !== 'en') mode = 'both';
+    root.classList.remove('lang-mode-both', 'lang-mode-zh', 'lang-mode-en');
+    root.classList.add('lang-mode-' + mode);
+    buttons.forEach(function(btn) {
+      btn.classList.toggle('active', btn.getAttribute('data-mode') === mode);
+    });
+    try { localStorage.setItem(storageKey, mode); } catch (e) {}
+  }
+
+  buttons.forEach(function(btn) {
+    btn.addEventListener('click', function() {
+      applyMode(btn.getAttribute('data-mode'));
+    });
+  });
+
+  try {
+    var saved = localStorage.getItem(storageKey);
+    if (saved) applyMode(saved);
+  } catch (e) {}
+})();
+</script>

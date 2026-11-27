@@ -1,0 +1,77 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 880 310" width="880" height="310">
+  <defs>
+    <marker id="arr" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M 0 1 L 10 5 L 0 9 z" fill="#2bbc8a"/>
+    </marker>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#181a1d"/>
+      <stop offset="100%" stop-color="#22262b"/>
+    </linearGradient>
+  </defs>
+  <rect width="880" height="310" rx="12" fill="url(#bg)" stroke="#363b42" stroke-width="1.5"/>
+  <text x="440" y="34" text-anchor="middle" fill="#eeeeee" font-family="sans-serif" font-size="16" font-weight="700">LLM 核心推理流水线 · Next-Token Prediction Pipeline</text>
+  <text x="440" y="54" text-anchor="middle" fill="#9aa0a6" font-family="monospace" font-size="11.5">Input Text → Tokenization → Embeddings → Transformer Layers → Probability Distribution → Sampling</text>
+
+  <!-- Step 1 -->
+  <rect x="24" y="84" width="136" height="122" rx="8" fill="#24272b" stroke="#2bbc8a" stroke-width="1.5"/>
+  <text x="92" y="106" text-anchor="middle" fill="#2bbc8a" font-family="monospace" font-size="11" font-weight="700">01 · TOKENIZER</text>
+  <text x="92" y="126" text-anchor="middle" fill="#eeeeee" font-family="sans-serif" font-size="13" font-weight="700">分词切块</text>
+  <rect x="38" y="140" width="108" height="22" rx="4" fill="#181a1d" stroke="#363b42"/>
+  <text x="92" y="155" text-anchor="middle" fill="#c9cacc" font-family="monospace" font-size="11">"AI 改变"</text>
+  <text x="92" y="180" text-anchor="middle" fill="#4ea8de" font-family="monospace" font-size="11">[15836, 48219]</text>
+  <text x="92" y="196" text-anchor="middle" fill="#9aa0a6" font-family="sans-serif" font-size="10">BPE 词表映射</text>
+
+  <line x1="160" y1="145" x2="188" y2="145" stroke="#2bbc8a" stroke-width="2" marker-end="url(#arr)"/>
+
+  <!-- Step 2 -->
+  <rect x="192" y="84" width="140" height="122" rx="8" fill="#24272b" stroke="#4ea8de" stroke-width="1.5"/>
+  <text x="262" y="106" text-anchor="middle" fill="#4ea8de" font-family="monospace" font-size="11" font-weight="700">02 · EMBEDDING</text>
+  <text x="262" y="126" text-anchor="middle" fill="#eeeeee" font-family="sans-serif" font-size="13" font-weight="700">语义向量化</text>
+  <rect x="206" y="140" width="112" height="40" rx="4" fill="#181a1d" stroke="#363b42"/>
+  <text x="262" y="156" text-anchor="middle" fill="#d5ff80" font-family="monospace" font-size="10">[0.14, -0.82, ...]</text>
+  <text x="262" y="172" text-anchor="middle" fill="#9aa0a6" font-family="monospace" font-size="10">d = 4096 维空间</text>
+  <text x="262" y="196" text-anchor="middle" fill="#9aa0a6" font-family="sans-serif" font-size="10">语义相近 → 距离更近</text>
+
+  <line x1="332" y1="145" x2="360" y2="145" stroke="#2bbc8a" stroke-width="2" marker-end="url(#arr)"/>
+
+  <!-- Step 3 -->
+  <rect x="364" y="84" width="160" height="122" rx="8" fill="#24272b" stroke="#f0a500" stroke-width="1.5"/>
+  <text x="444" y="106" text-anchor="middle" fill="#f0a500" font-family="monospace" font-size="11" font-weight="700">03 · TRANSFORMER</text>
+  <text x="444" y="126" text-anchor="middle" fill="#eeeeee" font-family="sans-serif" font-size="13" font-weight="700">多层注意力理解</text>
+  <rect x="380" y="138" width="128" height="22" rx="4" fill="#2c3036" stroke="#f0a500" stroke-opacity="0.5"/>
+  <text x="444" y="153" text-anchor="middle" fill="#eeeeee" font-family="monospace" font-size="10.5">Self-Attention</text>
+  <rect x="380" y="164" width="128" height="22" rx="4" fill="#2c3036" stroke="#f0a500" stroke-opacity="0.5"/>
+  <text x="444" y="179" text-anchor="middle" fill="#eeeeee" font-family="monospace" font-size="10.5">FFN / MoE × N 层</text>
+  <text x="444" y="199" text-anchor="middle" fill="#9aa0a6" font-family="sans-serif" font-size="10">融合上下文语义</text>
+
+  <line x1="524" y1="145" x2="552" y2="145" stroke="#2bbc8a" stroke-width="2" marker-end="url(#arr)"/>
+
+  <!-- Step 4 -->
+  <rect x="556" y="84" width="150" height="122" rx="8" fill="#24272b" stroke="#c678dd" stroke-width="1.5"/>
+  <text x="631" y="106" text-anchor="middle" fill="#c678dd" font-family="monospace" font-size="11" font-weight="700">04 · LOGITS &amp; PROB</text>
+  <text x="631" y="126" text-anchor="middle" fill="#eeeeee" font-family="sans-serif" font-size="13" font-weight="700">下一词概率分布</text>
+  <text x="572" y="148" fill="#2bbc8a" font-family="monospace" font-size="10.5">"世界"  68%</text>
+  <rect x="650" y="139" width="44" height="9" rx="2" fill="#2bbc8a"/>
+  <text x="572" y="167" fill="#4ea8de" font-family="monospace" font-size="10.5">"未来"  19%</text>
+  <rect x="650" y="158" width="18" height="9" rx="2" fill="#4ea8de"/>
+  <text x="572" y="186" fill="#9aa0a6" font-family="monospace" font-size="10.5">"编程"   8%</text>
+  <rect x="650" y="177" width="9" height="9" rx="2" fill="#9aa0a6"/>
+
+  <line x1="706" y1="145" x2="734" y2="145" stroke="#2bbc8a" stroke-width="2" marker-end="url(#arr)"/>
+
+  <!-- Step 5 -->
+  <rect x="738" y="84" width="118" height="122" rx="8" fill="#24272b" stroke="#2bbc8a" stroke-width="1.5"/>
+  <text x="797" y="106" text-anchor="middle" fill="#2bbc8a" font-family="monospace" font-size="11" font-weight="700">05 · SAMPLE</text>
+  <text x="797" y="126" text-anchor="middle" fill="#eeeeee" font-family="sans-serif" font-size="13" font-weight="700">采样输出</text>
+  <rect x="752" y="140" width="90" height="24" rx="4" fill="#2bbc8a" fill-opacity="0.2" stroke="#2bbc8a"/>
+  <text x="797" y="156" text-anchor="middle" fill="#d5ff80" font-family="sans-serif" font-size="12" font-weight="700">"世界"</text>
+  <text x="797" y="182" text-anchor="middle" fill="#9aa0a6" font-family="monospace" font-size="10">Temp / Top-p</text>
+  <text x="797" y="197" text-anchor="middle" fill="#9aa0a6" font-family="sans-serif" font-size="10">控制发散度</text>
+
+  <!-- Autoregressive feedback loop -->
+  <path d="M 797 206 L 797 256 L 92 256 L 92 212" fill="none" stroke="#2bbc8a" stroke-width="1.6" stroke-dasharray="6,4" marker-end="url(#arr)"/>
+  <rect x="290" y="242" width="300" height="28" rx="14" fill="#181a1d" stroke="#2bbc8a" stroke-width="1.2"/>
+  <text x="440" y="260" text-anchor="middle" fill="#2bbc8a" font-family="sans-serif" font-size="11.5" font-weight="700">自回归循环 · Autoregressive Loop（追加到输入继续预测）</text>
+
+  <text x="440" y="294" text-anchor="middle" fill="#888e96" font-family="sans-serif" font-size="11">本质：大模型不是在查数据库，而是在高维语义空间中逐个 Token 进行条件概率续写</text>
+</svg>

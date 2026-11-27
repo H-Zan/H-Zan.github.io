@@ -1,0 +1,77 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 880 350" width="880" height="350">
+  <defs>
+    <marker id="arr8" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M 0 1 L 10 5 L 0 9 z" fill="#2bbc8a"/>
+    </marker>
+    <linearGradient id="bg8" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#181a1d"/>
+      <stop offset="100%" stop-color="#22262b"/>
+    </linearGradient>
+  </defs>
+  <rect width="880" height="350" rx="12" fill="url(#bg8)" stroke="#363b42" stroke-width="1.5"/>
+  <text x="440" y="32" text-anchor="middle" fill="#eeeeee" font-family="sans-serif" font-size="16" font-weight="700">前沿推理范式：RLVR/GRPO 训练闭环与多智能体编排 · Frontier Reasoning &amp; Multi-Agent</text>
+
+  <!-- Left: RLVR / GRPO -->
+  <rect x="24" y="56" width="406" height="258" rx="10" fill="#1e2227" stroke="#c678dd" stroke-width="1.5"/>
+  <text x="227" y="80" text-anchor="middle" fill="#c678dd" font-family="monospace" font-size="12" font-weight="700">RLVR &amp; GRPO · 可验证奖励强化学习</text>
+
+  <rect x="44" y="96" width="150" height="44" rx="6" fill="#24272b" stroke="#4ea8de"/>
+  <text x="119" y="116" text-anchor="middle" fill="#eeeeee" font-family="sans-serif" font-size="12" font-weight="700">数学/代码难题 q</text>
+  <text x="119" y="132" text-anchor="middle" fill="#9aa0a6" font-family="monospace" font-size="10">Prompt + 单元测试</text>
+
+  <line x1="194" y1="118" x2="226" y2="118" stroke="#2bbc8a" stroke-width="1.6" marker-end="url(#arr8)"/>
+
+  <rect x="230" y="96" width="180" height="44" rx="6" fill="#24272b" stroke="#c678dd"/>
+  <text x="320" y="116" text-anchor="middle" fill="#c678dd" font-family="sans-serif" font-size="12" font-weight="700">同题采样 G 条思维链</text>
+  <text x="320" y="132" text-anchor="middle" fill="#9aa0a6" font-family="monospace" font-size="10">{o₁, o₂, ..., o_G}</text>
+
+  <line x1="320" y1="140" x2="320" y2="168" stroke="#2bbc8a" stroke-width="1.6" marker-end="url(#arr8)"/>
+
+  <rect x="230" y="172" width="180" height="52" rx="6" fill="#1c2b26" stroke="#2bbc8a"/>
+  <text x="320" y="194" text-anchor="middle" fill="#2bbc8a" font-family="sans-serif" font-size="12" font-weight="700">确定性 Verifier 判分</text>
+  <text x="320" y="213" text-anchor="middle" fill="#d5ff80" font-family="monospace" font-size="10.5">rᵢ ∈ {0, 1} (代码通过/答案对)</text>
+
+  <line x1="230" y1="198" x2="198" y2="198" stroke="#2bbc8a" stroke-width="1.6" marker-end="url(#arr8)"/>
+
+  <rect x="44" y="172" width="150" height="52" rx="6" fill="#24272b" stroke="#f0a500"/>
+  <text x="119" y="194" text-anchor="middle" fill="#f0a500" font-family="sans-serif" font-size="12" font-weight="700">组内相对优势 Aᵢ</text>
+  <text x="119" y="213" text-anchor="middle" fill="#eeeeee" font-family="monospace" font-size="10">(rᵢ - mean) / std</text>
+
+  <rect x="44" y="242" width="366" height="54" rx="6" fill="#24272b" stroke="#363b42"/>
+  <text x="227" y="263" text-anchor="middle" fill="#eeeeee" font-family="sans-serif" font-size="11.5" font-weight="700">省去庞大 Critic 网络，直接强化高分推理轨迹</text>
+  <text x="227" y="283" text-anchor="middle" fill="#2bbc8a" font-family="sans-serif" font-size="10.5">→ 涌现“自我检验、回溯纠错、Test-Time Compute 思考扩展”</text>
+
+  <!-- Right: Multi-Agent Orchestration -->
+  <rect x="450" y="56" width="406" height="258" rx="10" fill="#1e2422" stroke="#2bbc8a" stroke-width="1.5"/>
+  <text x="653" y="80" text-anchor="middle" fill="#2bbc8a" font-family="monospace" font-size="12" font-weight="700">MULTI-AGENT · 生产级编排与验证闭环</text>
+
+  <rect x="556" y="96" width="194" height="44" rx="6" fill="#24272b" stroke="#f0a500" stroke-width="1.5"/>
+  <text x="653" y="116" text-anchor="middle" fill="#f0a500" font-family="sans-serif" font-size="12" font-weight="700">Orchestrator · 规划总控</text>
+  <text x="653" y="132" text-anchor="middle" fill="#9aa0a6" font-family="sans-serif" font-size="10">拆解 DAG 任务 + 上下文裁剪</text>
+
+  <line x1="600" y1="140" x2="532" y2="170" stroke="#2bbc8a" stroke-width="1.5" marker-end="url(#arr8)"/>
+  <line x1="653" y1="140" x2="653" y2="170" stroke="#2bbc8a" stroke-width="1.5" marker-end="url(#arr8)"/>
+  <line x1="706" y1="140" x2="774" y2="170" stroke="#2bbc8a" stroke-width="1.5" marker-end="url(#arr8)"/>
+
+  <rect x="470" y="174" width="114" height="46" rx="6" fill="#24272b" stroke="#4ea8de"/>
+  <text x="527" y="195" text-anchor="middle" fill="#4ea8de" font-family="sans-serif" font-size="11.5" font-weight="700">Researcher</text>
+  <text x="527" y="211" text-anchor="middle" fill="#9aa0a6" font-family="sans-serif" font-size="9.5">只读检索调研</text>
+
+  <rect x="596" y="174" width="114" height="46" rx="6" fill="#24272b" stroke="#2bbc8a"/>
+  <text x="653" y="195" text-anchor="middle" fill="#2bbc8a" font-family="sans-serif" font-size="11.5" font-weight="700">Coder Worker</text>
+  <text x="653" y="211" text-anchor="middle" fill="#9aa0a6" font-family="sans-serif" font-size="9.5">隔离分支修改</text>
+
+  <rect x="722" y="174" width="114" height="46" rx="6" fill="#24272b" stroke="#c678dd"/>
+  <text x="779" y="195" text-anchor="middle" fill="#c678dd" font-family="sans-serif" font-size="11.5" font-weight="700">Reviewer</text>
+  <text x="779" y="211" text-anchor="middle" fill="#9aa0a6" font-family="sans-serif" font-size="9.5">独立对抗审查</text>
+
+  <line x1="527" y1="220" x2="610" y2="244" stroke="#2bbc8a" stroke-width="1.4"/>
+  <line x1="653" y1="220" x2="653" y2="244" stroke="#2bbc8a" stroke-width="1.4" marker-end="url(#arr8)"/>
+  <line x1="779" y1="220" x2="696" y2="244" stroke="#2bbc8a" stroke-width="1.4"/>
+
+  <rect x="470" y="246" width="366" height="50" rx="6" fill="#2a1f22" stroke="#e06c75"/>
+  <text x="653" y="267" text-anchor="middle" fill="#e06c75" font-family="sans-serif" font-size="12" font-weight="700">Sandbox Verifier · 确定性沙箱校验（测试/编译/安全）</text>
+  <text x="653" y="285" text-anchor="middle" fill="#9aa0a6" font-family="sans-serif" font-size="10">失败则携带精准日志回传重试，通过才交付最终产物</text>
+
+  <text x="440" y="334" text-anchor="middle" fill="#888e96" font-family="sans-serif" font-size="11">终极共识：无论训练还是推理，“确定性验证环境 (Verifiable Environment)” 才是 AI 突破能力上限的真正杠杆</text>
+</svg>

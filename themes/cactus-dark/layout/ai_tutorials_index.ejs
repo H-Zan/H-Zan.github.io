@@ -1,0 +1,120 @@
+<%
+  var tiers = [
+    {
+      key: 'beginner',
+      badge: 'L1 · 初级 Beginner',
+      title: '初级 · 建立直觉与心智模型',
+      title_en: 'Beginner · Foundations & Mental Models',
+      desc: '零公式门槛，用清晰比喻与可视化图解看懂大模型底层逻辑，掌握真正可落地的 Prompt 工程方法。'
+    },
+    {
+      key: 'intermediate',
+      badge: 'L2 · 中级 Intermediate',
+      title: '中级 · 工程落地与系统构建',
+      title_en: 'Intermediate · Applied AI Systems',
+      desc: '打通从对话到生产的最后一公里：用 RAG 构建可溯源私域大脑，用 Tool Use 与 MCP 打造可靠智能体。'
+    },
+    {
+      key: 'advanced',
+      badge: 'L3 · 高级 Advanced',
+      title: '高级 · 底层架构与模型定制',
+      title_en: 'Advanced · Architecture & Model Adaptation',
+      desc: '手写 Attention 看透 Transformer 核心密码，系统掌握 SFT、LoRA/QLoRA、DPO 对齐与自动化评测闭环。'
+    },
+    {
+      key: 'ultimate',
+      badge: 'L4 · 究极 Ultimate',
+      title: '究极 · 推理极限与前沿范式',
+      title_en: 'Ultimate · Inference Systems & Frontier Reasoning',
+      desc: '深入 GPU 显存墙、KV Cache、PagedAttention、投机解码，以及 RLVR/GRPO 推理模型与多智能体编排。'
+    }
+  ];
+
+  var allTutorials = [];
+  site.pages.forEach(function(p) {
+    if (p.column === 'ai-tutorials') {
+      allTutorials.push(p);
+    }
+  });
+  allTutorials.sort(function(a, b) {
+    return (a.order || 999) - (b.order || 999);
+  });
+%>
+
+<div class="column-page ai-tutorials-hub">
+  <section class="col-hero">
+    <div class="col-hero-media">
+      <img src="<%- url_for('/images/ai-tutorials/hero-banner.jpg') %>" alt="AI Tutorials Column Banner">
+    </div>
+    <div class="col-hero-content">
+      <span class="col-eyebrow">COLUMN · 双语系统专栏</span>
+      <h1 class="col-hero-title">AI 教程专栏 <span class="col-hero-sub">AI Engineering Tutorials</span></h1>
+      <p class="col-hero-desc">
+        从零基础心智模型到推理引擎极限优化，深入浅出、图文并茂、中英双语对照。每一篇都配有架构图解、可运行代码与权威延伸阅读，支持文章内一键切换「双语对照 / 仅中文 / English」。
+      </p>
+      <div class="col-tier-pills">
+        <% tiers.forEach(function(t) { %>
+          <a class="tier-pill tier-<%= t.key %>" href="#tier-<%= t.key %>"><%= t.badge %></a>
+        <% }); %>
+      </div>
+    </div>
+  </section>
+
+  <% if (page.content && page.content.trim().length > 0) { %>
+    <section class="col-intro-note">
+      <%- page.content %>
+    </section>
+  <% } %>
+
+  <section class="col-roadmap">
+    <div class="roadmap-bar">
+      <% tiers.forEach(function(t, idx) { %>
+        <% var count = allTutorials.filter(function(item) { return item.level === t.key; }).length; %>
+        <a href="#tier-<%= t.key %>" class="roadmap-step tier-<%= t.key %>">
+          <span class="roadmap-num">0<%= idx + 1 %></span>
+          <span class="roadmap-label"><%= t.badge %></span>
+          <span class="roadmap-count"><%= count %> 篇</span>
+        </a>
+      <% }); %>
+    </div>
+  </section>
+
+  <% tiers.forEach(function(t) { %>
+    <% var items = allTutorials.filter(function(item) { return item.level === t.key; }); %>
+    <section id="tier-<%= t.key %>" class="col-tier-section">
+      <div class="col-tier-header">
+        <span class="level-badge level-<%= t.key %>"><%= t.badge %></span>
+        <h2><%= t.title %></h2>
+        <div class="col-tier-en"><%= t.title_en %></div>
+        <p class="col-tier-desc"><%= t.desc %></p>
+      </div>
+
+      <div class="col-card-grid">
+        <% items.forEach(function(item) { %>
+          <a class="col-card tier-border-<%= t.key %>" href="<%- url_for(item.path) %>">
+            <div class="col-card-top">
+              <span class="col-card-code"><%= item.code || '' %></span>
+              <% if (item.read_time) { %>
+                <span class="col-card-meta">⏱ <%= item.read_time %></span>
+              <% } %>
+            </div>
+            <h3 class="col-card-title"><%= item.title %></h3>
+            <% if (item.title_en) { %>
+              <div class="col-card-title-en"><%= item.title_en %></div>
+            <% } %>
+            <% if (item.summary) { %>
+              <p class="col-card-summary"><%= item.summary %></p>
+            <% } %>
+            <% if (item.tags && item.tags.length) { %>
+              <div class="col-card-tags">
+                <% item.tags.forEach(function(tag) { %>
+                  <span class="col-tag">#<%= typeof tag === 'string' ? tag : tag.name %></span>
+                <% }); %>
+              </div>
+            <% } %>
+          </a>
+        <% }); %>
+      </div>
+    </section>
+  <% }); %>
+</div>

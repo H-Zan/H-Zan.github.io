@@ -1,0 +1,71 @@
+<%
+  var newsItems = [];
+  site.pages.forEach(function(p) {
+    if (p.column === 'ai-news') {
+      newsItems.push(p);
+    }
+  });
+  newsItems.sort(function(a, b) {
+    return new Date(b.date) - new Date(a.date);
+  });
+%>
+
+<div class="column-page ai-news-hub">
+  <section class="col-hero col-hero-news">
+    <div class="col-hero-media">
+      <img src="<%- url_for('/images/ai-news/hero-banner.jpg') %>" alt="AI Hot Events Banner">
+    </div>
+    <div class="col-hero-content">
+      <span class="col-eyebrow news-eyebrow">COLUMN · 全球前沿雷达</span>
+      <h1 class="col-hero-title">AI 热点大事件 <span class="col-hero-sub">AI Hot Events &amp; Briefings</span></h1>
+      <p class="col-hero-desc">
+        过滤噪声，只留信号。追踪全球 AI 模型发布、算力供应链、政策监管、安全前沿与工程突破——每条事件均核验一手来源，附中英双语摘要与一线开发者视角点评。
+      </p>
+    </div>
+  </section>
+
+  <% if (page.content && page.content.trim().length > 0) { %>
+    <section class="col-intro-note">
+      <%- page.content %>
+    </section>
+  <% } %>
+
+  <section class="news-timeline">
+    <% newsItems.forEach(function(item) { %>
+      <article class="news-card">
+        <div class="news-card-header">
+          <time class="news-date" datetime="<%= date_xml(item.date) %>">📅 <%= date(item.date, 'YYYY-MM-DD') %></time>
+          <% if (item.edition) { %>
+            <span class="news-edition"><%= item.edition %></span>
+          <% } %>
+        </div>
+        <h2 class="news-card-title">
+          <a href="<%- url_for(item.path) %>"><%= item.title %></a>
+        </h2>
+        <% if (item.title_en) { %>
+          <div class="news-card-title-en"><%= item.title_en %></div>
+        <% } %>
+        <% if (item.summary) { %>
+          <p class="news-card-summary"><%= item.summary %></p>
+        <% } %>
+        <% if (item.highlights && item.highlights.length) { %>
+          <ul class="news-highlights">
+            <% item.highlights.forEach(function(hl) { %>
+              <li><%= hl %></li>
+            <% }); %>
+          </ul>
+        <% } %>
+        <div class="news-card-footer">
+          <div class="col-card-tags">
+            <% if (item.tags && item.tags.length) { %>
+              <% item.tags.forEach(function(tag) { %>
+                <span class="col-tag">#<%= typeof tag === 'string' ? tag : tag.name %></span>
+              <% }); %>
+            <% } %>
+          </div>
+          <a class="news-read-more" href="<%- url_for(item.path) %>">阅读完整深度拆解 / Read Full Briefing →</a>
+        </div>
+      </article>
+    <% }); %>
+  </section>
+</div>

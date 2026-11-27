@@ -5,7 +5,8 @@
     <% if (is_post()) { %>
       <%- partial('_partial/post/actions_desktop') %>
     <% } %>
-    <div class="content index width mx-auto px2 my4">
+    <% var isColumnLayout = (page.layout === 'ai_tutorials_index' || page.layout === 'ai_news_index' || page.layout === 'column_article'); %>
+    <div class="content index <%= isColumnLayout ? 'column-wide' : 'width' %> mx-auto px2 my4">
         <% if (!is_post()) { %>
           <%- partial('_partial/header') %>
         <% } %>

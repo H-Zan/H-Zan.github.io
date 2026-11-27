@@ -1,0 +1,720 @@
+// AI Tutorials & AI News Columns Styling (scoped so original posts remain untouched)
+$col-surface = #24272b
+$col-surface-hover = #2a2e33
+$col-border = #363b42
+$col-muted = #9aa0a6
+$col-font-prose = -apple-system, BlinkMacSystemFont, "Segoe UI", "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", "Noto Sans SC", "Helvetica Neue", Arial, sans-serif
+
+$tier-beginner = #2bbc8a
+$tier-intermediate = #4ea8de
+$tier-advanced = #f0a500
+$tier-ultimate = #e06c75
+$tier-news = #ff9f43
+
+.column-wide
+  width: 100%
+  max-width: 50rem
+  #header
+    max-width: 50rem
+
+// Homepage Columns Showcase
+.column-showcase
+  margin-top: 2rem
+  margin-bottom: 2.2rem
+  .showcase-grid
+    display: grid
+    grid-template-columns: repeat(2, minmax(0, 1fr))
+    gap: 1rem
+    margin-top: 0.75rem
+  .showcase-card
+    display: block
+    background: $col-surface
+    border: 1px solid $col-border
+    border-radius: 8px
+    padding: 1rem 1.1rem
+    text-decoration: none
+    background-image: none !important
+    transition: border-color 0.2s ease, transform 0.2s ease, background-color 0.2s ease
+    &:hover
+      background: $col-surface-hover
+      border-color: $color-accent
+      transform: translateY(-2px)
+  .showcase-news:hover
+    border-color: $tier-news
+  .showcase-head
+    display: flex
+    justify-content: space-between
+    align-items: center
+    margin-bottom: 0.5rem
+    font-size: 0.72rem
+  .showcase-badge
+    color: #1d1f21
+    background: $color-accent
+    font-weight: 700
+    padding: 2px 7px
+    border-radius: 4px
+    letter-spacing: 0.04em
+  .showcase-badge-news
+    background: $tier-news
+  .showcase-stat
+    color: $col-muted
+  .showcase-title
+    color: $color-lightest
+    font-family: $col-font-prose
+    font-weight: 700
+    font-size: 0.98rem
+    margin-bottom: 0.35rem
+  .showcase-desc
+    color: $col-muted
+    font-family: $col-font-prose
+    font-size: 0.82rem
+    line-height: 1.55
+    margin: 0
+    text-align: left !important
+
+// Shared Badges & Tags
+.level-badge
+  display: inline-block
+  font-family: $col-font-prose
+  font-size: 0.75rem
+  font-weight: 700
+  padding: 3px 10px
+  border-radius: 999px
+  letter-spacing: 0.03em
+  color: #16181a
+  &.level-beginner
+    background: $tier-beginner
+  &.level-intermediate
+    background: $tier-intermediate
+  &.level-advanced
+    background: $tier-advanced
+  &.level-ultimate
+    background: linear-gradient(135deg, #e06c75, #c678dd)
+    color: #ffffff
+  &.level-news
+    background: $tier-news
+
+.col-tag
+  display: inline-block
+  font-size: 0.75rem
+  color: $col-muted
+  background: rgba(255, 255, 255, 0.05)
+  border: 1px solid $col-border
+  border-radius: 4px
+  padding: 1px 7px
+  margin-right: 6px
+  margin-bottom: 4px
+
+// Column Hub Pages
+.column-page
+  font-family: $col-font-prose
+  .col-hero
+    background: $col-surface
+    border: 1px solid $col-border
+    border-radius: 12px
+    overflow: hidden
+    margin-bottom: 2rem
+  .col-hero-media
+    width: 100%
+    max-height: 250px
+    overflow: hidden
+    border-bottom: 1px solid $col-border
+    img
+      width: 100%
+      height: 250px
+      object-fit: cover
+      display: block
+  .col-hero-content
+    padding: 1.4rem 1.6rem 1.6rem
+  .col-eyebrow
+    display: inline-block
+    font-size: 0.72rem
+    font-weight: 700
+    letter-spacing: 0.1em
+    color: $color-accent
+    margin-bottom: 0.45rem
+    &.news-eyebrow
+      color: $tier-news
+  .col-hero-title
+    margin: 0 0 0.6rem 0 !important
+    font-size: 1.75rem !important
+    color: $color-lightest !important
+    line-height: 1.3
+    .col-hero-sub
+      display: inline-block
+      font-size: 1rem
+      font-weight: 500
+      color: $col-muted
+      margin-left: 0.5rem
+  .col-hero-desc
+    color: $color-text
+    font-size: 0.95rem
+    line-height: 1.75
+    margin: 0 0 1rem 0
+    text-align: left !important
+  .col-tier-pills
+    display: flex
+    flex-wrap: wrap
+    gap: 0.55rem
+  .tier-pill
+    display: inline-block
+    font-size: 0.8rem
+    font-weight: 600
+    padding: 5px 12px
+    border-radius: 999px
+    border: 1px solid $col-border
+    background: #1d1f21
+    background-image: none !important
+    color: $color-lightest
+    transition: all 0.2s ease
+    &.tier-beginner:hover
+      border-color: $tier-beginner
+      color: $tier-beginner
+    &.tier-intermediate:hover
+      border-color: $tier-intermediate
+      color: $tier-intermediate
+    &.tier-advanced:hover
+      border-color: $tier-advanced
+      color: $tier-advanced
+    &.tier-ultimate:hover
+      border-color: $tier-ultimate
+      color: $tier-ultimate
+
+// Roadmap bar
+.col-roadmap
+  margin-bottom: 2.2rem
+  .roadmap-bar
+    display: grid
+    grid-template-columns: repeat(4, minmax(0, 1fr))
+    gap: 0.75rem
+  .roadmap-step
+    display: flex
+    flex-direction: column
+    gap: 0.2rem
+    padding: 0.85rem 0.95rem
+    background: $col-surface
+    border: 1px solid $col-border
+    border-radius: 8px
+    background-image: none !important
+    transition: border-color 0.2s ease, transform 0.2s ease
+    &:hover
+      transform: translateY(-2px)
+      background: $col-surface-hover
+    &.tier-beginner
+      border-top: 3px solid $tier-beginner
+    &.tier-intermediate
+      border-top: 3px solid $tier-intermediate
+    &.tier-advanced
+      border-top: 3px solid $tier-advanced
+    &.tier-ultimate
+      border-top: 3px solid $tier-ultimate
+  .roadmap-num
+    font-family: $font-family-mono
+    font-size: 0.72rem
+    color: $col-muted
+  .roadmap-label
+    font-size: 0.84rem
+    font-weight: 700
+    color: $color-lightest
+  .roadmap-count
+    font-size: 0.75rem
+    color: $col-muted
+
+// Tier Sections & Cards
+.col-tier-section
+  margin-bottom: 2.6rem
+  .col-tier-header
+    margin-bottom: 1.1rem
+    h2
+      margin: 0.55rem 0 0.2rem 0 !important
+      font-size: 1.3rem !important
+      color: $color-lightest !important
+      &:before
+        display: none !important
+  .col-tier-en
+    font-size: 0.86rem
+    color: $col-muted
+    margin-bottom: 0.4rem
+  .col-tier-desc
+    font-size: 0.9rem
+    color: $color-text
+    margin: 0
+    text-align: left !important
+
+.col-card-grid
+  display: grid
+  grid-template-columns: repeat(2, minmax(0, 1fr))
+  gap: 1rem
+
+.col-card
+  display: flex
+  flex-direction: column
+  background: $col-surface
+  border: 1px solid $col-border
+  border-radius: 10px
+  padding: 1.15rem 1.25rem
+  background-image: none !important
+  transition: transform 0.2s ease, border-color 0.2s ease, background-color 0.2s ease
+  &:hover
+    transform: translateY(-2px)
+    background: $col-surface-hover
+  &.tier-border-beginner:hover
+    border-color: $tier-beginner
+  &.tier-border-intermediate:hover
+    border-color: $tier-intermediate
+  &.tier-border-advanced:hover
+    border-color: $tier-advanced
+  &.tier-border-ultimate:hover
+    border-color: $tier-ultimate
+  .col-card-top
+    display: flex
+    justify-content: space-between
+    align-items: center
+    margin-bottom: 0.55rem
+    font-size: 0.76rem
+  .col-card-code
+    font-family: $font-family-mono
+    font-weight: 700
+    color: $color-accent
+  .col-card-meta
+    color: $col-muted
+  .col-card-title
+    margin: 0 0 0.3rem 0 !important
+    font-size: 1.05rem !important
+    font-weight: 700
+    line-height: 1.45
+    color: $color-lightest !important
+    text-decoration: none !important
+  .col-card-title-en
+    font-size: 0.82rem
+    color: $col-muted
+    line-height: 1.4
+    margin-bottom: 0.65rem
+  .col-card-summary
+    font-size: 0.86rem
+    color: $color-text
+    line-height: 1.65
+    margin: 0 0 0.85rem 0
+    flex: 1
+    text-align: left !important
+  .col-card-tags
+    display: flex
+    flex-wrap: wrap
+
+// News Hub Timeline
+.news-timeline
+  display: flex
+  flex-direction: column
+  gap: 1.25rem
+
+.news-card
+  background: $col-surface
+  border: 1px solid $col-border
+  border-left: 4px solid $tier-news
+  border-radius: 10px
+  padding: 1.35rem 1.5rem
+  .news-card-header
+    display: flex
+    align-items: center
+    gap: 0.75rem
+    margin-bottom: 0.6rem
+    font-size: 0.82rem
+  .news-date
+    font-family: $font-family-mono
+    color: $tier-news
+    font-weight: 700
+  .news-edition
+    color: $col-muted
+    background: rgba(255, 159, 67, 0.12)
+    border: 1px solid rgba(255, 159, 67, 0.35)
+    padding: 1px 8px
+    border-radius: 4px
+    font-size: 0.74rem
+  .news-card-title
+    margin: 0 0 0.35rem 0 !important
+    font-size: 1.25rem !important
+    line-height: 1.45
+    &:before
+      display: none !important
+    a
+      color: $color-lightest
+      background-image: none !important
+      &:hover
+        color: $tier-news
+  .news-card-title-en
+    font-size: 0.88rem
+    color: $col-muted
+    margin-bottom: 0.75rem
+  .news-card-summary
+    font-size: 0.92rem
+    line-height: 1.7
+    color: $color-text
+    margin: 0 0 0.85rem 0
+    text-align: left !important
+  .news-highlights
+    margin: 0 0 1rem 0
+    padding-left: 1.2rem
+    color: $color-text
+    font-size: 0.88rem
+    li
+      margin-bottom: 0.3rem
+  .news-card-footer
+    display: flex
+    justify-content: space-between
+    align-items: center
+    flex-wrap: wrap
+    gap: 0.75rem
+    padding-top: 0.75rem
+    border-top: 1px dashed $col-border
+  .news-read-more
+    color: $tier-news !important
+    font-weight: 700
+    font-size: 0.86rem
+    background-image: none !important
+    &:hover
+      text-decoration: underline !important
+
+// Column Article Page
+.column-article
+  font-family: $col-font-prose
+  .col-breadcrumb
+    font-size: 0.82rem
+    color: $col-muted
+    margin-bottom: 1.2rem
+    a
+      color: $col-muted
+      background-image: none !important
+      &:hover
+        color: $color-accent
+    .sep
+      margin: 0 0.45rem
+      opacity: 0.6
+
+  .col-article-header
+    background: $col-surface
+    border: 1px solid $col-border
+    border-radius: 12px
+    padding: 1.5rem 1.6rem
+    margin-bottom: 1.5rem
+  .col-article-badges
+    display: flex
+    flex-wrap: wrap
+    align-items: center
+    gap: 0.6rem
+    margin-bottom: 0.85rem
+  .col-code-pill
+    font-family: $font-family-mono
+    font-size: 0.76rem
+    font-weight: 700
+    color: $color-accent
+    background: rgba(43, 188, 138, 0.12)
+    border: 1px solid rgba(43, 188, 138, 0.35)
+    padding: 2px 8px
+    border-radius: 4px
+  .col-meta-item
+    font-size: 0.8rem
+    color: $col-muted
+  .col-article-title
+    margin: 0 0 0.45rem 0 !important
+    font-size: 1.65rem !important
+    line-height: 1.38
+    color: $color-lightest !important
+  .col-article-title-en
+    margin: 0 0 0.9rem 0
+    font-size: 0.98rem
+    color: $col-muted
+    line-height: 1.5
+    text-align: left !important
+  .col-article-tags
+    margin-bottom: 1rem
+
+  // Bilingual Toolbar
+  .lang-toolbar
+    display: flex
+    flex-wrap: wrap
+    align-items: center
+    gap: 0.5rem
+    padding-top: 0.9rem
+    border-top: 1px dashed $col-border
+  .lang-toolbar-label
+    font-size: 0.82rem
+    color: $col-muted
+    margin-right: 0.25rem
+  .lang-btn
+    cursor: pointer
+    font-family: $col-font-prose
+    font-size: 0.8rem
+    font-weight: 600
+    color: $color-text
+    background: #1d1f21
+    border: 1px solid $col-border
+    border-radius: 6px
+    padding: 5px 12px
+    transition: all 0.18s ease
+    &:hover
+      border-color: $color-accent
+      color: $color-lightest
+    &.active
+      background: $color-accent
+      border-color: $color-accent
+      color: #16181a
+
+  // TOC Box
+  .col-toc-box
+    background: $col-surface
+    border: 1px solid $col-border
+    border-radius: 10px
+    padding: 0.9rem 1.2rem
+    margin-bottom: 1.8rem
+    summary
+      cursor: pointer
+      font-weight: 700
+      font-size: 0.9rem
+      color: $color-lightest
+      outline: none
+    .col-toc-inner
+      margin-top: 0.7rem
+      font-size: 0.86rem
+      ol, ul
+        margin: 0
+        padding-left: 1.1rem
+        list-style: none
+      li
+        margin: 0.3rem 0
+      a
+        color: $col-muted
+        background-image: none !important
+        &:hover
+          color: $color-accent
+
+  // Rich Article Prose Typography
+  .col-article-body
+    font-size: 15.5px
+    line-height: 1.82
+    color: #d6d8db
+    p
+      margin: 0.75rem 0
+      text-align: left !important
+    h2
+      font-size: 1.3rem !important
+      color: $color-lightest !important
+      margin-top: 2.5rem !important
+      margin-bottom: 0.9rem !important
+      padding-bottom: 0.45rem
+      border-bottom: 1px solid $col-border
+      &:before
+        display: none !important
+    h3
+      font-size: 1.06rem !important
+      color: $color-accent !important
+      text-decoration: none !important
+      margin-top: 1.7rem !important
+      margin-bottom: 0.65rem !important
+    h4
+      display: block !important
+      border-bottom: none !important
+      font-weight: 700 !important
+      color: $color-lightest !important
+    a
+      color: $color-accent
+      background-image: none !important
+      border-bottom: 1px dotted rgba(43, 188, 138, 0.55)
+      &:hover
+        color: $color-link
+        border-bottom-color: $color-link
+    img
+      max-width: 100%
+      height: auto
+      display: block
+      margin: 1.4rem auto
+      border-radius: 8px
+      border: 1px solid $col-border
+      background: #17191b
+      padding: 6px
+    table
+      width: 100%
+      margin: 1.3rem 0
+      border-collapse: collapse
+      font-size: 0.88rem
+      background: $col-surface
+      border: 1px solid $col-border
+      border-radius: 8px
+      overflow: hidden
+      display: table
+    th
+      background: #2c3036
+      color: $color-lightest
+      border-bottom: 1px solid $col-border
+      padding: 10px 12px
+      font-weight: 700
+      text-align: left
+    td
+      padding: 9px 12px
+      border-bottom: 1px solid rgba(255, 255, 255, 0.06)
+      color: #d6d8db
+      vertical-align: top
+    tr:last-child td
+      border-bottom: none
+    blockquote
+      margin: 1.1rem 0
+      padding: 0.75rem 1.1rem
+      background: rgba(43, 188, 138, 0.07)
+      border-left: 3px solid $color-accent !important
+      border-radius: 0 6px 6px 0
+      color: #d5f5e8
+      &:before
+        display: none !important
+    pre, .highlight
+      font-family: $font-family-mono
+      font-size: 13.5px
+      border-radius: 8px
+      margin: 1.2rem 0
+      background: #17191c !important
+      border: 1px solid $col-border
+    code
+      font-family: $font-family-mono
+      font-size: 0.87em
+      background: rgba(255, 255, 255, 0.07)
+      border: 1px solid rgba(255, 255, 255, 0.1)
+      border-radius: 4px
+      padding: 1px 6px
+      color: #e6edf3
+    pre code, .highlight code
+      background: transparent
+      border: none
+      padding: 0
+    ul, ol
+      padding-left: 1.45rem
+      margin: 0.7rem 0
+    li
+      margin: 0.35rem 0
+
+  // Bilingual Blocks
+  .bi-block
+    position: relative
+    margin: 0.75rem 0
+    padding: 0.8rem 1rem 0.8rem 1.15rem
+    border-radius: 8px
+    &.bi-zh
+      background: rgba(43, 188, 138, 0.05)
+      border-left: 3px solid $color-accent
+    &.bi-en
+      background: rgba(78, 168, 222, 0.05)
+      border-left: 3px solid $tier-intermediate
+      color: #bfc5cc
+      font-size: 0.94em
+    .bi-badge
+      display: inline-block
+      font-family: $font-family-mono
+      font-size: 0.68rem
+      font-weight: 700
+      letter-spacing: 0.06em
+      padding: 1px 6px
+      border-radius: 4px
+      margin-bottom: 0.35rem
+    &.bi-zh .bi-badge
+      background: rgba(43, 188, 138, 0.18)
+      color: $color-accent
+    &.bi-en .bi-badge
+      background: rgba(78, 168, 222, 0.18)
+      color: $tier-intermediate
+    .bi-body > p:first-child
+      margin-top: 0
+    .bi-body > p:last-child
+      margin-bottom: 0
+
+  // Language Visibility Modes
+  &.lang-mode-zh .bi-en
+    display: none
+  &.lang-mode-en .bi-zh
+    display: none
+  &.lang-mode-zh .bi-zh,
+  &.lang-mode-en .bi-en
+    background: transparent
+    border-left: none
+    padding: 0
+    .bi-badge
+      display: none
+
+  // Callout Boxes
+  .col-callout
+    margin: 1.25rem 0
+    padding: 0.95rem 1.15rem
+    border-radius: 8px
+    border: 1px solid $col-border
+    background: $col-surface
+    .col-callout-title
+      font-weight: 700
+      font-size: 0.92rem
+      margin-bottom: 0.45rem
+      display: flex
+      align-items: center
+      gap: 0.45rem
+    .col-callout-body > p:first-child
+      margin-top: 0
+    .col-callout-body > p:last-child
+      margin-bottom: 0
+    &.col-callout-tip
+      border-left: 4px solid $tier-beginner
+      .col-callout-title
+        color: $tier-beginner
+    &.col-callout-info
+      border-left: 4px solid $tier-intermediate
+      .col-callout-title
+        color: $tier-intermediate
+    &.col-callout-warn
+      border-left: 4px solid $tier-advanced
+      .col-callout-title
+        color: $tier-advanced
+    &.col-callout-key
+      border-left: 4px solid #c678dd
+      .col-callout-title
+        color: #d6a4e8
+
+  // Bottom Prev / Next Navigation
+  .col-article-footer
+    margin-top: 3rem
+    padding-top: 1.5rem
+    border-top: 1px dashed $col-border
+  .col-nav-grid
+    display: grid
+    grid-template-columns: repeat(2, minmax(0, 1fr))
+    gap: 1rem
+  .col-nav-card
+    display: flex
+    flex-direction: column
+    gap: 0.3rem
+    background: $col-surface
+    border: 1px solid $col-border
+    border-radius: 8px
+    padding: 0.95rem 1.1rem
+    background-image: none !important
+    transition: border-color 0.2s ease, background-color 0.2s ease
+    &:hover
+      border-color: $color-accent
+      background: $col-surface-hover
+    &.col-nav-next
+      text-align: right
+  .col-nav-dir
+    font-size: 0.76rem
+    color: $col-muted
+  .col-nav-title
+    font-size: 0.92rem
+    font-weight: 700
+    color: $color-lightest
+
+@media screen and (max-width: 680px)
+  .column-showcase .showcase-grid,
+  .col-roadmap .roadmap-bar,
+  .col-card-grid,
+  .column-article .col-nav-grid
+    grid-template-columns: 1fr
+  .column-page .col-hero-media img
+    height: 180px
+  .column-article .col-article-header
+    padding: 1.15rem 1.1rem
+  .column-article .col-article-title
+    font-size: 1.35rem !important
+  .column-article .col-article-body table
+    display: block
+    overflow-x: auto

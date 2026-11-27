@@ -14,6 +14,46 @@
   </p>
 </section>
 
+<%
+  var aiTutorialsCount = 0;
+  var latestNews = null;
+  site.pages.forEach(function(p) {
+    if (p.column === 'ai-tutorials') aiTutorialsCount++;
+    if (p.column === 'ai-news') {
+      if (!latestNews || new Date(p.date) > new Date(latestNews.date)) latestNews = p;
+    }
+  });
+%>
+<section id="columns" class="column-showcase">
+  <span class="h1"><a href="<%- url_for('/ai-tutorials/') %>">Columns · 专栏</a></span>
+  <div class="showcase-grid">
+    <a class="showcase-card showcase-tutorials" href="<%- url_for('/ai-tutorials/') %>">
+      <div class="showcase-head">
+        <span class="showcase-badge">AI TUTORIALS</span>
+        <span class="showcase-stat"><%= aiTutorialsCount %> 篇 · 四级体系</span>
+      </div>
+      <div class="showcase-title">AI 教程专栏 · 从入门到究极</div>
+      <p class="showcase-desc">初级 / 中级 / 高级 / 究极全链路实战，深入浅出、图文架构、中英双语对照一键切换。</p>
+    </a>
+    <a class="showcase-card showcase-news" href="<%- url_for('/ai-news/') %>">
+      <div class="showcase-head">
+        <span class="showcase-badge showcase-badge-news">AI HOT EVENTS</span>
+        <% if (latestNews) { %>
+          <span class="showcase-stat">最新 <%= date(latestNews.date, 'YYYY-MM-DD') %></span>
+        <% } %>
+      </div>
+      <div class="showcase-title">AI 热点大事件 · 前沿雷达</div>
+      <p class="showcase-desc">
+        <% if (latestNews) { %>
+          <%= latestNews.title %>
+        <% } else { %>
+          追踪全球 AI 重大模型、政策监管、算力与科研突破，一手信源核验与深度点评。
+        <% } %>
+      </p>
+    </a>
+  </div>
+</section>
+
 <section id="writing">
   <span class="h1"><a href="<%- url_for("archives") %>">Writing</a></span>
   <ul class="post-list">
