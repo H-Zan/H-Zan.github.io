@@ -1,0 +1,38 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 880 350" width="880" height="350">
+  <defs>
+    <linearGradient id="bg-a2" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#181a1d"/>
+      <stop offset="100%" stop-color="#22262b"/>
+    </linearGradient>
+  </defs>
+  <rect width="880" height="350" rx="12" fill="url(#bg-a2)" stroke="#363b42" stroke-width="1.5"/>
+  <text x="440" y="32" text-anchor="middle" fill="#eeeeee" font-family="sans-serif" font-size="16" font-weight="700">低效用法 vs 高效用法：决定 10 倍效率差的四大思维模型</text>
+
+  <!-- Left: Inefficient -->
+  <rect x="26" y="54" width="400" height="272" rx="10" fill="#291e21" stroke="#e06c75" stroke-width="1.5"/>
+  <text x="226" y="80" text-anchor="middle" fill="#e06c75" font-family="sans-serif" font-size="14" font-weight="700">✗ 低效模式：把 Agent 当许愿池</text>
+  <text x="46" y="110" fill="#eeeeee" font-family="sans-serif" font-size="12" font-weight="700">1. 无项目上下文（裸奔开干）</text>
+  <text x="46" y="128" fill="#c9cacc" font-family="sans-serif" font-size="11">每次开新窗口重讲背景，Agent 乱猜目录、乱装老包</text>
+  <text x="46" y="160" fill="#eeeeee" font-family="sans-serif" font-size="12" font-weight="700">2. 无工程边界（一口气改 20 个文件）</text>
+  <text x="46" y="178" fill="#c9cacc" font-family="sans-serif" font-size="11">不先出 Plan、不跑测试，改完报错再疯狂“帮我修一下”</text>
+  <text x="46" y="210" fill="#eeeeee" font-family="sans-serif" font-size="12" font-weight="700">3. 无设计基准（空喊“做高级一点”）</text>
+  <text x="46" y="228" fill="#c9cacc" font-family="sans-serif" font-size="11">没有参考图/Design Token，审美反复抽盲盒</text>
+  <text x="46" y="260" fill="#eeeeee" font-family="sans-serif" font-size="12" font-weight="700">4. 无工作流沉淀（单线程手搓）</text>
+  <text x="46" y="278" fill="#c9cacc" font-family="sans-serif" font-size="11">同一窗口聊 80 轮塞爆上下文，重复活每次从头口述</text>
+  <rect x="46" y="294" width="360" height="22" rx="4" fill="#3a2328"/>
+  <text x="226" y="309" text-anchor="middle" fill="#e06c75" font-family="monospace" font-size="10.5">结果：返工率高、越改越乱、Token 烧光还没验收</text>
+
+  <!-- Right: Efficient -->
+  <rect x="454" y="54" width="400" height="272" rx="10" fill="#1b2924" stroke="#2bbc8a" stroke-width="1.5"/>
+  <text x="654" y="80" text-anchor="middle" fill="#2bbc8a" font-family="sans-serif" font-size="14" font-weight="700">✓ 高效模式：像 Tech Lead 带资深工程师</text>
+  <text x="474" y="110" fill="#eeeeee" font-family="sans-serif" font-size="12" font-weight="700">1. 项目思维（AGENTS.md + work.md）</text>
+  <text x="474" y="128" fill="#d5f5e8" font-family="sans-serif" font-size="11">铁律、目录、命令、禁忌写进根目录，跨会话秒懂全局</text>
+  <text x="474" y="160" fill="#eeeeee" font-family="sans-serif" font-size="12" font-weight="700">2. 工程思维（Plan-First + 自验证闭环）</text>
+  <text x="474" y="178" fill="#d5f5e8" font-family="sans-serif" font-size="11">先对齐方案再动手；单测/构建/Lint 跑绿才算交付</text>
+  <text x="474" y="210" fill="#eeeeee" font-family="sans-serif" font-size="12" font-weight="700">3. 设计思维（Token + 截图视觉迭代）</text>
+  <text x="474" y="228" fill="#d5f5e8" font-family="sans-serif" font-size="11">先定信息层级与视觉规范，贴截图精准指哪改哪</text>
+  <text x="474" y="260" fill="#eeeeee" font-family="sans-serif" font-size="12" font-weight="700">4. 工作流思维（Skills + 并行 + 清上下文）</text>
+  <text x="474" y="278" fill="#d5f5e8" font-family="sans-serif" font-size="11">一任务一会话、复用 Skill/指令、Worktree 多线并进</text>
+  <rect x="474" y="294" width="360" height="22" rx="4" fill="#223a31"/>
+  <text x="654" y="309" text-anchor="middle" fill="#d5ff80" font-family="monospace" font-size="10.5">结果：首轮命中率 85%+、可复现、质量稳如资深团队</text>
+</svg>

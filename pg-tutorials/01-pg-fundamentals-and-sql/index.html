@@ -1,0 +1,334 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <!-- so meta -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="HandheldFriendly" content="True">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+    <meta name="description" content="🔑为什么首选 PostgreSQL？ / Why PostgreSQL Wins它不只是关系型数据库——它是 ACID 强一致事务 + JSONB 文档库 + 全文搜索引擎 + pgvector AI 向量库 四合一的瑞士军刀。初创和中型项目选 PG，能少运维三套中间件。   1. 一行 Docker 起库 + 建表数据类型避坑表 / 1-Line Setup &amp;amp; Data Type R">
+<meta name="keywords" content="PostgreSQL,SQL,CTE,窗口函数">
+<meta property="og:type" content="website">
+<meta property="og:title" content="PostgreSQL 快速入门与高效 SQL 实战：建表避坑、CTE 与窗口函数">
+<meta property="og:url" content="https://h-zan.github.io/pg-tutorials/01-pg-fundamentals-and-sql/index.html">
+<meta property="og:site_name" content="HuZan">
+<meta property="og:description" content="🔑为什么首选 PostgreSQL？ / Why PostgreSQL Wins它不只是关系型数据库——它是 ACID 强一致事务 + JSONB 文档库 + 全文搜索引擎 + pgvector AI 向量库 四合一的瑞士军刀。初创和中型项目选 PG，能少运维三套中间件。   1. 一行 Docker 起库 + 建表数据类型避坑表 / 1-Line Setup &amp;amp; Data Type R">
+<meta property="og:locale" content="default">
+<meta property="og:image" content="https://h-zan.github.io/images/pg-tutorials/pg-sql-window-cte.svg">
+<meta property="og:updated_time" content="2026-11-27T03:32:19.185Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="PostgreSQL 快速入门与高效 SQL 实战：建表避坑、CTE 与窗口函数">
+<meta name="twitter:description" content="🔑为什么首选 PostgreSQL？ / Why PostgreSQL Wins它不只是关系型数据库——它是 ACID 强一致事务 + JSONB 文档库 + 全文搜索引擎 + pgvector AI 向量库 四合一的瑞士军刀。初创和中型项目选 PG，能少运维三套中间件。   1. 一行 Docker 起库 + 建表数据类型避坑表 / 1-Line Setup &amp;amp; Data Type R">
+<meta name="twitter:image" content="https://h-zan.github.io/images/pg-tutorials/pg-sql-window-cte.svg">
+    
+    
+        
+          
+              <link rel="shortcut icon" href="/images/favicon.ico">
+          
+        
+        
+          
+            <link rel="icon" type="image/png" href="/images/favicon-192x192.png" sizes="192x192">
+          
+        
+        
+          
+            <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png">
+          
+        
+    
+    <!-- title -->
+    <title>PostgreSQL 快速入门与高效 SQL 实战：建表避坑、CTE 与窗口函数</title>
+    <!-- styles -->
+    <link rel="stylesheet" href="/css/style.css">
+    <!-- rss -->
+    
+    
+</head>
+
+<body>
+    
+    
+    <div class="content index column-wide mx-auto px2 my4">
+        
+          <header id="header">
+  <a href="/">
+  
+    
+      <div id="logo" style="background-image: url(/images/logo.png);"></div>
+    
+  
+    <div id="title">
+      <h1>HuZan</h1>
+    </div>
+  </a>
+  <div id="nav">
+    <ul>
+      <li class="icon">
+        <a href="#"><i class="fa fa-bars fa-2x"></i></a>
+      </li>
+       
+        <li><a href="/">Home</a></li>
+       
+        <li><a href="/columns/">Columns</a></li>
+       
+        <li><a href="/ai-tutorials/">AI Tutorials</a></li>
+       
+        <li><a href="/agent-playbook/">Agent Tips</a></li>
+       
+        <li><a href="/ai-news/">AI News</a></li>
+       
+        <li><a href="/archives/">Writing</a></li>
+       
+        <li><a href="/about/">About</a></li>
+      
+    </ul>
+  </div>
+</header>
+
+        
+        
+
+<article class="column-article lang-mode-both" id="column-article-root" itemscope itemtype="http://schema.org/TechArticle">
+  <nav class="col-breadcrumb" aria-label="Breadcrumb">
+    <a href="/">Home</a>
+    <span class="sep">/</span>
+    <a href="/columns/">Columns</a>
+    <span class="sep">/</span>
+    <a href="/pg-tutorials/">PostgreSQL 专栏</a>
+    
+  </nav>
+
+  <header class="col-article-header">
+    <div class="col-article-badges">
+      
+        <span class="level-badge level-blue">🐘 POSTGRESQL</span>
+      
+      
+        <span class="col-code-pill">PG-01</span>
+      
+      
+        <span class="col-meta-item">⏱ 8 min</span>
+      
+      
+        <time class="col-meta-item" datetime="2026-11-27T14:00:00.000Z">📅 2026-11-27</time>
+      
+    </div>
+
+    <h1 class="col-article-title" itemprop="headline">PostgreSQL 快速入门与高效 SQL 实战：建表避坑、CTE 与窗口函数</h1>
+    
+      <p class="col-article-title-en">PostgreSQL Fast Track: Clean Schema Design, CTEs &amp; Window Functions</p>
+    
+
+    
+      <div class="col-article-tags">
+        
+          <span class="col-tag">#PostgreSQL</span>
+        
+          <span class="col-tag">#SQL</span>
+        
+          <span class="col-tag">#CTE</span>
+        
+          <span class="col-tag">#窗口函数</span>
+        
+      </div>
+    
+
+    <div class="lang-toolbar" role="group" aria-label="Language display mode">
+      <span class="lang-toolbar-label">🌐 阅读模式 / View Mode:</span>
+      <button type="button" class="lang-btn active" data-mode="both">中英对照 Bilingual</button>
+      <button type="button" class="lang-btn" data-mode="zh">仅中文 ZH</button>
+      <button type="button" class="lang-btn" data-mode="en">English Only</button>
+    </div>
+  </header>
+
+  
+    <details class="col-toc-box" open>
+      <summary>📑 目录 / Table of Contents</summary>
+      <div class="col-toc-inner">
+        <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#1-_一行_Docker_起库_+_建表数据类型避坑表_/_1-Line_Setup_&_Data_Type_Rules"><span class="toc-text">1. 一行 Docker 起库 + 建表数据类型避坑表 / 1-Line Setup &amp; Data Type Rules</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#2-_WITH_(CTE)_+_窗口函数：一行替代层层嵌套子查询_/_CTEs_&_Window_Functions"><span class="toc-text">2. WITH (CTE) + 窗口函数：一行替代层层嵌套子查询 / CTEs &amp; Window Functions</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#3-_Upsert_神器：ON_CONFLICT_DO_UPDATE_/_Atomic_Upsert"><span class="toc-text">3. Upsert 神器：ON CONFLICT DO UPDATE / Atomic Upsert</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#4-_权威参考_/_References"><span class="toc-text">4. 权威参考 / References</span></a></li></ol>
+      </div>
+    </details>
+  
+
+  <div class="col-article-body" itemprop="articleBody">
+    <div class="col-callout col-callout-key"><div class="col-callout-title"><span class="col-callout-icon">🔑</span>为什么首选 PostgreSQL？ / Why PostgreSQL Wins</div><div class="col-callout-body"><p>它不只是关系型数据库——它是 <strong>ACID 强一致事务 + JSONB 文档库 + 全文搜索引擎 + <code>pgvector</code> AI 向量库</strong> 四合一的瑞士军刀。初创和中型项目选 PG，能少运维三套中间件。</p>
+</div></div>
+<p><img src="/images/pg-tutorials/pg-sql-window-cte.svg" alt="PostgreSQL SQL Execution Order and Window Functions"></p>
+<h2 id="1-_一行_Docker_起库_+_建表数据类型避坑表_/_1-Line_Setup_&amp;_Data_Type_Rules">1. 一行 Docker 起库 + 建表数据类型避坑表 / 1-Line Setup &amp; Data Type Rules</h2><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 本地秒起带 pgvector 的 PostgreSQL 17（macOS / Linux / Windows Docker 通用）</span></span><br><span class="line">docker run -d --name pg-dev -e POSTGRES_PASSWORD=postgres -p 5432:5432 pgvector/pgvector:pg17</span><br></pre></td></tr></table></figure>
+<table>
+<thead>
+<tr>
+<th style="text-align:left">需求 Need</th>
+<th style="text-align:left">❌ 别这么用 Avoid</th>
+<th style="text-align:left">✅ PG 黄金推荐 Use This</th>
+<th style="text-align:left">原因 Why</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left"><strong>自增主键</strong></td>
+<td style="text-align:left"><code>SERIAL</code> / <code>INT</code></td>
+<td style="text-align:left"><strong><code>BIGINT GENERATED ALWAYS AS IDENTITY</code></strong></td>
+<td style="text-align:left">符合 SQL 标准，杜绝 21 亿整数溢出灾难</td>
+</tr>
+<tr>
+<td style="text-align:left"><strong>字符串</strong></td>
+<td style="text-align:left"><code>VARCHAR(255)</code></td>
+<td style="text-align:left"><strong><code>TEXT</code></strong>（需要限长用 <code>CHECK</code> 约束）</td>
+<td style="text-align:left">PG 中 <code>TEXT</code> 与 <code>VARCHAR</code> 底层性能完全一致，改长度无需锁表</td>
+</tr>
+<tr>
+<td style="text-align:left"><strong>时间</strong></td>
+<td style="text-align:left"><code>TIMESTAMP</code>（无时区）</td>
+<td style="text-align:left"><strong><code>TIMESTAMPTZ</code></strong></td>
+<td style="text-align:left">内部统一存 UTC，彻底告别跨时区错乱 8 小时</td>
+</tr>
+<tr>
+<td style="text-align:left"><strong>金额</strong></td>
+<td style="text-align:left"><code>FLOAT</code> / <code>DOUBLE</code></td>
+<td style="text-align:left"><strong><code>NUMERIC(12, 2)</code></strong> 或存“分”的 <code>BIGINT</code></td>
+<td style="text-align:left">杜绝二进制浮点数 <code>0.1 + 0.2 != 0.3</code> 账目误差</td>
+</tr>
+<tr>
+<td style="text-align:left"><strong>灵活扩展字段</strong></td>
+<td style="text-align:left"><code>JSON</code>（纯文本）</td>
+<td style="text-align:left"><strong><code>JSONB</code></strong></td>
+<td style="text-align:left">二进制存储，支持建 GIN 索引与毫秒级局部查询</td>
+</tr>
+</tbody>
+</table>
+<h2 id="2-_WITH_(CTE)_+_窗口函数：一行替代层层嵌套子查询_/_CTEs_&amp;_Window_Functions">2. <code>WITH</code> (CTE) + 窗口函数：一行替代层层嵌套子查询 / CTEs &amp; Window Functions</h2><div class="bi-block bi-zh" data-lang="zh"><span class="bi-badge">中文</span><div class="bi-body"><p>遇到 <strong>“查出每个部门薪资排名前 3 的员工”</strong> 或 <strong>“计算每日订单累计营收与环比增长”</strong> 时，新手常写出套娃三层的自连接子查询；高手只用 <strong>CTE（把复杂逻辑像写代码一样分步命名）+ 窗口函数（不折叠明细行就能做组内排名/累计）</strong>：</p>
+</div></div>
+<div class="bi-block bi-en" data-lang="en"><span class="bi-badge">EN</span><div class="bi-body"><p>Use <strong>CTEs (<code>WITH</code>)</strong> to make multi-step SQL read top-to-bottom like clean code, and <strong>Window Functions (<code>OVER</code>)</strong> to compute per-group rankings or running totals without collapsing rows:</p>
+</div></div>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">-- 实战：一次性算出每个租户销售额 Top-3 订单，并附带该租户内的累计营收</span></span><br><span class="line">WITH paid_orders AS (</span><br><span class="line">    <span class="keyword">SELECT</span></span><br><span class="line">        <span class="keyword">id</span>,</span><br><span class="line">        tenant_id,</span><br><span class="line">        amount_cents,</span><br><span class="line">        created_at</span><br><span class="line">    <span class="keyword">FROM</span> orders</span><br><span class="line">    <span class="keyword">WHERE</span> <span class="keyword">status</span> = <span class="string">'paid'</span></span><br><span class="line">      <span class="keyword">AND</span> created_at &gt;= <span class="keyword">NOW</span>() - <span class="built_in">INTERVAL</span> <span class="string">'30 days'</span></span><br><span class="line">),</span><br><span class="line">ranked <span class="keyword">AS</span> (</span><br><span class="line">    <span class="keyword">SELECT</span></span><br><span class="line">        *,</span><br><span class="line">        ROW_NUMBER() <span class="keyword">OVER</span> (<span class="keyword">PARTITION</span> <span class="keyword">BY</span> tenant_id <span class="keyword">ORDER</span> <span class="keyword">BY</span> amount_cents <span class="keyword">DESC</span>) <span class="keyword">AS</span> rn,</span><br><span class="line">        <span class="keyword">SUM</span>(amount_cents) <span class="keyword">OVER</span> (<span class="keyword">PARTITION</span> <span class="keyword">BY</span> tenant_id <span class="keyword">ORDER</span> <span class="keyword">BY</span> created_at)   <span class="keyword">AS</span> running_total</span><br><span class="line">    <span class="keyword">FROM</span> paid_orders</span><br><span class="line">)</span><br><span class="line"><span class="keyword">SELECT</span> <span class="keyword">id</span>, tenant_id, amount_cents, running_total</span><br><span class="line"><span class="keyword">FROM</span> ranked</span><br><span class="line"><span class="keyword">WHERE</span> rn &lt;= <span class="number">3</span></span><br><span class="line"><span class="keyword">ORDER</span> <span class="keyword">BY</span> tenant_id, rn;</span><br></pre></td></tr></table></figure>
+<h2 id="3-_Upsert_神器：ON_CONFLICT_DO_UPDATE_/_Atomic_Upsert">3. Upsert 神器：<code>ON CONFLICT DO UPDATE</code> / Atomic Upsert</h2><div class="bi-block bi-zh" data-lang="zh"><span class="bi-badge">中文</span><div class="bi-body"><p>告别“先 <code>SELECT</code> 再判断 <code>INSERT</code> 还是 <code>UPDATE</code>”的并发竞态 Bug！PostgreSQL 原生支持原子级 Upsert，一条语句解决幂等写入：</p>
+</div></div>
+<div class="bi-block bi-en" data-lang="en"><span class="bi-badge">EN</span><div class="bi-body"><p>Eliminate race-prone check-then-insert logic with PostgreSQL’s atomic <code>ON CONFLICT</code> upsert:</p>
+</div></div>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">INSERT</span> <span class="keyword">INTO</span> user_daily_quota (user_id, <span class="keyword">day</span>, used_tokens)</span><br><span class="line"><span class="keyword">VALUES</span> (<span class="number">1001</span>, <span class="keyword">CURRENT_DATE</span>, <span class="number">1500</span>)</span><br><span class="line"><span class="keyword">ON</span> CONFLICT (user_id, <span class="keyword">day</span>)</span><br><span class="line"><span class="keyword">DO</span> <span class="keyword">UPDATE</span> <span class="keyword">SET</span> used_tokens = user_daily_quota.used_tokens + EXCLUDED.used_tokens</span><br><span class="line"><span class="keyword">RETURNING</span> used_tokens;</span><br></pre></td></tr></table></figure>
+<h2 id="4-_权威参考_/_References">4. 权威参考 / References</h2><ul>
+<li>📘 <strong>PostgreSQL Official Docs</strong>: <a href="https://www.postgresql.org/docs/current/tutorial-window.html" target="_blank" rel="noopener">Window Functions Tutorial</a></li>
+<li>🛡️ <strong>PG Wiki</strong>: <a href="https://wiki.postgresql.org/wiki/Don%27t_Do_This" target="_blank" rel="noopener">Don’t Do This (官方避坑清单)</a> — 强烈建议每个后端工程师通读一遍！</li>
+</ul>
+
+  </div>
+
+  <footer class="col-article-footer">
+    <div class="col-nav-grid">
+      
+        <a class="col-nav-card col-nav-prev" href="/pg-tutorials/">
+          <span class="col-nav-dir">← 返回专栏目录 / Back to Index</span>
+          <span class="col-nav-title">PostgreSQL 专栏</span>
+        </a>
+      
+
+      
+        <a class="col-nav-card col-nav-next" href="/pg-tutorials/02-indexes-explain-mvcc/index.html">
+          <span class="col-nav-dir">下一篇 / Next →</span>
+          <span class="col-nav-title">PostgreSQL 性能优化核心：索引选型、EXPLAIN ANALYZE 读图与 MVCC 并发</span>
+        </a>
+      
+    </div>
+  </footer>
+</article>
+
+<script>
+(function() {
+  var root = document.getElementById('column-article-root');
+  if (!root) return;
+  var buttons = root.querySelectorAll('.lang-btn');
+  var storageKey = 'hzan_ai_lang_mode';
+
+  function applyMode(mode) {
+    if (mode !== 'both' && mode !== 'zh' && mode !== 'en') mode = 'both';
+    root.classList.remove('lang-mode-both', 'lang-mode-zh', 'lang-mode-en');
+    root.classList.add('lang-mode-' + mode);
+    buttons.forEach(function(btn) {
+      btn.classList.toggle('active', btn.getAttribute('data-mode') === mode);
+    });
+    try { localStorage.setItem(storageKey, mode); } catch (e) {}
+  }
+
+  buttons.forEach(function(btn) {
+    btn.addEventListener('click', function() {
+      applyMode(btn.getAttribute('data-mode'));
+    });
+  });
+
+  try {
+    var saved = localStorage.getItem(storageKey);
+    if (saved) applyMode(saved);
+  } catch (e) {}
+})();
+</script>
+
+    </div>
+    
+    <footer id="footer">
+  <div class="footer-left">
+    Copyright &copy; 2026 Zan
+  </div>
+  <div class="footer-right">
+    <nav>
+      <ul>
+         
+          <li><a href="/">Home</a></li>
+         
+          <li><a href="/columns/">Columns</a></li>
+         
+          <li><a href="/ai-tutorials/">AI Tutorials</a></li>
+         
+          <li><a href="/agent-playbook/">Agent Tips</a></li>
+         
+          <li><a href="/ai-news/">AI News</a></li>
+         
+          <li><a href="/archives/">Writing</a></li>
+         
+          <li><a href="/about/">About</a></li>
+        
+      </ul>
+    </nav>
+  </div>
+</footer>
+
+</body>
+</html>
+<!-- styles -->
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css">
+<link rel="stylesheet" href="/lib/meslo-LG/styles.css">
+<link rel="stylesheet" href="/lib/justified-gallery/justifiedGallery.min.css">
+
+
+<!-- jquery -->
+<script src="/lib/jquery/jquery.min.js"></script>
+<script src="/lib/justified-gallery/jquery.justifiedGallery.min.js"></script>
+<script src="/js/main.js"></script>
+<!-- Google Analytics -->
+
+    <script type="text/javascript">
+        (function(i,s,o,g,r,a,m) {i['GoogleAnalyticsObject']=r;i[r]=i[r]||function() {
+        (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+        m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+        })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+        ga('create', 'UA-86660611-1', 'auto');
+        ga('send', 'pageview');
+    </script>
+
+<!-- Disqus Comments -->
+
+    <script type="text/javascript">
+        var disqus_shortname = 'huzan';
+
+        (function(){
+            var dsq = document.createElement('script');
+            dsq.type = 'text/javascript';
+            dsq.async = true;
+            dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+            (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+        }());
+    </script>
+
+

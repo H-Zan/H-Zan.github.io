@@ -1,0 +1,66 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 880 310" width="880" height="310">
+  <defs>
+    <marker id="arr-a3" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M 0 1 L 10 5 L 0 9 z" fill="#38bdf8"/>
+    </marker>
+    <linearGradient id="bg-a3" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#181a1d"/>
+      <stop offset="100%" stop-color="#22262b"/>
+    </linearGradient>
+  </defs>
+  <rect width="880" height="310" rx="12" fill="url(#bg-a3)" stroke="#363b42" stroke-width="1.5"/>
+  <text x="440" y="32" text-anchor="middle" fill="#eeeeee" font-family="sans-serif" font-size="16" font-weight="700">Agent 高效编程与项目交付 5 步工程闭环 · 5-Step Agentic Dev Loop</text>
+
+  <!-- 5 Steps -->
+  <rect x="24" y="72" width="146" height="148" rx="8" fill="#24272b" stroke="#38bdf8" stroke-width="1.5"/>
+  <text x="97" y="96" text-anchor="middle" fill="#38bdf8" font-family="monospace" font-size="11" font-weight="700">STEP 01</text>
+  <text x="97" y="118" text-anchor="middle" fill="#eeeeee" font-family="sans-serif" font-size="13" font-weight="700">上下文锚定</text>
+  <text x="97" y="144" text-anchor="middle" fill="#c9cacc" font-family="sans-serif" font-size="11">AGENTS.md</text>
+  <text x="97" y="164" text-anchor="middle" fill="#c9cacc" font-family="sans-serif" font-size="11">work.md</text>
+  <text x="97" y="184" text-anchor="middle" fill="#9aa0a6" font-family="sans-serif" font-size="10.5">明确铁律与边界</text>
+  <text x="97" y="204" text-anchor="middle" fill="#38bdf8" font-family="monospace" font-size="10">防乱改历史代码</text>
+
+  <line x1="170" y1="146" x2="194" y2="146" stroke="#38bdf8" stroke-width="2" marker-end="url(#arr-a3)"/>
+
+  <rect x="198" y="72" width="146" height="148" rx="8" fill="#24272b" stroke="#2bbc8a" stroke-width="1.5"/>
+  <text x="271" y="96" text-anchor="middle" fill="#2bbc8a" font-family="monospace" font-size="11" font-weight="700">STEP 02</text>
+  <text x="271" y="118" text-anchor="middle" fill="#eeeeee" font-family="sans-serif" font-size="13" font-weight="700">Plan-First 规划</text>
+  <text x="271" y="144" text-anchor="middle" fill="#c9cacc" font-family="sans-serif" font-size="11">先读代码再出方案</text>
+  <text x="271" y="164" text-anchor="middle" fill="#c9cacc" font-family="sans-serif" font-size="11">列出改动文件清单</text>
+  <text x="271" y="184" text-anchor="middle" fill="#9aa0a6" font-family="sans-serif" font-size="10.5">对齐验收标准</text>
+  <text x="271" y="204" text-anchor="middle" fill="#2bbc8a" font-family="monospace" font-size="10">省去 80% 返工</text>
+
+  <line x1="344" y1="146" x2="368" y2="146" stroke="#38bdf8" stroke-width="2" marker-end="url(#arr-a3)"/>
+
+  <rect x="372" y="72" width="146" height="148" rx="8" fill="#24272b" stroke="#f0a500" stroke-width="1.5"/>
+  <text x="445" y="96" text-anchor="middle" fill="#f0a500" font-family="monospace" font-size="11" font-weight="700">STEP 03</text>
+  <text x="445" y="118" text-anchor="middle" fill="#eeeeee" font-family="sans-serif" font-size="13" font-weight="700">小步实施</text>
+  <text x="445" y="144" text-anchor="middle" fill="#c9cacc" font-family="sans-serif" font-size="11">一次聚焦单一模块</text>
+  <text x="445" y="164" text-anchor="middle" fill="#c9cacc" font-family="sans-serif" font-size="11">Git Worktree 并行</text>
+  <text x="445" y="184" text-anchor="middle" fill="#9aa0a6" font-family="sans-serif" font-size="10.5">只改必要文件</text>
+  <text x="445" y="204" text-anchor="middle" fill="#f0a500" font-family="monospace" font-size="10">Diff 清晰可控</text>
+
+  <line x1="518" y1="146" x2="542" y2="146" stroke="#38bdf8" stroke-width="2" marker-end="url(#arr-a3)"/>
+
+  <rect x="546" y="72" width="146" height="148" rx="8" fill="#24272b" stroke="#c678dd" stroke-width="1.5"/>
+  <text x="619" y="96" text-anchor="middle" fill="#c678dd" font-family="monospace" font-size="11" font-weight="700">STEP 04</text>
+  <text x="619" y="118" text-anchor="middle" fill="#eeeeee" font-family="sans-serif" font-size="13" font-weight="700">确定性自检</text>
+  <text x="619" y="144" text-anchor="middle" fill="#c9cacc" font-family="sans-serif" font-size="11">跑单测 / Lint</text>
+  <text x="619" y="164" text-anchor="middle" fill="#c9cacc" font-family="sans-serif" font-size="11">跑 Build / 验产物</text>
+  <text x="619" y="184" text-anchor="middle" fill="#9aa0a6" font-family="sans-serif" font-size="10.5">报错自修再复测</text>
+  <text x="619" y="204" text-anchor="middle" fill="#c678dd" font-family="monospace" font-size="10">只信 Exit Code 0</text>
+
+  <line x1="692" y1="146" x2="716" y2="146" stroke="#38bdf8" stroke-width="2" marker-end="url(#arr-a3)"/>
+
+  <rect x="720" y="72" width="136" height="148" rx="8" fill="#1c2b26" stroke="#2bbc8a" stroke-width="1.6"/>
+  <text x="788" y="96" text-anchor="middle" fill="#2bbc8a" font-family="monospace" font-size="11" font-weight="700">STEP 05</text>
+  <text x="788" y="118" text-anchor="middle" fill="#eeeeee" font-family="sans-serif" font-size="13" font-weight="700">沉淀与交接</text>
+  <text x="788" y="144" text-anchor="middle" fill="#c9cacc" font-family="sans-serif" font-size="11">审 Diff + Commit</text>
+  <text x="788" y="164" text-anchor="middle" fill="#c9cacc" font-family="sans-serif" font-size="11">更新 work.md</text>
+  <text x="788" y="184" text-anchor="middle" fill="#9aa0a6" font-family="sans-serif" font-size="10.5">坑点入 AGENTS.md</text>
+  <text x="788" y="204" text-anchor="middle" fill="#d5ff80" font-family="monospace" font-size="10">越用越聪明</text>
+
+  <!-- Feedback arc -->
+  <path d="M 619 220 L 619 258 L 445 258 L 445 224" fill="none" stroke="#c678dd" stroke-width="1.5" stroke-dasharray="5,3" marker-end="url(#arr-a3)"/>
+  <text x="532" y="276" text-anchor="middle" fill="#c678dd" font-family="sans-serif" font-size="11">测试失败自动携带报错栈回流修复（Self-Healing Loop）</text>
+</svg>

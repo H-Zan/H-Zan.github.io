@@ -1,0 +1,45 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 880 280" width="880" height="280">
+  <defs>
+    <marker id="arr-p3" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M 0 1 L 10 5 L 0 9 z" fill="#f0a500"/>
+    </marker>
+    <linearGradient id="bg-p3" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#181a1d"/>
+      <stop offset="100%" stop-color="#22262b"/>
+    </linearGradient>
+  </defs>
+  <rect width="880" height="280" rx="12" fill="url(#bg-p3)" stroke="#363b42" stroke-width="1.5"/>
+  <text x="440" y="32" text-anchor="middle" fill="#eeeeee" font-family="sans-serif" font-size="16" font-weight="700">现代 Python 服务黄金三角 · FastAPI + Pydantic v2 + Async I/O</text>
+
+  <rect x="28" y="80" width="150" height="122" rx="8" fill="#24272b" stroke="#4ea8de" stroke-width="1.5"/>
+  <text x="103" y="106" text-anchor="middle" fill="#4ea8de" font-family="monospace" font-size="12" font-weight="700">HTTP REQUEST</text>
+  <text x="103" y="130" text-anchor="middle" fill="#eeeeee" font-family="sans-serif" font-size="12.5" font-weight="700">客户端请求</text>
+  <text x="103" y="156" text-anchor="middle" fill="#9aa0a6" font-family="monospace" font-size="10.5">JSON / Headers</text>
+  <text x="103" y="178" text-anchor="middle" fill="#9aa0a6" font-family="monospace" font-size="10.5">Query Params</text>
+
+  <line x1="178" y1="141" x2="212" y2="141" stroke="#f0a500" stroke-width="2" marker-end="url(#arr-p3)"/>
+
+  <rect x="216" y="80" width="192" height="122" rx="8" fill="#24272b" stroke="#f0a500" stroke-width="1.5"/>
+  <text x="312" y="106" text-anchor="middle" fill="#f0a500" font-family="monospace" font-size="12" font-weight="700">PYDANTIC V2</text>
+  <text x="312" y="130" text-anchor="middle" fill="#eeeeee" font-family="sans-serif" font-size="12.5" font-weight="700">Rust 内核强类型校验</text>
+  <text x="312" y="156" text-anchor="middle" fill="#c9cacc" font-family="sans-serif" font-size="11">非法字段自动返 422</text>
+  <text x="312" y="178" text-anchor="middle" fill="#2bbc8a" font-family="monospace" font-size="10.5">自动生成 OpenAPI 文档</text>
+
+  <line x1="408" y1="141" x2="442" y2="141" stroke="#f0a500" stroke-width="2" marker-end="url(#arr-p3)"/>
+
+  <rect x="446" y="80" width="192" height="122" rx="8" fill="#1e2523" stroke="#2bbc8a" stroke-width="1.5"/>
+  <text x="542" y="106" text-anchor="middle" fill="#2bbc8a" font-family="monospace" font-size="12" font-weight="700">FASTAPI ROUTE</text>
+  <text x="542" y="130" text-anchor="middle" fill="#eeeeee" font-family="sans-serif" font-size="12.5" font-weight="700">异步业务 + 依赖注入</text>
+  <text x="542" y="156" text-anchor="middle" fill="#c9cacc" font-family="sans-serif" font-size="11">Depends(get_db / auth)</text>
+  <text x="542" y="178" text-anchor="middle" fill="#c9cacc" font-family="monospace" font-size="10.5">async def + httpx / PG</text>
+
+  <line x1="638" y1="141" x2="672" y2="141" stroke="#f0a500" stroke-width="2" marker-end="url(#arr-p3)"/>
+
+  <rect x="676" y="80" width="176" height="122" rx="8" fill="#24272b" stroke="#c678dd" stroke-width="1.5"/>
+  <text x="764" y="106" text-anchor="middle" fill="#c678dd" font-family="monospace" font-size="12" font-weight="700">RESPONSE</text>
+  <text x="764" y="130" text-anchor="middle" fill="#eeeeee" font-family="sans-serif" font-size="12.5" font-weight="700">序列化输出 / SSE</text>
+  <text x="764" y="156" text-anchor="middle" fill="#c9cacc" font-family="sans-serif" font-size="11">严格过滤敏感字段</text>
+  <text x="764" y="178" text-anchor="middle" fill="#d5ff80" font-family="monospace" font-size="10.5">/docs 在线交互调试</text>
+
+  <text x="440" y="248" text-anchor="middle" fill="#888e96" font-family="sans-serif" font-size="11">只写一次 Type Hints，同时获得：IDE 补全 + 运行时校验 + 自动 Swagger API 文档 + 极速序列化</text>
+</svg>

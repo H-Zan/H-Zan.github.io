@@ -1,0 +1,48 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 880 300" width="880" height="300">
+  <defs>
+    <linearGradient id="bg-p1" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#181a1d"/>
+      <stop offset="100%" stop-color="#22262b"/>
+    </linearGradient>
+  </defs>
+  <rect width="880" height="300" rx="12" fill="url(#bg-p1)" stroke="#363b42" stroke-width="1.5"/>
+  <text x="440" y="32" text-anchor="middle" fill="#eeeeee" font-family="sans-serif" font-size="16" font-weight="700">Python 核心容器复杂度与选型速查 · Core Data Structures Complexity</text>
+
+  <rect x="24" y="56" width="198" height="202" rx="8" fill="#24272b" stroke="#4ea8de" stroke-width="1.5"/>
+  <text x="123" y="82" text-anchor="middle" fill="#4ea8de" font-family="monospace" font-size="13" font-weight="700">list [ ]</text>
+  <text x="123" y="102" text-anchor="middle" fill="#eeeeee" font-family="sans-serif" font-size="12" font-weight="700">动态数组 · 有序可变</text>
+  <text x="40" y="130" fill="#2bbc8a" font-family="monospace" font-size="11">a[i] / append:  O(1)</text>
+  <text x="40" y="152" fill="#e06c75" font-family="monospace" font-size="11">x in list:      O(n)</text>
+  <text x="40" y="174" fill="#e06c75" font-family="monospace" font-size="11">pop(0) 队首:    O(n)</text>
+  <text x="40" y="204" fill="#9aa0a6" font-family="sans-serif" font-size="10.5">适合：顺序遍历、栈操作</text>
+  <text x="40" y="224" fill="#9aa0a6" font-family="sans-serif" font-size="10.5">队列请换 collections.deque</text>
+
+  <rect x="236" y="56" width="198" height="202" rx="8" fill="#24272b" stroke="#f0a500" stroke-width="1.5"/>
+  <text x="335" y="82" text-anchor="middle" fill="#f0a500" font-family="monospace" font-size="13" font-weight="700">dict {k: v}</text>
+  <text x="335" y="102" text-anchor="middle" fill="#eeeeee" font-family="sans-serif" font-size="12" font-weight="700">哈希表 · 保序键值对</text>
+  <text x="252" y="130" fill="#2bbc8a" font-family="monospace" font-size="11">d[k] 读写:      O(1)</text>
+  <text x="252" y="152" fill="#2bbc8a" font-family="monospace" font-size="11">k in d 判存:    O(1)</text>
+  <text x="252" y="174" fill="#2bbc8a" font-family="monospace" font-size="11">合并 d1 | d2:   Py3.9+</text>
+  <text x="252" y="204" fill="#9aa0a6" font-family="sans-serif" font-size="10.5">适合：索引映射、计数缓存</text>
+  <text x="252" y="224" fill="#9aa0a6" font-family="sans-serif" font-size="10.5">取值善用 d.get(k, default)</text>
+
+  <rect x="448" y="56" width="198" height="202" rx="8" fill="#24272b" stroke="#2bbc8a" stroke-width="1.5"/>
+  <text x="547" y="82" text-anchor="middle" fill="#2bbc8a" font-family="monospace" font-size="13" font-weight="700">set {a, b}</text>
+  <text x="547" y="102" text-anchor="middle" fill="#eeeeee" font-family="sans-serif" font-size="12" font-weight="700">哈希集合 · 极速去重</text>
+  <text x="464" y="130" fill="#2bbc8a" font-family="monospace" font-size="11">x in s 判存:    O(1)</text>
+  <text x="464" y="152" fill="#2bbc8a" font-family="monospace" font-size="11">交/并/差集:     &amp; | -</text>
+  <text x="464" y="174" fill="#d5ff80" font-family="monospace" font-size="11">10万条查重快 1000×</text>
+  <text x="464" y="204" fill="#9aa0a6" font-family="sans-serif" font-size="10.5">适合：白名单、去重、集合运算</text>
+  <text x="464" y="224" fill="#9aa0a6" font-family="sans-serif" font-size="10.5">注意：空集合必须写 set()</text>
+
+  <rect x="660" y="56" width="196" height="202" rx="8" fill="#24272b" stroke="#c678dd" stroke-width="1.5"/>
+  <text x="758" y="82" text-anchor="middle" fill="#c678dd" font-family="monospace" font-size="13" font-weight="700">generator ( )</text>
+  <text x="758" y="102" text-anchor="middle" fill="#eeeeee" font-family="sans-serif" font-size="12" font-weight="700">惰性迭代器 · 零内存</text>
+  <text x="676" y="130" fill="#2bbc8a" font-family="monospace" font-size="11">空间占用:       O(1)</text>
+  <text x="676" y="152" fill="#2bbc8a" font-family="monospace" font-size="11">按需 yield 吐出一条</text>
+  <text x="676" y="174" fill="#d5ff80" font-family="monospace" font-size="11">流式处理 10GB 日志</text>
+  <text x="676" y="204" fill="#9aa0a6" font-family="sans-serif" font-size="10.5">适合：超大文件、流式管线</text>
+  <text x="676" y="224" fill="#9aa0a6" font-family="sans-serif" font-size="10.5">只能遍历一次，用完即空</text>
+
+  <text x="440" y="284" text-anchor="middle" fill="#888e96" font-family="sans-serif" font-size="11">黄金直觉：遇到高频 `if x in items:` 立刻把 list 换成 set；遇到 GB 级文件立刻把 [ ] 换成 ( ) 生成器</text>
+</svg>

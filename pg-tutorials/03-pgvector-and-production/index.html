@@ -1,0 +1,323 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <!-- so meta -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="HandheldFriendly" content="True">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+    <meta name="description" content="🔑架构极简主义 / Architectural Simplicity千万级向量以内，直接用 PostgreSQL + pgvector 往往远胜单独搭一套独立向量库：文档删改和向量更新在同一个 ACID 事务里完成，零同步延迟、零权限越权、少运维一套集群！   1. 15 行 SQL 搭好生产级 pgvector + 全文检索混合知识库 / Hybrid Vector + Full-Text T">
+<meta name="keywords" content="pgvector,HNSW,JSONB,生产运维">
+<meta property="og:type" content="website">
+<meta property="og:title" content="AI 时代的 PostgreSQL：JSONB 混合建模、pgvector 向量检索与生产运维">
+<meta property="og:url" content="https://h-zan.github.io/pg-tutorials/03-pgvector-and-production/index.html">
+<meta property="og:site_name" content="HuZan">
+<meta property="og:description" content="🔑架构极简主义 / Architectural Simplicity千万级向量以内，直接用 PostgreSQL + pgvector 往往远胜单独搭一套独立向量库：文档删改和向量更新在同一个 ACID 事务里完成，零同步延迟、零权限越权、少运维一套集群！   1. 15 行 SQL 搭好生产级 pgvector + 全文检索混合知识库 / Hybrid Vector + Full-Text T">
+<meta property="og:locale" content="default">
+<meta property="og:image" content="https://h-zan.github.io/images/pg-tutorials/pg-pgvector-hybrid.svg">
+<meta property="og:updated_time" content="2026-11-27T03:32:33.402Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="AI 时代的 PostgreSQL：JSONB 混合建模、pgvector 向量检索与生产运维">
+<meta name="twitter:description" content="🔑架构极简主义 / Architectural Simplicity千万级向量以内，直接用 PostgreSQL + pgvector 往往远胜单独搭一套独立向量库：文档删改和向量更新在同一个 ACID 事务里完成，零同步延迟、零权限越权、少运维一套集群！   1. 15 行 SQL 搭好生产级 pgvector + 全文检索混合知识库 / Hybrid Vector + Full-Text T">
+<meta name="twitter:image" content="https://h-zan.github.io/images/pg-tutorials/pg-pgvector-hybrid.svg">
+    
+    
+        
+          
+              <link rel="shortcut icon" href="/images/favicon.ico">
+          
+        
+        
+          
+            <link rel="icon" type="image/png" href="/images/favicon-192x192.png" sizes="192x192">
+          
+        
+        
+          
+            <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png">
+          
+        
+    
+    <!-- title -->
+    <title>AI 时代的 PostgreSQL：JSONB 混合建模、pgvector 向量检索与生产运维</title>
+    <!-- styles -->
+    <link rel="stylesheet" href="/css/style.css">
+    <!-- rss -->
+    
+    
+</head>
+
+<body>
+    
+    
+    <div class="content index column-wide mx-auto px2 my4">
+        
+          <header id="header">
+  <a href="/">
+  
+    
+      <div id="logo" style="background-image: url(/images/logo.png);"></div>
+    
+  
+    <div id="title">
+      <h1>HuZan</h1>
+    </div>
+  </a>
+  <div id="nav">
+    <ul>
+      <li class="icon">
+        <a href="#"><i class="fa fa-bars fa-2x"></i></a>
+      </li>
+       
+        <li><a href="/">Home</a></li>
+       
+        <li><a href="/columns/">Columns</a></li>
+       
+        <li><a href="/ai-tutorials/">AI Tutorials</a></li>
+       
+        <li><a href="/agent-playbook/">Agent Tips</a></li>
+       
+        <li><a href="/ai-news/">AI News</a></li>
+       
+        <li><a href="/archives/">Writing</a></li>
+       
+        <li><a href="/about/">About</a></li>
+      
+    </ul>
+  </div>
+</header>
+
+        
+        
+
+<article class="column-article lang-mode-both" id="column-article-root" itemscope itemtype="http://schema.org/TechArticle">
+  <nav class="col-breadcrumb" aria-label="Breadcrumb">
+    <a href="/">Home</a>
+    <span class="sep">/</span>
+    <a href="/columns/">Columns</a>
+    <span class="sep">/</span>
+    <a href="/pg-tutorials/">PostgreSQL 专栏</a>
+    
+  </nav>
+
+  <header class="col-article-header">
+    <div class="col-article-badges">
+      
+        <span class="level-badge level-blue">🐘 POSTGRESQL</span>
+      
+      
+        <span class="col-code-pill">PG-03</span>
+      
+      
+        <span class="col-meta-item">⏱ 9 min</span>
+      
+      
+        <time class="col-meta-item" datetime="2026-11-27T14:20:00.000Z">📅 2026-11-27</time>
+      
+    </div>
+
+    <h1 class="col-article-title" itemprop="headline">AI 时代的 PostgreSQL：JSONB 混合建模、pgvector 向量检索与生产运维</h1>
+    
+      <p class="col-article-title-en">PostgreSQL for the AI Era: JSONB, pgvector Hybrid Search &amp; Zero-Downtime Ops</p>
+    
+
+    
+      <div class="col-article-tags">
+        
+          <span class="col-tag">#pgvector</span>
+        
+          <span class="col-tag">#HNSW</span>
+        
+          <span class="col-tag">#JSONB</span>
+        
+          <span class="col-tag">#生产运维</span>
+        
+      </div>
+    
+
+    <div class="lang-toolbar" role="group" aria-label="Language display mode">
+      <span class="lang-toolbar-label">🌐 阅读模式 / View Mode:</span>
+      <button type="button" class="lang-btn active" data-mode="both">中英对照 Bilingual</button>
+      <button type="button" class="lang-btn" data-mode="zh">仅中文 ZH</button>
+      <button type="button" class="lang-btn" data-mode="en">English Only</button>
+    </div>
+  </header>
+
+  
+    <details class="col-toc-box" open>
+      <summary>📑 目录 / Table of Contents</summary>
+      <div class="col-toc-inner">
+        <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#1-_15_行_SQL_搭好生产级_pgvector_+_全文检索混合知识库_/_Hybrid_Vector_+_Full-Text_Table"><span class="toc-text">1. 15 行 SQL 搭好生产级 pgvector + 全文检索混合知识库 / Hybrid Vector + Full-Text Table</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#2-_一条_SQL_实现“权限隔离_+_向量_+_关键词_RRF_混合检索”_/_Single-SQL_Hybrid_RAG_Search"><span class="toc-text">2. 一条 SQL 实现“权限隔离 + 向量 + 关键词 RRF 混合检索” / Single-SQL Hybrid RAG Search</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#3-_PostgreSQL_线上生产保命_4_条铁律_/_4_Production_Survival_Rules"><span class="toc-text">3. PostgreSQL 线上生产保命 4 条铁律 / 4 Production Survival Rules</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#4-_权威参考_/_References"><span class="toc-text">4. 权威参考 / References</span></a></li></ol>
+      </div>
+    </details>
+  
+
+  <div class="col-article-body" itemprop="articleBody">
+    <div class="col-callout col-callout-key"><div class="col-callout-title"><span class="col-callout-icon">🔑</span>架构极简主义 / Architectural Simplicity</div><div class="col-callout-body"><p>千万级向量以内，<strong>直接用 PostgreSQL + <code>pgvector</code></strong> 往往远胜单独搭一套独立向量库：文档删改和向量更新在<strong>同一个 ACID 事务</strong>里完成，零同步延迟、零权限越权、少运维一套集群！</p>
+</div></div>
+<p><img src="/images/pg-tutorials/pg-pgvector-hybrid.svg" alt="PostgreSQL JSONB and pgvector Hybrid AI Architecture"></p>
+<h2 id="1-_15_行_SQL_搭好生产级_pgvector_+_全文检索混合知识库_/_Hybrid_Vector_+_Full-Text_Table">1. 15 行 SQL 搭好生产级 <code>pgvector</code> + 全文检索混合知识库 / Hybrid Vector + Full-Text Table</h2><div class="bi-block bi-zh" data-lang="zh"><span class="bi-badge">中文</span><div class="bi-body"><p>下面这张表同时存了<strong>租户权限（<code>tenant_id</code>）、JSONB 扩展元数据、全文检索词条（自动生成列 <code>fts</code>）、以及半精度 <code>halfvec</code> 向量（显存与磁盘占用直接减半！）</strong>，再配上 <code>HNSW</code> 图索引实现毫秒级召回：</p>
+</div></div>
+<div class="bi-block bi-en" data-lang="en"><span class="bi-badge">EN</span><div class="bi-body"><p>Combine relational tenant ACLs, <code>JSONB</code> metadata, native <code>tsvector</code> full-text search, and compact <code>halfvec</code> embeddings with an <code>HNSW</code> index inside one ACID table:</p>
+</div></div>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">CREATE</span> EXTENSION <span class="keyword">IF</span> <span class="keyword">NOT</span> <span class="keyword">EXISTS</span> vector;</span><br><span class="line"></span><br><span class="line"><span class="keyword">CREATE</span> <span class="keyword">TABLE</span> kb_chunks (</span><br><span class="line">    <span class="keyword">id</span>         <span class="built_in">BIGINT</span> <span class="keyword">GENERATED</span> <span class="keyword">ALWAYS</span> <span class="keyword">AS</span> <span class="keyword">IDENTITY</span> PRIMARY <span class="keyword">KEY</span>,</span><br><span class="line">    tenant_id  <span class="built_in">BIGINT</span> <span class="keyword">NOT</span> <span class="literal">NULL</span>,</span><br><span class="line">    doc_source <span class="built_in">TEXT</span> <span class="keyword">NOT</span> <span class="literal">NULL</span>,</span><br><span class="line">    <span class="keyword">content</span>    <span class="built_in">TEXT</span> <span class="keyword">NOT</span> <span class="literal">NULL</span>,</span><br><span class="line">    metadata   JSONB <span class="keyword">NOT</span> <span class="literal">NULL</span> <span class="keyword">DEFAULT</span> <span class="string">'&#123;&#125;'</span>::jsonb,</span><br><span class="line">    fts        TSVECTOR <span class="keyword">GENERATED</span> <span class="keyword">ALWAYS</span> <span class="keyword">AS</span> (to_tsvector(<span class="string">'simple'</span>, <span class="keyword">content</span>)) <span class="keyword">STORED</span>,</span><br><span class="line">    embedding  HALFVEC(<span class="number">1536</span>) <span class="keyword">NOT</span> <span class="literal">NULL</span>,  <span class="comment">-- 比 float32 vector 省 50% 内存与磁盘！</span></span><br><span class="line">    created_at TIMESTAMPTZ <span class="keyword">NOT</span> <span class="literal">NULL</span> <span class="keyword">DEFAULT</span> <span class="keyword">NOW</span>()</span><br><span class="line">);</span><br><span class="line"></span><br><span class="line"><span class="comment">-- 1. HNSW 余弦相似度向量索引（检索快、召回高，无需像 IVFFlat 提前训练聚类）</span></span><br><span class="line"><span class="keyword">CREATE</span> <span class="keyword">INDEX</span> idx_kb_embedding_hnsw</span><br><span class="line">    <span class="keyword">ON</span> kb_chunks <span class="keyword">USING</span> hnsw (embedding halfvec_cosine_ops)</span><br><span class="line">    <span class="keyword">WITH</span> (m = <span class="number">16</span>, ef_construction = <span class="number">64</span>);</span><br><span class="line"></span><br><span class="line"><span class="comment">-- 2. 全文检索 GIN 索引 + 租户过滤 B-Tree 索引</span></span><br><span class="line"><span class="keyword">CREATE</span> <span class="keyword">INDEX</span> idx_kb_fts_gin     <span class="keyword">ON</span> kb_chunks <span class="keyword">USING</span> gin (fts);</span><br><span class="line"><span class="keyword">CREATE</span> <span class="keyword">INDEX</span> idx_kb_tenant_id   <span class="keyword">ON</span> kb_chunks (tenant_id);</span><br></pre></td></tr></table></figure>
+<h2 id="2-_一条_SQL_实现“权限隔离_+_向量_+_关键词_RRF_混合检索”_/_Single-SQL_Hybrid_RAG_Search">2. 一条 SQL 实现“权限隔离 + 向量 + 关键词 RRF 混合检索” / Single-SQL Hybrid RAG Search</h2><div class="bi-block bi-zh" data-lang="zh"><span class="bi-badge">中文</span><div class="bi-body"><p>把 <a href="/python-ai-practice/02-build-rag-in-python/">Python AI 实践 PAI-02</a> 里的 RRF 混合检索直接下沉进 PostgreSQL——一次网络往返，先按 <code>tenant_id</code> 严密隔离权限，再融合语义 Top-20 与关键词 Top-20 返回最终 Top-5：</p>
+</div></div>
+<div class="bi-block bi-en" data-lang="en"><span class="bi-badge">EN</span><div class="bi-body"><p>Push the entire RRF hybrid retrieval (ACL filter + vector + full-text) into a single PostgreSQL round-trip:</p>
+</div></div>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line">WITH semantic AS (</span><br><span class="line">    <span class="keyword">SELECT</span> <span class="keyword">id</span>, ROW_NUMBER() <span class="keyword">OVER</span> (<span class="keyword">ORDER</span> <span class="keyword">BY</span> embedding &lt;=&gt; $<span class="number">1</span>::halfvec) <span class="keyword">AS</span> <span class="keyword">rank</span></span><br><span class="line">    <span class="keyword">FROM</span> kb_chunks</span><br><span class="line">    <span class="keyword">WHERE</span> tenant_id = $<span class="number">3</span></span><br><span class="line">    <span class="keyword">ORDER</span> <span class="keyword">BY</span> embedding &lt;=&gt; $<span class="number">1</span>::halfvec</span><br><span class="line">    <span class="keyword">LIMIT</span> <span class="number">20</span></span><br><span class="line">),</span><br><span class="line">lexical <span class="keyword">AS</span> (</span><br><span class="line">    <span class="keyword">SELECT</span> <span class="keyword">id</span>, ROW_NUMBER() <span class="keyword">OVER</span> (<span class="keyword">ORDER</span> <span class="keyword">BY</span> ts_rank_cd(fts, plainto_tsquery(<span class="string">'simple'</span>, $<span class="number">2</span>)) <span class="keyword">DESC</span>) <span class="keyword">AS</span> <span class="keyword">rank</span></span><br><span class="line">    <span class="keyword">FROM</span> kb_chunks</span><br><span class="line">    <span class="keyword">WHERE</span> tenant_id = $<span class="number">3</span> <span class="keyword">AND</span> fts @@ plainto_tsquery(<span class="string">'simple'</span>, $<span class="number">2</span>)</span><br><span class="line">    <span class="keyword">LIMIT</span> <span class="number">20</span></span><br><span class="line">)</span><br><span class="line"><span class="keyword">SELECT</span></span><br><span class="line">    c.id, c.doc_source, c.content,</span><br><span class="line">    <span class="keyword">COALESCE</span>(<span class="number">1.0</span> / (<span class="number">60</span> + s.rank), <span class="number">0.0</span>) + <span class="keyword">COALESCE</span>(<span class="number">1.0</span> / (<span class="number">60</span> + l.rank), <span class="number">0.0</span>) <span class="keyword">AS</span> rrf_score</span><br><span class="line"><span class="keyword">FROM</span> kb_chunks c</span><br><span class="line"><span class="keyword">LEFT</span> <span class="keyword">JOIN</span> semantic s <span class="keyword">ON</span> c.id = s.id</span><br><span class="line"><span class="keyword">LEFT</span> <span class="keyword">JOIN</span> lexical  l <span class="keyword">ON</span> c.id = l.id</span><br><span class="line"><span class="keyword">WHERE</span> s.id <span class="keyword">IS</span> <span class="keyword">NOT</span> <span class="literal">NULL</span> <span class="keyword">OR</span> l.id <span class="keyword">IS</span> <span class="keyword">NOT</span> <span class="literal">NULL</span></span><br><span class="line"><span class="keyword">ORDER</span> <span class="keyword">BY</span> rrf_score <span class="keyword">DESC</span></span><br><span class="line"><span class="keyword">LIMIT</span> <span class="number">5</span>;</span><br></pre></td></tr></table></figure>
+<h2 id="3-_PostgreSQL_线上生产保命_4_条铁律_/_4_Production_Survival_Rules">3. PostgreSQL 线上生产保命 4 条铁律 / 4 Production Survival Rules</h2><table>
+<thead>
+<tr>
+<th style="text-align:left">运维要点 Ops Rule</th>
+<th style="text-align:left">❌ 事故高发写法</th>
+<th style="text-align:left">✅ 生产保命做法</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left"><strong>1. 线上加索引</strong></td>
+<td style="text-align:left">直接 <code>CREATE INDEX</code>（锁死整张表写入！）</td>
+<td style="text-align:left">永远加 <strong><code>CREATE INDEX CONCURRENTLY</code></strong>（不阻塞线上读写）</td>
+</tr>
+<tr>
+<td style="text-align:left"><strong>2. 连接数管理</strong></td>
+<td style="text-align:left">200 个微服务进程直接连 PG，打爆内存</td>
+<td style="text-align:left">前端挂 <strong>PgBouncer</strong>（Transaction Pooling 模式），几千并发复用几十条真连接</td>
+</tr>
+<tr>
+<td style="text-align:left"><strong>3. 慢查询监控</strong></td>
+<td style="text-align:left">出故障才临时翻日志</td>
+<td style="text-align:left">开启 <strong><code>pg_stat_statements</code></strong> 扩展，按总耗时一键揪出 Top-5 慢 SQL</td>
+</tr>
+<tr>
+<td style="text-align:left"><strong>4. 备份与演练</strong></td>
+<td style="text-align:left">只靠“云厂商应该有快照吧”</td>
+<td style="text-align:left">定时 <code>pg_dump -Fc</code> + <strong>WAL 归档（PITR 任意秒级恢复）</strong>，每月做一次真实恢复演练</td>
+</tr>
+</tbody>
+</table>
+<h2 id="4-_权威参考_/_References">4. 权威参考 / References</h2><ul>
+<li>🧠 <strong>pgvector Official Repo</strong>: <a href="https://github.com/pgvector/pgvector" target="_blank" rel="noopener">pgvector — Open-source Vector Similarity Search for Postgres</a></li>
+<li>⚡ <strong>PgBouncer</strong>: <a href="https://www.pgbouncer.org/" target="_blank" rel="noopener">Lightweight Connection Pooler for PostgreSQL</a></li>
+<li>🐘 <strong>PostgreSQL Docs</strong>: <a href="https://www.postgresql.org/docs/current/pgstatstatements.html" target="_blank" rel="noopener">pg_stat_statements</a></li>
+</ul>
+
+  </div>
+
+  <footer class="col-article-footer">
+    <div class="col-nav-grid">
+      
+        <a class="col-nav-card col-nav-prev" href="/pg-tutorials/02-indexes-explain-mvcc/index.html">
+          <span class="col-nav-dir">← 上一篇 / Previous</span>
+          <span class="col-nav-title">PostgreSQL 性能优化核心：索引选型、EXPLAIN ANALYZE 读图与 MVCC 并发</span>
+        </a>
+      
+
+      
+        <a class="col-nav-card col-nav-next" href="/pg-tutorials/">
+          <span class="col-nav-dir">返回专栏总览 / Column Hub →</span>
+          <span class="col-nav-title">PostgreSQL 专栏</span>
+        </a>
+      
+    </div>
+  </footer>
+</article>
+
+<script>
+(function() {
+  var root = document.getElementById('column-article-root');
+  if (!root) return;
+  var buttons = root.querySelectorAll('.lang-btn');
+  var storageKey = 'hzan_ai_lang_mode';
+
+  function applyMode(mode) {
+    if (mode !== 'both' && mode !== 'zh' && mode !== 'en') mode = 'both';
+    root.classList.remove('lang-mode-both', 'lang-mode-zh', 'lang-mode-en');
+    root.classList.add('lang-mode-' + mode);
+    buttons.forEach(function(btn) {
+      btn.classList.toggle('active', btn.getAttribute('data-mode') === mode);
+    });
+    try { localStorage.setItem(storageKey, mode); } catch (e) {}
+  }
+
+  buttons.forEach(function(btn) {
+    btn.addEventListener('click', function() {
+      applyMode(btn.getAttribute('data-mode'));
+    });
+  });
+
+  try {
+    var saved = localStorage.getItem(storageKey);
+    if (saved) applyMode(saved);
+  } catch (e) {}
+})();
+</script>
+
+    </div>
+    
+    <footer id="footer">
+  <div class="footer-left">
+    Copyright &copy; 2026 Zan
+  </div>
+  <div class="footer-right">
+    <nav>
+      <ul>
+         
+          <li><a href="/">Home</a></li>
+         
+          <li><a href="/columns/">Columns</a></li>
+         
+          <li><a href="/ai-tutorials/">AI Tutorials</a></li>
+         
+          <li><a href="/agent-playbook/">Agent Tips</a></li>
+         
+          <li><a href="/ai-news/">AI News</a></li>
+         
+          <li><a href="/archives/">Writing</a></li>
+         
+          <li><a href="/about/">About</a></li>
+        
+      </ul>
+    </nav>
+  </div>
+</footer>
+
+</body>
+</html>
+<!-- styles -->
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css">
+<link rel="stylesheet" href="/lib/meslo-LG/styles.css">
+<link rel="stylesheet" href="/lib/justified-gallery/justifiedGallery.min.css">
+
+
+<!-- jquery -->
+<script src="/lib/jquery/jquery.min.js"></script>
+<script src="/lib/justified-gallery/jquery.justifiedGallery.min.js"></script>
+<script src="/js/main.js"></script>
+<!-- Google Analytics -->
+
+    <script type="text/javascript">
+        (function(i,s,o,g,r,a,m) {i['GoogleAnalyticsObject']=r;i[r]=i[r]||function() {
+        (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+        m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+        })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+        ga('create', 'UA-86660611-1', 'auto');
+        ga('send', 'pageview');
+    </script>
+
+<!-- Disqus Comments -->
+
+    <script type="text/javascript">
+        var disqus_shortname = 'huzan';
+
+        (function(){
+            var dsq = document.createElement('script');
+            dsq.type = 'text/javascript';
+            dsq.async = true;
+            dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+            (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+        }());
+    </script>
+
+

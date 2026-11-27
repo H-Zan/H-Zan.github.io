@@ -1,0 +1,31 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 880 280" width="880" height="280">
+  <defs>
+    <marker id="arr-pa3" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M 0 1 L 10 5 L 0 9 z" fill="#c678dd"/>
+    </marker>
+    <linearGradient id="bg-pa3" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#181a1d"/>
+      <stop offset="100%" stop-color="#22262b"/>
+    </linearGradient>
+  </defs>
+  <rect width="880" height="280" rx="12" fill="url(#bg-pa3)" stroke="#363b42" stroke-width="1.5"/>
+  <text x="440" y="32" text-anchor="middle" fill="#eeeeee" font-family="sans-serif" font-size="16" font-weight="700">可控 Python Agent 骨架与 pytest 自动化 Eval 闭环</text>
+
+  <rect x="26" y="72" width="400" height="162" rx="10" fill="#1f2329" stroke="#c678dd" stroke-width="1.5"/>
+  <text x="226" y="96" text-anchor="middle" fill="#c678dd" font-family="monospace" font-size="12" font-weight="700">CONTROLLED AGENT RUNTIME</text>
+  <text x="44" y="124" fill="#eeeeee" font-family="sans-serif" font-size="11.5">• <tspan fill="#2bbc8a" font-weight="700">@tool 装饰器</tspan>：用 Pydantic 自动导出严格 JSON Schema</text>
+  <text x="44" y="148" fill="#eeeeee" font-family="sans-serif" font-size="11.5">• <tspan fill="#f0a500" font-weight="700">白名单 + 校验</tspan>：先用 Pydantic 校验入参再执行真实函数</text>
+  <text x="44" y="172" fill="#eeeeee" font-family="sans-serif" font-size="11.5">• <tspan fill="#e06c75" font-weight="700">步数与超时熔断</tspan>：max_steps=6 防止死循环烧光账单</text>
+  <text x="44" y="196" fill="#eeeeee" font-family="sans-serif" font-size="11.5">• <tspan fill="#4ea8de" font-weight="700">结构化 Trace</tspan>：每步输入/输出/耗时落日志可回放</text>
+
+  <line x1="426" y1="153" x2="454" y2="153" stroke="#c678dd" stroke-width="2" marker-end="url(#arr-pa3)"/>
+
+  <rect x="458" y="72" width="396" height="162" rx="10" fill="#1e2523" stroke="#2bbc8a" stroke-width="1.5"/>
+  <text x="656" y="96" text-anchor="middle" fill="#2bbc8a" font-family="monospace" font-size="12" font-weight="700">PYTEST EVAL GATE · 回归守门员</text>
+  <text x="476" y="124" fill="#eeeeee" font-family="sans-serif" font-size="11.5">• <tspan fill="#2bbc8a" font-weight="700">工具调用断言</tspan>：验证是否命中预期工具与正确参数</text>
+  <text x="476" y="148" fill="#eeeeee" font-family="sans-serif" font-size="11.5">• <tspan fill="#4ea8de" font-weight="700">边界拒答测试</tspan>：越权指令/缺失信息必须拒绝而非瞎编</text>
+  <text x="476" y="172" fill="#eeeeee" font-family="sans-serif" font-size="11.5">• <tspan fill="#f0a500" font-weight="700">延迟与成本红线</tspan>：单次平均步数与 Token 不可超标</text>
+  <text x="476" y="196" fill="#d5ff80" font-family="monospace" font-size="10.5">→ 每次改 Prompt 或换模型前，一键跑通 Eval 才发布</text>
+
+  <text x="440" y="260" text-anchor="middle" fill="#888e96" font-family="sans-serif" font-size="11">生产级 AI 应用的秘密：把大模型封装成可测试、可限流、可回放的普通软件组件</text>
+</svg>

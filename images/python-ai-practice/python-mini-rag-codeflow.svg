@@ -1,0 +1,46 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 880 280" width="880" height="280">
+  <defs>
+    <marker id="arr-pa2" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M 0 1 L 10 5 L 0 9 z" fill="#2bbc8a"/>
+    </marker>
+    <linearGradient id="bg-pa2" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#181a1d"/>
+      <stop offset="100%" stop-color="#22262b"/>
+    </linearGradient>
+  </defs>
+  <rect width="880" height="280" rx="12" fill="url(#bg-pa2)" stroke="#363b42" stroke-width="1.5"/>
+  <text x="440" y="32" text-anchor="middle" fill="#eeeeee" font-family="sans-serif" font-size="16" font-weight="700">80 行透明 Python 迷你混合检索 RAG 数据流 · Zero-Blackbox Hybrid RAG</text>
+
+  <rect x="26" y="88" width="134" height="96" rx="8" fill="#24272b" stroke="#4ea8de" stroke-width="1.5"/>
+  <text x="93" y="114" text-anchor="middle" fill="#4ea8de" font-family="monospace" font-size="11" font-weight="700">chunk_markdown</text>
+  <text x="93" y="136" text-anchor="middle" fill="#eeeeee" font-family="sans-serif" font-size="12" font-weight="700">标题语义切分</text>
+  <text x="93" y="160" text-anchor="middle" fill="#9aa0a6" font-family="sans-serif" font-size="10.5">保留 [文件>章节]</text>
+
+  <line x1="160" y1="120" x2="206" y2="96" stroke="#2bbc8a" stroke-width="1.8" marker-end="url(#arr-pa2)"/>
+  <line x1="160" y1="152" x2="206" y2="176" stroke="#2bbc8a" stroke-width="1.8" marker-end="url(#arr-pa2)"/>
+
+  <rect x="210" y="64" width="194" height="62" rx="8" fill="#24272b" stroke="#c678dd" stroke-width="1.5"/>
+  <text x="307" y="88" text-anchor="middle" fill="#c678dd" font-family="monospace" font-size="11.5" font-weight="700">NumPy Dense Search</text>
+  <text x="307" y="109" text-anchor="middle" fill="#c9cacc" font-family="sans-serif" font-size="11">向量归一化后 `vecs @ q` 毫秒点积</text>
+
+  <rect x="210" y="148" width="194" height="62" rx="8" fill="#24272b" stroke="#f0a500" stroke-width="1.5"/>
+  <text x="307" y="172" text-anchor="middle" fill="#f0a500" font-family="monospace" font-size="11.5" font-weight="700">BM25 / Lexical Match</text>
+  <text x="307" y="193" text-anchor="middle" fill="#c9cacc" font-family="sans-serif" font-size="11">精准锁死报错码/API名/专有名词</text>
+
+  <line x1="404" y1="95" x2="452" y2="124" stroke="#2bbc8a" stroke-width="1.8" marker-end="url(#arr-pa2)"/>
+  <line x1="404" y1="179" x2="452" y2="148" stroke="#2bbc8a" stroke-width="1.8" marker-end="url(#arr-pa2)"/>
+
+  <rect x="456" y="88" width="166" height="96" rx="8" fill="#1e2523" stroke="#2bbc8a" stroke-width="1.5"/>
+  <text x="539" y="114" text-anchor="middle" fill="#2bbc8a" font-family="monospace" font-size="11.5" font-weight="700">rrf_fuse(k=60)</text>
+  <text x="539" y="136" text-anchor="middle" fill="#eeeeee" font-family="sans-serif" font-size="12" font-weight="700">双路排名融合</text>
+  <text x="539" y="160" text-anchor="middle" fill="#d5ff80" font-family="monospace" font-size="10.5">精选 Top-4 证据块</text>
+
+  <line x1="622" y1="136" x2="660" y2="136" stroke="#2bbc8a" stroke-width="2" marker-end="url(#arr-pa2)"/>
+
+  <rect x="664" y="88" width="190" height="96" rx="8" fill="#24272b" stroke="#2bbc8a" stroke-width="1.6"/>
+  <text x="759" y="114" text-anchor="middle" fill="#2bbc8a" font-family="monospace" font-size="11.5" font-weight="700">GROUNDED ANSWER</text>
+  <text x="759" y="136" text-anchor="middle" fill="#eeeeee" font-family="sans-serif" font-size="12" font-weight="700">带引用编号严格作答</text>
+  <text x="759" y="160" text-anchor="middle" fill="#9aa0a6" font-family="sans-serif" font-size="10.5">找不到证据则明确拒答</text>
+
+  <text x="440" y="248" text-anchor="middle" fill="#888e96" font-family="sans-serif" font-size="11">为什么先手写迷你版？看清每一行切分、召回与 Prompt 拼装，调优速度比黑盒框架快 5 倍</text>
+</svg>

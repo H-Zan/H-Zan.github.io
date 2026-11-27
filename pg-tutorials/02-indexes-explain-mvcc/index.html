@@ -1,0 +1,335 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <!-- so meta -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="HandheldFriendly" content="True">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+    <meta name="description" content="🔑调优第一铁律 / First Rule of Tuning不要凭感觉加索引！ 每次优化慢 SQL 前，先跑 EXPLAIN (ANALYZE, BUFFERS) 看清两件事：① 有没有发生大表全扫（Seq Scan）；② 实际读了多少内存页（shared hit / read）。   1. 组合索引与部分索引：把查询从 1.2 秒降到 0.4 毫秒 / Composite &amp;amp; Part">
+<meta name="keywords" content="PostgreSQL,索引优化,EXPLAIN,MVCC">
+<meta property="og:type" content="website">
+<meta property="og:title" content="PostgreSQL 性能优化核心：索引选型、EXPLAIN ANALYZE 读图与 MVCC 并发">
+<meta property="og:url" content="https://h-zan.github.io/pg-tutorials/02-indexes-explain-mvcc/index.html">
+<meta property="og:site_name" content="HuZan">
+<meta property="og:description" content="🔑调优第一铁律 / First Rule of Tuning不要凭感觉加索引！ 每次优化慢 SQL 前，先跑 EXPLAIN (ANALYZE, BUFFERS) 看清两件事：① 有没有发生大表全扫（Seq Scan）；② 实际读了多少内存页（shared hit / read）。   1. 组合索引与部分索引：把查询从 1.2 秒降到 0.4 毫秒 / Composite &amp;amp; Part">
+<meta property="og:locale" content="default">
+<meta property="og:image" content="https://h-zan.github.io/images/pg-tutorials/pg-index-explain-mvcc.svg">
+<meta property="og:updated_time" content="2026-11-27T03:32:32.522Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="PostgreSQL 性能优化核心：索引选型、EXPLAIN ANALYZE 读图与 MVCC 并发">
+<meta name="twitter:description" content="🔑调优第一铁律 / First Rule of Tuning不要凭感觉加索引！ 每次优化慢 SQL 前，先跑 EXPLAIN (ANALYZE, BUFFERS) 看清两件事：① 有没有发生大表全扫（Seq Scan）；② 实际读了多少内存页（shared hit / read）。   1. 组合索引与部分索引：把查询从 1.2 秒降到 0.4 毫秒 / Composite &amp;amp; Part">
+<meta name="twitter:image" content="https://h-zan.github.io/images/pg-tutorials/pg-index-explain-mvcc.svg">
+    
+    
+        
+          
+              <link rel="shortcut icon" href="/images/favicon.ico">
+          
+        
+        
+          
+            <link rel="icon" type="image/png" href="/images/favicon-192x192.png" sizes="192x192">
+          
+        
+        
+          
+            <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png">
+          
+        
+    
+    <!-- title -->
+    <title>PostgreSQL 性能优化核心：索引选型、EXPLAIN ANALYZE 读图与 MVCC 并发</title>
+    <!-- styles -->
+    <link rel="stylesheet" href="/css/style.css">
+    <!-- rss -->
+    
+    
+</head>
+
+<body>
+    
+    
+    <div class="content index column-wide mx-auto px2 my4">
+        
+          <header id="header">
+  <a href="/">
+  
+    
+      <div id="logo" style="background-image: url(/images/logo.png);"></div>
+    
+  
+    <div id="title">
+      <h1>HuZan</h1>
+    </div>
+  </a>
+  <div id="nav">
+    <ul>
+      <li class="icon">
+        <a href="#"><i class="fa fa-bars fa-2x"></i></a>
+      </li>
+       
+        <li><a href="/">Home</a></li>
+       
+        <li><a href="/columns/">Columns</a></li>
+       
+        <li><a href="/ai-tutorials/">AI Tutorials</a></li>
+       
+        <li><a href="/agent-playbook/">Agent Tips</a></li>
+       
+        <li><a href="/ai-news/">AI News</a></li>
+       
+        <li><a href="/archives/">Writing</a></li>
+       
+        <li><a href="/about/">About</a></li>
+      
+    </ul>
+  </div>
+</header>
+
+        
+        
+
+<article class="column-article lang-mode-both" id="column-article-root" itemscope itemtype="http://schema.org/TechArticle">
+  <nav class="col-breadcrumb" aria-label="Breadcrumb">
+    <a href="/">Home</a>
+    <span class="sep">/</span>
+    <a href="/columns/">Columns</a>
+    <span class="sep">/</span>
+    <a href="/pg-tutorials/">PostgreSQL 专栏</a>
+    
+  </nav>
+
+  <header class="col-article-header">
+    <div class="col-article-badges">
+      
+        <span class="level-badge level-blue">🐘 POSTGRESQL</span>
+      
+      
+        <span class="col-code-pill">PG-02</span>
+      
+      
+        <span class="col-meta-item">⏱ 9 min</span>
+      
+      
+        <time class="col-meta-item" datetime="2026-11-27T14:10:00.000Z">📅 2026-11-27</time>
+      
+    </div>
+
+    <h1 class="col-article-title" itemprop="headline">PostgreSQL 性能优化核心：索引选型、EXPLAIN ANALYZE 读图与 MVCC 并发</h1>
+    
+      <p class="col-article-title-en">PostgreSQL Performance Core: Index Selection, EXPLAIN ANALYZE &amp; MVCC Internals</p>
+    
+
+    
+      <div class="col-article-tags">
+        
+          <span class="col-tag">#PostgreSQL</span>
+        
+          <span class="col-tag">#索引优化</span>
+        
+          <span class="col-tag">#EXPLAIN</span>
+        
+          <span class="col-tag">#MVCC</span>
+        
+      </div>
+    
+
+    <div class="lang-toolbar" role="group" aria-label="Language display mode">
+      <span class="lang-toolbar-label">🌐 阅读模式 / View Mode:</span>
+      <button type="button" class="lang-btn active" data-mode="both">中英对照 Bilingual</button>
+      <button type="button" class="lang-btn" data-mode="zh">仅中文 ZH</button>
+      <button type="button" class="lang-btn" data-mode="en">English Only</button>
+    </div>
+  </header>
+
+  
+    <details class="col-toc-box" open>
+      <summary>📑 目录 / Table of Contents</summary>
+      <div class="col-toc-inner">
+        <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#1-_组合索引与部分索引：把查询从_1-2_秒降到_0-4_毫秒_/_Composite_&_Partial_Indexes"><span class="toc-text">1. 组合索引与部分索引：把查询从 1.2 秒降到 0.4 毫秒 / Composite &amp; Partial Indexes</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#2-_三秒看懂_EXPLAIN_(ANALYZE,_BUFFERS)_/_Reading_EXPLAIN_in_3_Seconds"><span class="toc-text">2. 三秒看懂 EXPLAIN (ANALYZE, BUFFERS) / Reading EXPLAIN in 3 Seconds</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#3-_通俗理解_MVCC_与_Autovacuum_/_MVCC_&_Autovacuum_Made_Simple"><span class="toc-text">3. 通俗理解 MVCC 与 Autovacuum / MVCC &amp; Autovacuum Made Simple</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#4-_权威参考_/_References"><span class="toc-text">4. 权威参考 / References</span></a></li></ol>
+      </div>
+    </details>
+  
+
+  <div class="col-article-body" itemprop="articleBody">
+    <div class="col-callout col-callout-key"><div class="col-callout-title"><span class="col-callout-icon">🔑</span>调优第一铁律 / First Rule of Tuning</div><div class="col-callout-body"><p><strong>不要凭感觉加索引！</strong> 每次优化慢 SQL 前，先跑 <code>EXPLAIN (ANALYZE, BUFFERS)</code> 看清两件事：① 有没有发生大表全扫（<code>Seq Scan</code>）；② 实际读了多少内存页（<code>shared hit / read</code>）。</p>
+</div></div>
+<p><img src="/images/pg-tutorials/pg-index-explain-mvcc.svg" alt="PostgreSQL Indexes and MVCC Internals"></p>
+<h2 id="1-_组合索引与部分索引：把查询从_1-2_秒降到_0-4_毫秒_/_Composite_&amp;_Partial_Indexes">1. 组合索引与部分索引：把查询从 1.2 秒降到 0.4 毫秒 / Composite &amp; Partial Indexes</h2><div class="bi-block bi-zh" data-lang="zh"><span class="bi-badge">中文</span><div class="bi-body"><p>建索引最常见的三个误区，避开就能秒杀 90% 的慢 SQL：</p>
+<ol>
+<li><strong>联合索引列顺序口诀：“等值放前面，范围/排序放后面”</strong>。查 <code>WHERE tenant_id = 5 AND created_at &gt; &#39;2026-11-01&#39; ORDER BY created_at DESC</code>，索引必须建 <code>(tenant_id, created_at DESC)</code>，顺序反了效果暴跌！</li>
+<li><strong>善用部分索引（Partial Index）</strong>：如果 99% 的订单都已完成，业务只频繁查 <code>status = &#39;pending&#39;</code>，加个 <code>WHERE status = &#39;pending&#39;</code>，索引体积直接缩小 <strong>99%</strong>、写入几乎零负担！</li>
+<li><strong>对索引列套函数会直接让索引失效</strong>：写 <code>WHERE created_at &gt;= &#39;2026-11-01&#39; AND created_at &lt; &#39;2026-12-01&#39;</code>，千万别写 <code>WHERE DATE_TRUNC(&#39;month&#39;, created_at) = ...</code>！</li>
+</ol>
+</div></div>
+<div class="bi-block bi-en" data-lang="en"><span class="bi-badge">EN</span><div class="bi-body"><p>Three high-leverage indexing habits solve 90% of slow queries: (1) put equality columns first and range/sort columns last in composite B-Tree indexes, (2) use <strong>Partial Indexes (<code>WHERE ...</code>)</strong> to keep hot-subset indexes tiny, and (3) never wrap indexed columns in functions inside <code>WHERE</code>.</p>
+</div></div>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">-- 1. 联合覆盖索引：等值列 tenant_id 在前，排序列 created_at 在后</span></span><br><span class="line"><span class="keyword">CREATE</span> <span class="keyword">INDEX</span> CONCURRENTLY idx_orders_tenant_time</span><br><span class="line">    <span class="keyword">ON</span> orders (tenant_id, created_at <span class="keyword">DESC</span>)</span><br><span class="line">    <span class="keyword">INCLUDE</span> (amount_cents);  <span class="comment">-- INCLUDE 让查询直接走 Index Only Scan，无需回表！</span></span><br><span class="line"></span><br><span class="line"><span class="comment">-- 2. 部分索引：只索引待处理订单，体积极小、更新极快</span></span><br><span class="line"><span class="keyword">CREATE</span> <span class="keyword">INDEX</span> CONCURRENTLY idx_orders_pending</span><br><span class="line">    <span class="keyword">ON</span> orders (created_at)</span><br><span class="line">    <span class="keyword">WHERE</span> <span class="keyword">status</span> = <span class="string">'pending'</span>;</span><br><span class="line"></span><br><span class="line"><span class="comment">-- 3. JSONB 倒排索引：加速 @&gt; 包含查询</span></span><br><span class="line"><span class="keyword">CREATE</span> <span class="keyword">INDEX</span> CONCURRENTLY idx_docs_meta_gin</span><br><span class="line">    <span class="keyword">ON</span> documents <span class="keyword">USING</span> GIN (metadata jsonb_path_ops);</span><br></pre></td></tr></table></figure>
+<h2 id="2-_三秒看懂_EXPLAIN_(ANALYZE,_BUFFERS)_/_Reading_EXPLAIN_in_3_Seconds">2. 三秒看懂 <code>EXPLAIN (ANALYZE, BUFFERS)</code> / Reading <code>EXPLAIN</code> in 3 Seconds</h2><div class="bi-block bi-zh" data-lang="zh"><span class="bi-badge">中文</span><div class="bi-body"><p>执行 <code>EXPLAIN (ANALYZE, BUFFERS) SELECT ...</code> 时，只盯紧 4 个关键信号：</p>
+</div></div>
+<div class="bi-block bi-en" data-lang="en"><span class="bi-badge">EN</span><div class="bi-body"><p>Focus on four signals when reading <code>EXPLAIN (ANALYZE, BUFFERS)</code> output:</p>
+</div></div>
+<table>
+<thead>
+<tr>
+<th style="text-align:left">信号 Signal</th>
+<th style="text-align:left">含义 Meaning</th>
+<th style="text-align:left">优化动作 Action</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left"><strong><code>Seq Scan</code>（大表）</strong></td>
+<td style="text-align:left">全表扫描，扫完几十万行再丢掉 99%</td>
+<td style="text-align:left">检查 <code>WHERE</code> 过滤条件，补建 B-Tree / GIN 索引</td>
+</tr>
+<tr>
+<td style="text-align:left"><strong><code>Index Only Scan</code></strong></td>
+<td style="text-align:left">顶级性能！只读索引页不回堆表</td>
+<td style="text-align:left">用 <code>INCLUDE (...)</code> 覆盖查询列即可达成</td>
+</tr>
+<tr>
+<td style="text-align:left"><strong><code>Rows Removed by Filter: 50000</code></strong></td>
+<td style="text-align:left">索引没精确覆盖过滤条件，回表白筛了大量行</td>
+<td style="text-align:left">调整联合索引列顺序或补齐过滤列</td>
+</tr>
+<tr>
+<td style="text-align:left"><strong><code>Buffers: shared read=8000</code></strong></td>
+<td style="text-align:left">大量冷数据从磁盘读入而非内存缓存</td>
+<td style="text-align:left">减少扫描行数、调大 <code>shared_buffers</code> 或优化分页（用游标分页替代大 <code>OFFSET</code>）</td>
+</tr>
+</tbody>
+</table>
+<h2 id="3-_通俗理解_MVCC_与_Autovacuum_/_MVCC_&amp;_Autovacuum_Made_Simple">3. 通俗理解 MVCC 与 Autovacuum / MVCC &amp; Autovacuum Made Simple</h2><div class="bi-block bi-zh" data-lang="zh"><span class="bi-badge">中文</span><div class="bi-body"><p>为什么 PostgreSQL 高并发读和写互相不卡？因为 <strong>MVCC（多版本并发控制）</strong>：</p>
+<ul>
+<li>你执行 <code>UPDATE</code> 修改一行数据时，PG <strong>不会原地覆盖</strong>，而是把旧行标记“过期事务号 <code>xmax</code>”，再插入一行全新的版本。</li>
+<li>正在执行的慢查询继续安静地读旧版本，新事务读新版本，<strong>读不阻塞写、写不阻塞读</strong>！</li>
+<li>唯一的代价是旧版本会留下“死元组（Dead Tuples）”。后台的 <strong>Autovacuum</strong> 会自动巡检清理这些死行，把空间标记为可复用——<strong>切记永远不要关闭 Autovacuum</strong>，对高频更新大表可适当调低 <code>autovacuum_vacuum_scale_factor</code>（如 <code>0.05</code>）让清理更勤快。</li>
+</ul>
+</div></div>
+<div class="bi-block bi-en" data-lang="en"><span class="bi-badge">EN</span><div class="bi-body"><p>In PostgreSQL’s <strong>MVCC</strong>, <code>UPDATE</code> writes a new row version instead of overwriting in place—so readers never block writers and writers never block readers. Background <strong>Autovacuum</strong> reclaims old dead tuples; never disable it, and tune <code>autovacuum_vacuum_scale_factor</code> tighter (e.g., <code>0.05</code>) on hot high-churn tables.</p>
+</div></div>
+<h2 id="4-_权威参考_/_References">4. 权威参考 / References</h2><ul>
+<li>🔍 <strong>Use The Index, Luke</strong>: <a href="https://use-the-index-luke.com/" target="_blank" rel="noopener">SQL Indexing Guide for PostgreSQL</a> — 全球公认最强索引图解教程。</li>
+<li>📊 <strong>explain.dalibo.com</strong>: <a href="https://explain.dalibo.com/" target="_blank" rel="noopener">PostgreSQL Execution Plan Visualizer</a> — 把 <code>EXPLAIN (ANALYZE, BUFFERS, FORMAT JSON)</code> 粘贴进去直接看可视化瓶颈图。</li>
+</ul>
+
+  </div>
+
+  <footer class="col-article-footer">
+    <div class="col-nav-grid">
+      
+        <a class="col-nav-card col-nav-prev" href="/pg-tutorials/01-pg-fundamentals-and-sql/index.html">
+          <span class="col-nav-dir">← 上一篇 / Previous</span>
+          <span class="col-nav-title">PostgreSQL 快速入门与高效 SQL 实战：建表避坑、CTE 与窗口函数</span>
+        </a>
+      
+
+      
+        <a class="col-nav-card col-nav-next" href="/pg-tutorials/03-pgvector-and-production/index.html">
+          <span class="col-nav-dir">下一篇 / Next →</span>
+          <span class="col-nav-title">AI 时代的 PostgreSQL：JSONB 混合建模、pgvector 向量检索与生产运维</span>
+        </a>
+      
+    </div>
+  </footer>
+</article>
+
+<script>
+(function() {
+  var root = document.getElementById('column-article-root');
+  if (!root) return;
+  var buttons = root.querySelectorAll('.lang-btn');
+  var storageKey = 'hzan_ai_lang_mode';
+
+  function applyMode(mode) {
+    if (mode !== 'both' && mode !== 'zh' && mode !== 'en') mode = 'both';
+    root.classList.remove('lang-mode-both', 'lang-mode-zh', 'lang-mode-en');
+    root.classList.add('lang-mode-' + mode);
+    buttons.forEach(function(btn) {
+      btn.classList.toggle('active', btn.getAttribute('data-mode') === mode);
+    });
+    try { localStorage.setItem(storageKey, mode); } catch (e) {}
+  }
+
+  buttons.forEach(function(btn) {
+    btn.addEventListener('click', function() {
+      applyMode(btn.getAttribute('data-mode'));
+    });
+  });
+
+  try {
+    var saved = localStorage.getItem(storageKey);
+    if (saved) applyMode(saved);
+  } catch (e) {}
+})();
+</script>
+
+    </div>
+    
+    <footer id="footer">
+  <div class="footer-left">
+    Copyright &copy; 2026 Zan
+  </div>
+  <div class="footer-right">
+    <nav>
+      <ul>
+         
+          <li><a href="/">Home</a></li>
+         
+          <li><a href="/columns/">Columns</a></li>
+         
+          <li><a href="/ai-tutorials/">AI Tutorials</a></li>
+         
+          <li><a href="/agent-playbook/">Agent Tips</a></li>
+         
+          <li><a href="/ai-news/">AI News</a></li>
+         
+          <li><a href="/archives/">Writing</a></li>
+         
+          <li><a href="/about/">About</a></li>
+        
+      </ul>
+    </nav>
+  </div>
+</footer>
+
+</body>
+</html>
+<!-- styles -->
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css">
+<link rel="stylesheet" href="/lib/meslo-LG/styles.css">
+<link rel="stylesheet" href="/lib/justified-gallery/justifiedGallery.min.css">
+
+
+<!-- jquery -->
+<script src="/lib/jquery/jquery.min.js"></script>
+<script src="/lib/justified-gallery/jquery.justifiedGallery.min.js"></script>
+<script src="/js/main.js"></script>
+<!-- Google Analytics -->
+
+    <script type="text/javascript">
+        (function(i,s,o,g,r,a,m) {i['GoogleAnalyticsObject']=r;i[r]=i[r]||function() {
+        (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+        m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+        })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+        ga('create', 'UA-86660611-1', 'auto');
+        ga('send', 'pageview');
+    </script>
+
+<!-- Disqus Comments -->
+
+    <script type="text/javascript">
+        var disqus_shortname = 'huzan';
+
+        (function(){
+            var dsq = document.createElement('script');
+            dsq.type = 'text/javascript';
+            dsq.async = true;
+            dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+            (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+        }());
+    </script>
+
+

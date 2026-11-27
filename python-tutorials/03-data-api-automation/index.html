@@ -1,0 +1,298 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <!-- so meta -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="HandheldFriendly" content="True">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+    <meta name="description" content="🔑为什么是这三板斧？ / Why This Triad?无论是开发 AI 后端服务、内部效率工具，还是写日常批处理脚本，Pydantic（数据边界）+ FastAPI（HTTP 服务）+ pathlib/httpx（文件与网络自动化） 可以覆盖 90% 的真实需求，代码量极少却稳如磐石。   1. Pydantic v2：把脏数据挡在系统门外 / Pydantic v2: Strict Data">
+<meta name="keywords" content="FastAPI,Pydantic,自动化脚本,后端实战">
+<meta property="og:type" content="website">
+<meta property="og:title" content="Python 实战三板斧：FastAPI 写接口、Pydantic 数据校验与自动化脚本">
+<meta property="og:url" content="https://h-zan.github.io/python-tutorials/03-data-api-automation/index.html">
+<meta property="og:site_name" content="HuZan">
+<meta property="og:description" content="🔑为什么是这三板斧？ / Why This Triad?无论是开发 AI 后端服务、内部效率工具，还是写日常批处理脚本，Pydantic（数据边界）+ FastAPI（HTTP 服务）+ pathlib/httpx（文件与网络自动化） 可以覆盖 90% 的真实需求，代码量极少却稳如磐石。   1. Pydantic v2：把脏数据挡在系统门外 / Pydantic v2: Strict Data">
+<meta property="og:locale" content="default">
+<meta property="og:image" content="https://h-zan.github.io/images/python-tutorials/python-fastapi-pydantic.svg">
+<meta property="og:updated_time" content="2026-11-27T03:29:28.149Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Python 实战三板斧：FastAPI 写接口、Pydantic 数据校验与自动化脚本">
+<meta name="twitter:description" content="🔑为什么是这三板斧？ / Why This Triad?无论是开发 AI 后端服务、内部效率工具，还是写日常批处理脚本，Pydantic（数据边界）+ FastAPI（HTTP 服务）+ pathlib/httpx（文件与网络自动化） 可以覆盖 90% 的真实需求，代码量极少却稳如磐石。   1. Pydantic v2：把脏数据挡在系统门外 / Pydantic v2: Strict Data">
+<meta name="twitter:image" content="https://h-zan.github.io/images/python-tutorials/python-fastapi-pydantic.svg">
+    
+    
+        
+          
+              <link rel="shortcut icon" href="/images/favicon.ico">
+          
+        
+        
+          
+            <link rel="icon" type="image/png" href="/images/favicon-192x192.png" sizes="192x192">
+          
+        
+        
+          
+            <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png">
+          
+        
+    
+    <!-- title -->
+    <title>Python 实战三板斧：FastAPI 写接口、Pydantic 数据校验与自动化脚本</title>
+    <!-- styles -->
+    <link rel="stylesheet" href="/css/style.css">
+    <!-- rss -->
+    
+    
+</head>
+
+<body>
+    
+    
+    <div class="content index column-wide mx-auto px2 my4">
+        
+          <header id="header">
+  <a href="/">
+  
+    
+      <div id="logo" style="background-image: url(/images/logo.png);"></div>
+    
+  
+    <div id="title">
+      <h1>HuZan</h1>
+    </div>
+  </a>
+  <div id="nav">
+    <ul>
+      <li class="icon">
+        <a href="#"><i class="fa fa-bars fa-2x"></i></a>
+      </li>
+       
+        <li><a href="/">Home</a></li>
+       
+        <li><a href="/columns/">Columns</a></li>
+       
+        <li><a href="/ai-tutorials/">AI Tutorials</a></li>
+       
+        <li><a href="/agent-playbook/">Agent Tips</a></li>
+       
+        <li><a href="/ai-news/">AI News</a></li>
+       
+        <li><a href="/archives/">Writing</a></li>
+       
+        <li><a href="/about/">About</a></li>
+      
+    </ul>
+  </div>
+</header>
+
+        
+        
+
+<article class="column-article lang-mode-both" id="column-article-root" itemscope itemtype="http://schema.org/TechArticle">
+  <nav class="col-breadcrumb" aria-label="Breadcrumb">
+    <a href="/">Home</a>
+    <span class="sep">/</span>
+    <a href="/columns/">Columns</a>
+    <span class="sep">/</span>
+    <a href="/python-tutorials/">Python 教程专栏</a>
+    
+  </nav>
+
+  <header class="col-article-header">
+    <div class="col-article-badges">
+      
+        <span class="level-badge level-gold">🐍 PYTHON</span>
+      
+      
+        <span class="col-code-pill">PY-03</span>
+      
+      
+        <span class="col-meta-item">⏱ 9 min</span>
+      
+      
+        <time class="col-meta-item" datetime="2026-11-27T13:20:00.000Z">📅 2026-11-27</time>
+      
+    </div>
+
+    <h1 class="col-article-title" itemprop="headline">Python 实战三板斧：FastAPI 写接口、Pydantic 数据校验与自动化脚本</h1>
+    
+      <p class="col-article-title-en">Practical Python Triad: FastAPI Services, Pydantic v2 Contracts &amp; Automation Scripts</p>
+    
+
+    
+      <div class="col-article-tags">
+        
+          <span class="col-tag">#FastAPI</span>
+        
+          <span class="col-tag">#Pydantic</span>
+        
+          <span class="col-tag">#自动化脚本</span>
+        
+          <span class="col-tag">#后端实战</span>
+        
+      </div>
+    
+
+    <div class="lang-toolbar" role="group" aria-label="Language display mode">
+      <span class="lang-toolbar-label">🌐 阅读模式 / View Mode:</span>
+      <button type="button" class="lang-btn active" data-mode="both">中英对照 Bilingual</button>
+      <button type="button" class="lang-btn" data-mode="zh">仅中文 ZH</button>
+      <button type="button" class="lang-btn" data-mode="en">English Only</button>
+    </div>
+  </header>
+
+  
+    <details class="col-toc-box" open>
+      <summary>📑 目录 / Table of Contents</summary>
+      <div class="col-toc-inner">
+        <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#1-_Pydantic_v2：把脏数据挡在系统门外_/_Pydantic_v2:_Strict_Data_Boundaries"><span class="toc-text">1. Pydantic v2：把脏数据挡在系统门外 / Pydantic v2: Strict Data Boundaries</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#2-_25_行_FastAPI：高性能异步接口_+_自动_Swagger_文档_/_25-Line_Production_FastAPI"><span class="toc-text">2. 25 行 FastAPI：高性能异步接口 + 自动 Swagger 文档 / 25-Line Production FastAPI</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#3-_跨平台自动化脚本铁律：pathlib_替代_os-path_/_Cross-Platform_Automation_with_pathlib"><span class="toc-text">3. 跨平台自动化脚本铁律：pathlib 替代 os.path / Cross-Platform Automation with pathlib</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#4-_权威链接_/_Official_Docs"><span class="toc-text">4. 权威链接 / Official Docs</span></a></li></ol>
+      </div>
+    </details>
+  
+
+  <div class="col-article-body" itemprop="articleBody">
+    <div class="col-callout col-callout-key"><div class="col-callout-title"><span class="col-callout-icon">🔑</span>为什么是这三板斧？ / Why This Triad?</div><div class="col-callout-body"><p>无论是开发 AI 后端服务、内部效率工具，还是写日常批处理脚本，<strong>Pydantic（数据边界）+ FastAPI（HTTP 服务）+ pathlib/httpx（文件与网络自动化）</strong> 可以覆盖 90% 的真实需求，代码量极少却稳如磐石。</p>
+</div></div>
+<p><img src="/images/python-tutorials/python-fastapi-pydantic.svg" alt="FastAPI and Pydantic v2 Service Architecture"></p>
+<h2 id="1-_Pydantic_v2：把脏数据挡在系统门外_/_Pydantic_v2:_Strict_Data_Boundaries">1. Pydantic v2：把脏数据挡在系统门外 / Pydantic v2: Strict Data Boundaries</h2><div class="bi-block bi-zh" data-lang="zh"><span class="bi-badge">中文</span><div class="bi-body"><p>Pydantic v2 底层用 Rust 重写，解析速度极快。它在边界处自动做<strong>类型校验、默认值填充、范围约束与 JSON 序列化</strong>——在 AI 开发中更是 <strong>Structured Outputs</strong> 的官方标配：</p>
+</div></div>
+<div class="bi-block bi-en" data-lang="en"><span class="bi-badge">EN</span><div class="bi-body"><p>Powered by a Rust core, Pydantic v2 validates untrusted JSON at system boundaries with clear errors and doubles as the standard schema layer for LLM Structured Outputs:</p>
+</div></div>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> pydantic <span class="keyword">import</span> BaseModel, Field, field_validator</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">ArticleInput</span><span class="params">(BaseModel)</span>:</span></span><br><span class="line">    title: str = Field(min_length=<span class="number">3</span>, max_length=<span class="number">120</span>)</span><br><span class="line">    tags: list[str] = Field(default_factory=list, max_length=<span class="number">5</span>)</span><br><span class="line">    score: float = Field(ge=<span class="number">0.0</span>, le=<span class="number">10.0</span>)</span><br><span class="line"></span><br><span class="line"><span class="meta">    @field_validator("title")</span></span><br><span class="line"><span class="meta">    @classmethod</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">strip_title</span><span class="params">(cls, v: str)</span> -&gt; str:</span></span><br><span class="line">        <span class="keyword">return</span> v.strip()</span><br><span class="line"></span><br><span class="line">item = ArticleInput.model_validate(&#123;<span class="string">"title"</span>: <span class="string">"  FastAPI 实战  "</span>, <span class="string">"score"</span>: <span class="number">9.5</span>&#125;)</span><br><span class="line">print(item.model_dump_json())</span><br></pre></td></tr></table></figure>
+<h2 id="2-_25_行_FastAPI：高性能异步接口_+_自动_Swagger_文档_/_25-Line_Production_FastAPI">2. 25 行 FastAPI：高性能异步接口 + 自动 Swagger 文档 / 25-Line Production FastAPI</h2><div class="bi-block bi-zh" data-lang="zh"><span class="bi-badge">中文</span><div class="bi-body"><p>启动后访问 <code>http://127.0.0.1:8000/docs</code> 直接送你一套交互式 API 文档，输入格式不对自动返回清晰 <code>422</code> 错误详情，彻底告别手写参数校验 <code>if/else</code>：</p>
+</div></div>
+<div class="bi-block bi-en" data-lang="en"><span class="bi-badge">EN</span><div class="bi-body"><p>Run <code>uv run uvicorn app:app --reload</code> and open <code>/docs</code> for instant interactive Swagger UI plus automatic <code>422</code> validation errors:</p>
+</div></div>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># app.py -&gt; 启动命令: uv run uvicorn app:app --reload</span></span><br><span class="line"><span class="keyword">from</span> fastapi <span class="keyword">import</span> FastAPI, HTTPException</span><br><span class="line"><span class="keyword">from</span> pydantic <span class="keyword">import</span> BaseModel, Field</span><br><span class="line"></span><br><span class="line">app = FastAPI(title=<span class="string">"Mini Note API"</span>)</span><br><span class="line">DB: dict[int, dict] = &#123;&#125;</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">NoteCreate</span><span class="params">(BaseModel)</span>:</span></span><br><span class="line">    title: str = Field(min_length=<span class="number">1</span>, max_length=<span class="number">100</span>)</span><br><span class="line">    content: str</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">NoteOut</span><span class="params">(NoteCreate)</span>:</span></span><br><span class="line">    id: int</span><br><span class="line"></span><br><span class="line"><span class="meta">@app.post("/notes", response_model=NoteOut, status_code=201)</span></span><br><span class="line"><span class="keyword">async</span> <span class="function"><span class="keyword">def</span> <span class="title">create_note</span><span class="params">(payload: NoteCreate)</span> -&gt; NoteOut:</span></span><br><span class="line">    note_id = len(DB) + <span class="number">1</span></span><br><span class="line">    record = &#123;<span class="string">"id"</span>: note_id, **payload.model_dump()&#125;</span><br><span class="line">    DB[note_id] = record</span><br><span class="line">    <span class="keyword">return</span> NoteOut(**record)</span><br><span class="line"></span><br><span class="line"><span class="meta">@app.get("/notes/&#123;note_id&#125;", response_model=NoteOut)</span></span><br><span class="line"><span class="keyword">async</span> <span class="function"><span class="keyword">def</span> <span class="title">get_note</span><span class="params">(note_id: int)</span> -&gt; NoteOut:</span></span><br><span class="line">    <span class="keyword">if</span> note_id <span class="keyword">not</span> <span class="keyword">in</span> DB:</span><br><span class="line">        <span class="keyword">raise</span> HTTPException(status_code=<span class="number">404</span>, detail=<span class="string">"Note not found"</span>)</span><br><span class="line">    <span class="keyword">return</span> NoteOut(**DB[note_id])</span><br></pre></td></tr></table></figure>
+<h2 id="3-_跨平台自动化脚本铁律：pathlib_替代_os-path_/_Cross-Platform_Automation_with_pathlib">3. 跨平台自动化脚本铁律：<code>pathlib</code> 替代 <code>os.path</code> / Cross-Platform Automation with <code>pathlib</code></h2><div class="bi-block bi-zh" data-lang="zh"><span class="bi-badge">中文</span><div class="bi-body"><p>写批量整理文件、处理 Markdown/CSV 的脚本时，<strong>彻底忘记 <code>os.path.join</code> 字符串拼接</strong>！用内置的 <code>pathlib.Path</code>，用 <code>/</code> 运算符拼路径，macOS、Linux、Windows 全部原生兼容：</p>
+</div></div>
+<div class="bi-block bi-en" data-lang="en"><span class="bi-badge">EN</span><div class="bi-body"><p>Always prefer <code>pathlib.Path</code> over legacy <code>os.path</code> string manipulation—the <code>/</code> operator works identically on macOS, Linux, and Windows:</p>
+</div></div>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> pathlib <span class="keyword">import</span> Path</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">count_markdown_words</span><span class="params">(root_dir: str)</span> -&gt; dict[str, int]:</span></span><br><span class="line">    root = Path(root_dir)</span><br><span class="line">    stats: dict[str, int] = &#123;&#125;</span><br><span class="line">    <span class="keyword">for</span> md_file <span class="keyword">in</span> sorted(root.rglob(<span class="string">"*.md"</span>)):</span><br><span class="line">        text = md_file.read_text(encoding=<span class="string">"utf-8"</span>)</span><br><span class="line">        stats[str(md_file.relative_to(root))] = len(text)</span><br><span class="line">    <span class="keyword">return</span> stats</span><br></pre></td></tr></table></figure>
+<div class="col-callout col-callout-tip"><div class="col-callout-title"><span class="col-callout-icon">💡</span>下一步实战衔接 / Next Step</div><div class="col-callout-body"><p>掌握这三篇现代 Python 核心后，立刻前往 <a href="/python-ai-practice/">Python AI 实践专栏</a>，用你刚学会的 <code>Pydantic</code>、<code>asyncio</code>、<code>httpx</code> 和 <code>pytest</code> 亲手写出可落地的 LLM 客户端、混合检索 RAG 与可控 AI Agent！</p>
+</div></div>
+<h2 id="4-_权威链接_/_Official_Docs">4. 权威链接 / Official Docs</h2><ul>
+<li>🚀 <strong>FastAPI</strong>: <a href="https://fastapi.tiangolo.com/" target="_blank" rel="noopener">FastAPI Official Tutorial</a></li>
+<li>🛡️ <strong>Pydantic v2</strong>: <a href="https://docs.pydantic.dev/latest/" target="_blank" rel="noopener">Pydantic Documentation</a></li>
+</ul>
+
+  </div>
+
+  <footer class="col-article-footer">
+    <div class="col-nav-grid">
+      
+        <a class="col-nav-card col-nav-prev" href="/python-tutorials/02-engineering-uv-async-oop/index.html">
+          <span class="col-nav-dir">← 上一篇 / Previous</span>
+          <span class="col-nav-title">Python 工程化必备：uv 极速环境管理、装饰器、asyncio 并发与 pytest</span>
+        </a>
+      
+
+      
+        <a class="col-nav-card col-nav-next" href="/python-tutorials/">
+          <span class="col-nav-dir">返回专栏总览 / Column Hub →</span>
+          <span class="col-nav-title">Python 教程专栏</span>
+        </a>
+      
+    </div>
+  </footer>
+</article>
+
+<script>
+(function() {
+  var root = document.getElementById('column-article-root');
+  if (!root) return;
+  var buttons = root.querySelectorAll('.lang-btn');
+  var storageKey = 'hzan_ai_lang_mode';
+
+  function applyMode(mode) {
+    if (mode !== 'both' && mode !== 'zh' && mode !== 'en') mode = 'both';
+    root.classList.remove('lang-mode-both', 'lang-mode-zh', 'lang-mode-en');
+    root.classList.add('lang-mode-' + mode);
+    buttons.forEach(function(btn) {
+      btn.classList.toggle('active', btn.getAttribute('data-mode') === mode);
+    });
+    try { localStorage.setItem(storageKey, mode); } catch (e) {}
+  }
+
+  buttons.forEach(function(btn) {
+    btn.addEventListener('click', function() {
+      applyMode(btn.getAttribute('data-mode'));
+    });
+  });
+
+  try {
+    var saved = localStorage.getItem(storageKey);
+    if (saved) applyMode(saved);
+  } catch (e) {}
+})();
+</script>
+
+    </div>
+    
+    <footer id="footer">
+  <div class="footer-left">
+    Copyright &copy; 2026 Zan
+  </div>
+  <div class="footer-right">
+    <nav>
+      <ul>
+         
+          <li><a href="/">Home</a></li>
+         
+          <li><a href="/columns/">Columns</a></li>
+         
+          <li><a href="/ai-tutorials/">AI Tutorials</a></li>
+         
+          <li><a href="/agent-playbook/">Agent Tips</a></li>
+         
+          <li><a href="/ai-news/">AI News</a></li>
+         
+          <li><a href="/archives/">Writing</a></li>
+         
+          <li><a href="/about/">About</a></li>
+        
+      </ul>
+    </nav>
+  </div>
+</footer>
+
+</body>
+</html>
+<!-- styles -->
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css">
+<link rel="stylesheet" href="/lib/meslo-LG/styles.css">
+<link rel="stylesheet" href="/lib/justified-gallery/justifiedGallery.min.css">
+
+
+<!-- jquery -->
+<script src="/lib/jquery/jquery.min.js"></script>
+<script src="/lib/justified-gallery/jquery.justifiedGallery.min.js"></script>
+<script src="/js/main.js"></script>
+<!-- Google Analytics -->
+
+    <script type="text/javascript">
+        (function(i,s,o,g,r,a,m) {i['GoogleAnalyticsObject']=r;i[r]=i[r]||function() {
+        (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+        m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+        })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+        ga('create', 'UA-86660611-1', 'auto');
+        ga('send', 'pageview');
+    </script>
+
+<!-- Disqus Comments -->
+
+    <script type="text/javascript">
+        var disqus_shortname = 'huzan';
+
+        (function(){
+            var dsq = document.createElement('script');
+            dsq.type = 'text/javascript';
+            dsq.async = true;
+            dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+            (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+        }());
+    </script>
+
+

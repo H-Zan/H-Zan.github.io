@@ -1,0 +1,390 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <!-- so meta -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="HandheldFriendly" content="True">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+    <meta name="description" content="🔑核心结论先行 / TL;DR CLI（Claude Code / Codex CLI） 胜在贴近终端、脚本化与并行多任务；桌面软件（Antigravity / Codex App / Claude Desktop） 胜在可视化 Diff、浏览器联动、截图反馈与非编码办公。 最佳实践不是二选一，而是组合拳：日常交互式全栈/UI 用 Antigravity，深水区重构/终端批处理开 Claude">
+<meta name="keywords" content="Codex,Claude Code,Antigravity,macOS,Windows">
+<meta property="og:type" content="website">
+<meta property="og:title" content="Agent 工具全景与双平台极速上手：Codex、Claude Code、Antigravity（macOS &amp; Windows）">
+<meta property="og:url" content="https://h-zan.github.io/agent-playbook/01-cli-and-desktop-setup/index.html">
+<meta property="og:site_name" content="HuZan">
+<meta property="og:description" content="🔑核心结论先行 / TL;DR CLI（Claude Code / Codex CLI） 胜在贴近终端、脚本化与并行多任务；桌面软件（Antigravity / Codex App / Claude Desktop） 胜在可视化 Diff、浏览器联动、截图反馈与非编码办公。 最佳实践不是二选一，而是组合拳：日常交互式全栈/UI 用 Antigravity，深水区重构/终端批处理开 Claude">
+<meta property="og:locale" content="default">
+<meta property="og:image" content="https://h-zan.github.io/images/agent-playbook/agent-tools-matrix.svg">
+<meta property="og:updated_time" content="2026-11-27T03:27:10.346Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Agent 工具全景与双平台极速上手：Codex、Claude Code、Antigravity（macOS &amp; Windows）">
+<meta name="twitter:description" content="🔑核心结论先行 / TL;DR CLI（Claude Code / Codex CLI） 胜在贴近终端、脚本化与并行多任务；桌面软件（Antigravity / Codex App / Claude Desktop） 胜在可视化 Diff、浏览器联动、截图反馈与非编码办公。 最佳实践不是二选一，而是组合拳：日常交互式全栈/UI 用 Antigravity，深水区重构/终端批处理开 Claude">
+<meta name="twitter:image" content="https://h-zan.github.io/images/agent-playbook/agent-tools-matrix.svg">
+    
+    
+        
+          
+              <link rel="shortcut icon" href="/images/favicon.ico">
+          
+        
+        
+          
+            <link rel="icon" type="image/png" href="/images/favicon-192x192.png" sizes="192x192">
+          
+        
+        
+          
+            <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png">
+          
+        
+    
+    <!-- title -->
+    <title>Agent 工具全景与双平台极速上手：Codex、Claude Code、Antigravity（macOS &amp; Windows）</title>
+    <!-- styles -->
+    <link rel="stylesheet" href="/css/style.css">
+    <!-- rss -->
+    
+    
+</head>
+
+<body>
+    
+    
+    <div class="content index column-wide mx-auto px2 my4">
+        
+          <header id="header">
+  <a href="/">
+  
+    
+      <div id="logo" style="background-image: url(/images/logo.png);"></div>
+    
+  
+    <div id="title">
+      <h1>HuZan</h1>
+    </div>
+  </a>
+  <div id="nav">
+    <ul>
+      <li class="icon">
+        <a href="#"><i class="fa fa-bars fa-2x"></i></a>
+      </li>
+       
+        <li><a href="/">Home</a></li>
+       
+        <li><a href="/columns/">Columns</a></li>
+       
+        <li><a href="/ai-tutorials/">AI Tutorials</a></li>
+       
+        <li><a href="/agent-playbook/">Agent Tips</a></li>
+       
+        <li><a href="/ai-news/">AI News</a></li>
+       
+        <li><a href="/archives/">Writing</a></li>
+       
+        <li><a href="/about/">About</a></li>
+      
+    </ul>
+  </div>
+</header>
+
+        
+        
+
+<article class="column-article lang-mode-both" id="column-article-root" itemscope itemtype="http://schema.org/TechArticle">
+  <nav class="col-breadcrumb" aria-label="Breadcrumb">
+    <a href="/">Home</a>
+    <span class="sep">/</span>
+    <a href="/columns/">Columns</a>
+    <span class="sep">/</span>
+    <a href="/agent-playbook/">Agent 使用技巧专栏</a>
+    
+  </nav>
+
+  <header class="col-article-header">
+    <div class="col-article-badges">
+      
+        <span class="level-badge level-cyan">🤖 AGENT PLAYBOOK</span>
+      
+      
+        <span class="col-code-pill">AP-01</span>
+      
+      
+        <span class="col-meta-item">⏱ 8 min</span>
+      
+      
+        <time class="col-meta-item" datetime="2026-11-27T12:10:00.000Z">📅 2026-11-27</time>
+      
+    </div>
+
+    <h1 class="col-article-title" itemprop="headline">Agent 工具全景与双平台极速上手：Codex、Claude Code、Antigravity（macOS &amp; Windows）</h1>
+    
+      <p class="col-article-title-en">Agent Toolchain &amp; Cross-Platform Setup: Codex, Claude Code &amp; Antigravity on macOS &amp; Windows</p>
+    
+
+    
+      <div class="col-article-tags">
+        
+          <span class="col-tag">#Codex</span>
+        
+          <span class="col-tag">#Claude Code</span>
+        
+          <span class="col-tag">#Antigravity</span>
+        
+          <span class="col-tag">#macOS</span>
+        
+          <span class="col-tag">#Windows</span>
+        
+      </div>
+    
+
+    <div class="lang-toolbar" role="group" aria-label="Language display mode">
+      <span class="lang-toolbar-label">🌐 阅读模式 / View Mode:</span>
+      <button type="button" class="lang-btn active" data-mode="both">中英对照 Bilingual</button>
+      <button type="button" class="lang-btn" data-mode="zh">仅中文 ZH</button>
+      <button type="button" class="lang-btn" data-mode="en">English Only</button>
+    </div>
+  </header>
+
+  
+    <details class="col-toc-box" open>
+      <summary>📑 目录 / Table of Contents</summary>
+      <div class="col-toc-inner">
+        <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#1-_三大主力_Agent_怎么选？一张表定乾坤_/_Choosing_Between_Claude_Code,_Codex_&_Antigravity"><span class="toc-text">1. 三大主力 Agent 怎么选？一张表定乾坤 / Choosing Between Claude Code, Codex &amp; Antigravity</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#2-_macOS_vs_Windows_双平台极速配置（不踩坑版）_/_macOS_&_Windows_Setup_Without_Pain"><span class="toc-text">2. macOS vs Windows 双平台极速配置（不踩坑版） / macOS &amp; Windows Setup Without Pain</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#🍎_macOS_推荐配置_/_macOS_Setup"><span class="toc-text">🍎 macOS 推荐配置 / macOS Setup</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#🪟_Windows_避坑指南_/_Windows_Setup_(Save_Yourself_Hours)"><span class="toc-text">🪟 Windows 避坑指南 / Windows Setup (Save Yourself Hours)</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#3-_权限模式与安全边界：既要快、又要稳_/_Permission_Modes:_Fast_Yet_Safe"><span class="toc-text">3. 权限模式与安全边界：既要快、又要稳 / Permission Modes: Fast Yet Safe</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#4-_延伸官方资源_/_Official_References"><span class="toc-text">4. 延伸官方资源 / Official References</span></a></li></ol>
+      </div>
+    </details>
+  
+
+  <div class="col-article-body" itemprop="articleBody">
+    <div class="col-callout col-callout-key"><div class="col-callout-title"><span class="col-callout-icon">🔑</span>核心结论先行 / TL;DR</div><div class="col-callout-body"><ul>
+<li><strong>CLI（Claude Code / Codex CLI）</strong> 胜在贴近终端、脚本化与并行多任务；<strong>桌面软件（Antigravity / Codex App / Claude Desktop）</strong> 胜在可视化 Diff、浏览器联动、截图反馈与非编码办公。</li>
+<li><strong>最佳实践不是二选一，而是组合拳</strong>：日常交互式全栈/UI 用 <strong>Antigravity</strong>，深水区重构/终端批处理开 <strong>Claude Code</strong>，异步挂后台修 Bug/写测试丢给 <strong>Codex</strong>。</li>
+<li><strong>Windows 用户第一条铁律</strong>：跑任何 CLI Agent，<strong>优先进 WSL2（Ubuntu）</strong>，直接避开 90% 的路径与脚本坑。</li>
+</ul>
+</div></div>
+<p><img src="/images/agent-playbook/agent-tools-matrix.svg" alt="Agent CLI and Desktop Landscape"></p>
+<h2 id="1-_三大主力_Agent_怎么选？一张表定乾坤_/_Choosing_Between_Claude_Code,_Codex_&amp;_Antigravity">1. 三大主力 Agent 怎么选？一张表定乾坤 / Choosing Between Claude Code, Codex &amp; Antigravity</h2><div class="bi-block bi-zh" data-lang="zh"><span class="bi-badge">中文</span><div class="bi-body"><p>别盲目追新，看清每款工具的<strong>主战场</strong>，按任务派活才最高效：</p>
+</div></div>
+<div class="bi-block bi-en" data-lang="en"><span class="bi-badge">EN</span><div class="bi-body"><p>Pick the right agent for the right job instead of forcing one tool everywhere:</p>
+</div></div>
+<table>
+<thead>
+<tr>
+<th style="text-align:left">工具 Tool</th>
+<th style="text-align:left">形态 Form Factor</th>
+<th style="text-align:left">核心规范文件 Rules File</th>
+<th style="text-align:left">最强杀手锏 Superpower</th>
+<th style="text-align:left">最适合的场景 Best For</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left"><strong>Claude Code</strong></td>
+<td style="text-align:left">CLI + Desktop + IDE 插件</td>
+<td style="text-align:left"><code>CLAUDE.md</code> / <code>AGENTS.md</code></td>
+<td style="text-align:left">超强长上下文代码理解、Hooks、Skills、Subagents</td>
+<td style="text-align:left">复杂大仓库重构、疑难 Bug 根因定位、深度架构改造</td>
+</tr>
+<tr>
+<td style="text-align:left"><strong>OpenAI Codex</strong></td>
+<td style="text-align:left">Codex CLI + 桌面 App + Cloud</td>
+<td style="text-align:left"><code>AGENTS.md</code></td>
+<td style="text-align:left">本地沙箱 + 云端异步多任务并行、批量提 PR</td>
+<td style="text-align:left">挂后台刷单测、批量修 Issue、多分支并行实验</td>
+</tr>
+<tr>
+<td style="text-align:left"><strong>Antigravity</strong></td>
+<td style="text-align:left">Agent-First 桌面 IDE + 远程环境</td>
+<td style="text-align:left"><code>AGENTS.md</code> + Skills + Artifacts</td>
+<td style="text-align:left">编辑器 + 终端 + 浏览器/设计预览一体化、可视 Artifacts 审阅</td>
+<td style="text-align:left">从 0 到 1 建全栈项目、UI 设计视觉迭代、跨工具自动化交付</td>
+</tr>
+</tbody>
+</table>
+<h2 id="2-_macOS_vs_Windows_双平台极速配置（不踩坑版）_/_macOS_&amp;_Windows_Setup_Without_Pain">2. macOS vs Windows 双平台极速配置（不踩坑版） / macOS &amp; Windows Setup Without Pain</h2><h3 id="🍎_macOS_推荐配置_/_macOS_Setup">🍎 macOS 推荐配置 / macOS Setup</h3><div class="bi-block bi-zh" data-lang="zh"><span class="bi-badge">中文</span><div class="bi-body"><p>macOS 天然是 Unix 环境，配好终端与包管理器就能丝滑起飞：</p>
+<ol>
+<li><strong>终端升级</strong>：用 <strong>Ghostty</strong> / <strong>Warp</strong> / <strong>iTerm2</strong> 替代自带终端，配合 <code>tmux</code> 开多窗格并行跑多个 Agent。</li>
+<li><strong>CLI 安装与认证</strong>：Node 22+（<code>brew install node</code>）+ <code>gh</code> CLI（<code>brew install gh</code>），直接安装 Claude Code / Codex CLI；桌面端直接装 <strong>Antigravity</strong> 与 <strong>Codex App</strong>。</li>
+<li><strong>关键提效习惯</strong>：把 <code>git</code>、<code>rg</code>（ripgrep）、<code>jq</code>、<code>uv</code> 装齐——Agent 检索和跑脚本的速度会快 5 倍！</li>
+</ol>
+</div></div>
+<div class="bi-block bi-en" data-lang="en"><span class="bi-badge">EN</span><div class="bi-body"><p>macOS is native POSIX—install modern CLI utilities so your agents move 5× faster:</p>
+<ol>
+<li><strong>Terminal</strong>: Ghostty, Warp, or iTerm2 + <code>tmux</code> for parallel agent panes.</li>
+<li><strong>Core tools</strong>: <code>brew install node gh ripgrep jq uv</code> so agents search, parse JSON, and manage Python instantly.</li>
+<li><strong>Desktop</strong>: Pair <strong>Antigravity</strong> (full-stack + visual preview) with CLI agents in your terminal.</li>
+</ol>
+</div></div>
+<h3 id="🪟_Windows_避坑指南_/_Windows_Setup_(Save_Yourself_Hours)">🪟 Windows 避坑指南 / Windows Setup (Save Yourself Hours)</h3><div class="bi-block bi-zh" data-lang="zh"><span class="bi-badge">中文</span><div class="bi-body"><p>Windows 用户用 Agent 踩坑，90% 死在三个地方：<strong>反斜杠路径 <code>\</code></strong>、<strong>PowerShell 命令语法与 Bash 不兼容</strong>、<strong>文件换行符 CRLF 弄脏 Git Diff</strong>。</p>
+<p><strong>两条立竿见影的解法</strong>：</p>
+<ol>
+<li><strong>CLI Agent 一律装进 WSL2（Ubuntu 24.04）+ Windows Terminal</strong>：<ul>
+<li>把代码仓库直接放进 Linux 文件系统 <code>~/projects/</code>（<strong>千万别放 <code>/mnt/c/</code></strong>，跨盘 I/O 慢 10 倍！）。</li>
+<li>在 WSL2 里跑 Claude Code / Codex CLI，体验和 macOS/Linux 100% 一致。</li>
+</ul>
+</li>
+<li><strong>桌面软件原生跑 Windows</strong>：<ul>
+<li><strong>Antigravity</strong>、<strong>VS Code</strong> 直接原生安装 Windows 版，点击左下角 <code>Remote - WSL</code> 无缝直连 WSL2 里的项目与终端。</li>
+<li>若必须在原生 PowerShell 里跑，务必配置 <code>git config --global core.autocrlf input</code> 并在 <code>AGENTS.md</code> 写明“当前为 Windows PowerShell 环境”。</li>
+</ul>
+</li>
+</ol>
+</div></div>
+<div class="bi-block bi-en" data-lang="en"><span class="bi-badge">EN</span><div class="bi-body"><p>90% of Windows agent pain comes from backslashes (<code>\</code>), PowerShell vs. Bash syntax mismatches, and <code>CRLF</code> git diffs.</p>
+<ol>
+<li><strong>Run CLI agents inside WSL2 (Ubuntu) + Windows Terminal</strong>: Keep repos in <code>~/projects/</code> (never <code>/mnt/c/</code>, which is 10× slower).</li>
+<li><strong>Run Desktop apps natively</strong>: Install <strong>Antigravity</strong> / <strong>VS Code</strong> on Windows and connect straight into WSL2—best of both worlds.</li>
+</ol>
+</div></div>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># macOS / WSL2 (Ubuntu) 通用极速自检与常用安装命令</span></span><br><span class="line"><span class="comment"># 1. 基础高速工具链（让 Agent 搜代码、看 PR、管环境快到飞起）</span></span><br><span class="line"><span class="comment"># macOS: brew install ripgrep jq gh uv</span></span><br><span class="line"><span class="comment"># WSL2:  sudo apt update &amp;&amp; sudo apt install -y ripgrep jq gh &amp;&amp; curl -LsSf https://astral.sh/uv/install.sh | sh</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 2. 安装主流 CLI Agent（按需任选）</span></span><br><span class="line">npm install -g @anthropic-ai/claude-code   <span class="comment"># Claude Code CLI</span></span><br><span class="line">npm install -g @openai/codex               <span class="comment"># OpenAI Codex CLI</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 3. 验证 Git 与 GitHub CLI 就绪（让 Agent 能直接看 Issue / 提 PR）</span></span><br><span class="line">git --version &amp;&amp; gh auth status</span><br></pre></td></tr></table></figure>
+<h2 id="3-_权限模式与安全边界：既要快、又要稳_/_Permission_Modes:_Fast_Yet_Safe">3. 权限模式与安全边界：既要快、又要稳 / Permission Modes: Fast Yet Safe</h2><table>
+<thead>
+<tr>
+<th style="text-align:left">操作级别 Risk Level</th>
+<th style="text-align:left">典型命令 Examples</th>
+<th style="text-align:left">推荐权限策略 Recommended Policy</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left">🟢 <strong>只读探索</strong></td>
+<td style="text-align:left"><code>ls</code>, <code>rg</code>, <code>git status</code>, <code>git diff</code>, 读文件</td>
+<td style="text-align:left"><strong>自动放行</strong>（减少无意义弹窗打断思路）</td>
+</tr>
+<tr>
+<td style="text-align:left">🟡 <strong>本地可逆写操作</strong></td>
+<td style="text-align:left">改代码、跑 <code>pytest</code> / <code>npm test</code>、本地 <code>git commit</code></td>
+<td style="text-align:left"><strong>沙箱内自动放行</strong>（在功能分支上随时可 <code>git reset</code>）</td>
+</tr>
+<tr>
+<td style="text-align:left">🔴 <strong>不可逆 / 外部影响</strong></td>
+<td style="text-align:left"><code>rm -rf</code>, <code>git push --force</code>, 删库、发邮件、改生产配置</td>
+<td style="text-align:left"><strong>永远保持人工审批（Ask Before Run）</strong></td>
+</tr>
+</tbody>
+</table>
+<div class="col-callout col-callout-tip"><div class="col-callout-title"><span class="col-callout-icon">💡</span>桌面软件 + CLI 的黄金联动技巧 / Pro Tip</div><div class="col-callout-body"><p>在项目根目录放一份<strong>极简 <code>AGENTS.md</code></strong>（Claude Code 可用符号链接 <code>ln -s AGENTS.md CLAUDE.md</code> 共享同一份规范），这样不管你今天用 Antigravity、Claude Code 还是 Codex，<strong>所有 Agent 自动遵守同一套项目规矩</strong>，零重复维护！</p>
+</div></div>
+<h2 id="4-_延伸官方资源_/_Official_References">4. 延伸官方资源 / Official References</h2><ul>
+<li>📘 <strong>Claude Code Docs</strong>: <a href="https://docs.anthropic.com/en/docs/claude-code/overview" target="_blank" rel="noopener">Anthropic Claude Code Overview</a></li>
+<li>📗 <strong>OpenAI Codex</strong>: <a href="https://github.com/openai/codex" target="_blank" rel="noopener">OpenAI Codex CLI (GitHub)</a></li>
+<li>🪟 <strong>Microsoft WSL2</strong>: <a href="https://learn.microsoft.com/en-us/windows/wsl/install" target="_blank" rel="noopener">Install WSL2 on Windows</a></li>
+</ul>
+
+  </div>
+
+  <footer class="col-article-footer">
+    <div class="col-nav-grid">
+      
+        <a class="col-nav-card col-nav-prev" href="/agent-playbook/">
+          <span class="col-nav-dir">← 返回专栏目录 / Back to Index</span>
+          <span class="col-nav-title">Agent 使用技巧专栏</span>
+        </a>
+      
+
+      
+        <a class="col-nav-card col-nav-next" href="/agent-playbook/02-four-mindsets-and-contrast/index.html">
+          <span class="col-nav-dir">下一篇 / Next →</span>
+          <span class="col-nav-title">从“当聊天框用”到“当资深工程师带”：四大高阶思维与高效/低效终极对比</span>
+        </a>
+      
+    </div>
+  </footer>
+</article>
+
+<script>
+(function() {
+  var root = document.getElementById('column-article-root');
+  if (!root) return;
+  var buttons = root.querySelectorAll('.lang-btn');
+  var storageKey = 'hzan_ai_lang_mode';
+
+  function applyMode(mode) {
+    if (mode !== 'both' && mode !== 'zh' && mode !== 'en') mode = 'both';
+    root.classList.remove('lang-mode-both', 'lang-mode-zh', 'lang-mode-en');
+    root.classList.add('lang-mode-' + mode);
+    buttons.forEach(function(btn) {
+      btn.classList.toggle('active', btn.getAttribute('data-mode') === mode);
+    });
+    try { localStorage.setItem(storageKey, mode); } catch (e) {}
+  }
+
+  buttons.forEach(function(btn) {
+    btn.addEventListener('click', function() {
+      applyMode(btn.getAttribute('data-mode'));
+    });
+  });
+
+  try {
+    var saved = localStorage.getItem(storageKey);
+    if (saved) applyMode(saved);
+  } catch (e) {}
+})();
+</script>
+
+    </div>
+    
+    <footer id="footer">
+  <div class="footer-left">
+    Copyright &copy; 2026 Zan
+  </div>
+  <div class="footer-right">
+    <nav>
+      <ul>
+         
+          <li><a href="/">Home</a></li>
+         
+          <li><a href="/columns/">Columns</a></li>
+         
+          <li><a href="/ai-tutorials/">AI Tutorials</a></li>
+         
+          <li><a href="/agent-playbook/">Agent Tips</a></li>
+         
+          <li><a href="/ai-news/">AI News</a></li>
+         
+          <li><a href="/archives/">Writing</a></li>
+         
+          <li><a href="/about/">About</a></li>
+        
+      </ul>
+    </nav>
+  </div>
+</footer>
+
+</body>
+</html>
+<!-- styles -->
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css">
+<link rel="stylesheet" href="/lib/meslo-LG/styles.css">
+<link rel="stylesheet" href="/lib/justified-gallery/justifiedGallery.min.css">
+
+
+<!-- jquery -->
+<script src="/lib/jquery/jquery.min.js"></script>
+<script src="/lib/justified-gallery/jquery.justifiedGallery.min.js"></script>
+<script src="/js/main.js"></script>
+<!-- Google Analytics -->
+
+    <script type="text/javascript">
+        (function(i,s,o,g,r,a,m) {i['GoogleAnalyticsObject']=r;i[r]=i[r]||function() {
+        (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+        m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+        })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+        ga('create', 'UA-86660611-1', 'auto');
+        ga('send', 'pageview');
+    </script>
+
+<!-- Disqus Comments -->
+
+    <script type="text/javascript">
+        var disqus_shortname = 'huzan';
+
+        (function(){
+            var dsq = document.createElement('script');
+            dsq.type = 'text/javascript';
+            dsq.async = true;
+            dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+            (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+        }());
+    </script>
+
+

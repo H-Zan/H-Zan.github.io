@@ -1,0 +1,49 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 880 280" width="880" height="280">
+  <defs>
+    <marker id="arr-pa1" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M 0 1 L 10 5 L 0 9 z" fill="#c678dd"/>
+    </marker>
+    <linearGradient id="bg-pa1" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#181a1d"/>
+      <stop offset="100%" stop-color="#22262b"/>
+    </linearGradient>
+  </defs>
+  <rect width="880" height="280" rx="12" fill="url(#bg-pa1)" stroke="#363b42" stroke-width="1.5"/>
+  <text x="440" y="32" text-anchor="middle" fill="#eeeeee" font-family="sans-serif" font-size="16" font-weight="700">生产级 Python LLM 调用层设计 · Resilient Unified LLM Client</text>
+
+  <rect x="26" y="76" width="170" height="132" rx="8" fill="#24272b" stroke="#4ea8de" stroke-width="1.5"/>
+  <text x="111" y="102" text-anchor="middle" fill="#4ea8de" font-family="monospace" font-size="11.5" font-weight="700">1. UNIFIED SDK</text>
+  <text x="111" y="124" text-anchor="middle" fill="#eeeeee" font-family="sans-serif" font-size="12.5" font-weight="700">一套代码通吃模型</text>
+  <text x="111" y="150" text-anchor="middle" fill="#c9cacc" font-family="monospace" font-size="10.5">base_url + api_key</text>
+  <text x="111" y="170" text-anchor="middle" fill="#9aa0a6" font-family="sans-serif" font-size="10.5">OpenAI / DeepSeek</text>
+  <text x="111" y="190" text-anchor="middle" fill="#9aa0a6" font-family="sans-serif" font-size="10.5">vLLM / Ollama</text>
+
+  <line x1="196" y1="142" x2="226" y2="142" stroke="#c678dd" stroke-width="2" marker-end="url(#arr-pa1)"/>
+
+  <rect x="230" y="76" width="186" height="132" rx="8" fill="#24272b" stroke="#f0a500" stroke-width="1.5"/>
+  <text x="323" y="102" text-anchor="middle" fill="#f0a500" font-family="monospace" font-size="11.5" font-weight="700">2. RESILIENCE</text>
+  <text x="323" y="124" text-anchor="middle" fill="#eeeeee" font-family="sans-serif" font-size="12.5" font-weight="700">超时与指数退避重试</text>
+  <text x="323" y="150" text-anchor="middle" fill="#c9cacc" font-family="sans-serif" font-size="11">捕获 429 / 503 / 超时</text>
+  <text x="323" y="170" text-anchor="middle" fill="#c9cacc" font-family="monospace" font-size="10.5">jitter + max_retries=3</text>
+  <text x="323" y="190" text-anchor="middle" fill="#9aa0a6" font-family="sans-serif" font-size="10.5">自动降级备用模型</text>
+
+  <line x1="416" y1="142" x2="446" y2="142" stroke="#c678dd" stroke-width="2" marker-end="url(#arr-pa1)"/>
+
+  <rect x="450" y="76" width="194" height="132" rx="8" fill="#24272b" stroke="#c678dd" stroke-width="1.5"/>
+  <text x="547" y="102" text-anchor="middle" fill="#c678dd" font-family="monospace" font-size="11.5" font-weight="700">3. TYPED PARSING</text>
+  <text x="547" y="124" text-anchor="middle" fill="#eeeeee" font-family="sans-serif" font-size="12.5" font-weight="700">Pydantic 结构化输出</text>
+  <text x="547" y="150" text-anchor="middle" fill="#c9cacc" font-family="monospace" font-size="10.5">response_format=Model</text>
+  <text x="547" y="170" text-anchor="middle" fill="#c9cacc" font-family="sans-serif" font-size="11">直接拿强类型 Python 对象</text>
+  <text x="547" y="190" text-anchor="middle" fill="#2bbc8a" font-family="sans-serif" font-size="10.5">零 JSON 正则手撕</text>
+
+  <line x1="644" y1="142" x2="674" y2="142" stroke="#c678dd" stroke-width="2" marker-end="url(#arr-pa1)"/>
+
+  <rect x="678" y="76" width="176" height="132" rx="8" fill="#1e2523" stroke="#2bbc8a" stroke-width="1.5"/>
+  <text x="766" y="102" text-anchor="middle" fill="#2bbc8a" font-family="monospace" font-size="11.5" font-weight="700">4. OBSERVABILITY</text>
+  <text x="766" y="124" text-anchor="middle" fill="#eeeeee" font-family="sans-serif" font-size="12.5" font-weight="700">流式 + 成本记账</text>
+  <text x="766" y="150" text-anchor="middle" fill="#c9cacc" font-family="sans-serif" font-size="11">stream=True 降首字延迟</text>
+  <text x="766" y="170" text-anchor="middle" fill="#d5ff80" font-family="monospace" font-size="10.5">记录 prompt/out tokens</text>
+  <text x="766" y="190" text-anchor="middle" fill="#9aa0a6" font-family="sans-serif" font-size="10.5">每笔调用成本透明可控</text>
+
+  <text x="440" y="250" text-anchor="middle" fill="#888e96" font-family="sans-serif" font-size="11">核心原则：业务代码永远不直接硬编码某家厂商私有字段，全部收敛到统一的 Gateway / Client 层</text>
+</svg>

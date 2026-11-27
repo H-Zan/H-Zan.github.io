@@ -1,0 +1,294 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <!-- so meta -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="HandheldFriendly" content="True">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+    <meta name="description" content="🔑为什么先手写迷你版？ / Why Build It Transparently First?一上来就套 5 层抽象的巨型框架，检索不准时你连“到底切分坏了还是召回坏了”都查不出来。亲手写出这 80 行，你就彻底掌控了 RAG 的全部核心齿轮（理论原理见 AI 教程 L2-01）。   1. 完整可运行核心引擎（切分 + Dense + BM25 + RRF） / Complete Minima">
+<meta name="keywords" content="Python RAG,NumPy,Hybrid Search,RRF">
+<meta property="og:type" content="website">
+<meta property="og:title" content="从零用 Python 手写迷你混合检索 RAG：切分、向量+BM25 融合与引用溯源">
+<meta property="og:url" content="https://h-zan.github.io/python-ai-practice/02-build-rag-in-python/index.html">
+<meta property="og:site_name" content="HuZan">
+<meta property="og:description" content="🔑为什么先手写迷你版？ / Why Build It Transparently First?一上来就套 5 层抽象的巨型框架，检索不准时你连“到底切分坏了还是召回坏了”都查不出来。亲手写出这 80 行，你就彻底掌控了 RAG 的全部核心齿轮（理论原理见 AI 教程 L2-01）。   1. 完整可运行核心引擎（切分 + Dense + BM25 + RRF） / Complete Minima">
+<meta property="og:locale" content="default">
+<meta property="og:image" content="https://h-zan.github.io/images/python-ai-practice/python-mini-rag-codeflow.svg">
+<meta property="og:updated_time" content="2026-11-27T03:31:00.439Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="从零用 Python 手写迷你混合检索 RAG：切分、向量+BM25 融合与引用溯源">
+<meta name="twitter:description" content="🔑为什么先手写迷你版？ / Why Build It Transparently First?一上来就套 5 层抽象的巨型框架，检索不准时你连“到底切分坏了还是召回坏了”都查不出来。亲手写出这 80 行，你就彻底掌控了 RAG 的全部核心齿轮（理论原理见 AI 教程 L2-01）。   1. 完整可运行核心引擎（切分 + Dense + BM25 + RRF） / Complete Minima">
+<meta name="twitter:image" content="https://h-zan.github.io/images/python-ai-practice/python-mini-rag-codeflow.svg">
+    
+    
+        
+          
+              <link rel="shortcut icon" href="/images/favicon.ico">
+          
+        
+        
+          
+            <link rel="icon" type="image/png" href="/images/favicon-192x192.png" sizes="192x192">
+          
+        
+        
+          
+            <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png">
+          
+        
+    
+    <!-- title -->
+    <title>从零用 Python 手写迷你混合检索 RAG：切分、向量+BM25 融合与引用溯源</title>
+    <!-- styles -->
+    <link rel="stylesheet" href="/css/style.css">
+    <!-- rss -->
+    
+    
+</head>
+
+<body>
+    
+    
+    <div class="content index column-wide mx-auto px2 my4">
+        
+          <header id="header">
+  <a href="/">
+  
+    
+      <div id="logo" style="background-image: url(/images/logo.png);"></div>
+    
+  
+    <div id="title">
+      <h1>HuZan</h1>
+    </div>
+  </a>
+  <div id="nav">
+    <ul>
+      <li class="icon">
+        <a href="#"><i class="fa fa-bars fa-2x"></i></a>
+      </li>
+       
+        <li><a href="/">Home</a></li>
+       
+        <li><a href="/columns/">Columns</a></li>
+       
+        <li><a href="/ai-tutorials/">AI Tutorials</a></li>
+       
+        <li><a href="/agent-playbook/">Agent Tips</a></li>
+       
+        <li><a href="/ai-news/">AI News</a></li>
+       
+        <li><a href="/archives/">Writing</a></li>
+       
+        <li><a href="/about/">About</a></li>
+      
+    </ul>
+  </div>
+</header>
+
+        
+        
+
+<article class="column-article lang-mode-both" id="column-article-root" itemscope itemtype="http://schema.org/TechArticle">
+  <nav class="col-breadcrumb" aria-label="Breadcrumb">
+    <a href="/">Home</a>
+    <span class="sep">/</span>
+    <a href="/columns/">Columns</a>
+    <span class="sep">/</span>
+    <a href="/python-ai-practice/">Python AI 实践专栏</a>
+    
+  </nav>
+
+  <header class="col-article-header">
+    <div class="col-article-badges">
+      
+        <span class="level-badge level-violet">🧠 PYTHON + AI</span>
+      
+      
+        <span class="col-code-pill">PAI-02</span>
+      
+      
+        <span class="col-meta-item">⏱ 10 min</span>
+      
+      
+        <time class="col-meta-item" datetime="2026-11-27T13:40:00.000Z">📅 2026-11-27</time>
+      
+    </div>
+
+    <h1 class="col-article-title" itemprop="headline">从零用 Python 手写迷你混合检索 RAG：切分、向量+BM25 融合与引用溯源</h1>
+    
+      <p class="col-article-title-en">Build a Hybrid RAG Engine from Scratch in ~80 Lines of Transparent Python</p>
+    
+
+    
+      <div class="col-article-tags">
+        
+          <span class="col-tag">#Python RAG</span>
+        
+          <span class="col-tag">#NumPy</span>
+        
+          <span class="col-tag">#Hybrid Search</span>
+        
+          <span class="col-tag">#RRF</span>
+        
+      </div>
+    
+
+    <div class="lang-toolbar" role="group" aria-label="Language display mode">
+      <span class="lang-toolbar-label">🌐 阅读模式 / View Mode:</span>
+      <button type="button" class="lang-btn active" data-mode="both">中英对照 Bilingual</button>
+      <button type="button" class="lang-btn" data-mode="zh">仅中文 ZH</button>
+      <button type="button" class="lang-btn" data-mode="en">English Only</button>
+    </div>
+  </header>
+
+  
+    <details class="col-toc-box" open>
+      <summary>📑 目录 / Table of Contents</summary>
+      <div class="col-toc-inner">
+        <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#1-_完整可运行核心引擎（切分_+_Dense_+_BM25_+_RRF）_/_Complete_Minimal_Hybrid_Retriever"><span class="toc-text">1. 完整可运行核心引擎（切分 + Dense + BM25 + RRF） / Complete Minimal Hybrid Retriever</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#2-_拼装防幻觉可溯源_Prompt_/_Grounded_Citation_Prompt"><span class="toc-text">2. 拼装防幻觉可溯源 Prompt / Grounded Citation Prompt</span></a></li></ol>
+      </div>
+    </details>
+  
+
+  <div class="col-article-body" itemprop="articleBody">
+    <div class="col-callout col-callout-key"><div class="col-callout-title"><span class="col-callout-icon">🔑</span>为什么先手写迷你版？ / Why Build It Transparently First?</div><div class="col-callout-body"><p>一上来就套 5 层抽象的巨型框架，检索不准时你连“到底切分坏了还是召回坏了”都查不出来。亲手写出这 80 行，你就彻底掌控了 RAG 的全部核心齿轮（理论原理见 <a href="/ai-tutorials/l2-01-rag-production-guide/">AI 教程 L2-01</a>）。</p>
+</div></div>
+<p><img src="/images/python-ai-practice/python-mini-rag-codeflow.svg" alt="Zero-Blackbox Python Hybrid RAG"></p>
+<h2 id="1-_完整可运行核心引擎（切分_+_Dense_+_BM25_+_RRF）_/_Complete_Minimal_Hybrid_Retriever">1. 完整可运行核心引擎（切分 + Dense + BM25 + RRF） / Complete Minimal Hybrid Retriever</h2><div class="bi-block bi-zh" data-lang="zh"><span class="bi-badge">中文</span><div class="bi-body"><p>下面这段代码只依赖 <code>numpy</code> 与标准库：</p>
+<ul>
+<li><strong>切分</strong>：按 Markdown <code>##</code> 章节边界切块，并自动保留章节标题防丢上下文；</li>
+<li><strong>双路检索</strong>：向量归一化后一行 <code>self.mat @ q_vec</code> 算完余弦相似度，同时跑轻量 BM25 词频匹配锁死精确报错码与专有名词；</li>
+<li><strong>RRF 融合</strong>：用倒数排名融合两路结果，选出最精准的 Top-K 证据块。</li>
+</ul>
+</div></div>
+<div class="bi-block bi-en" data-lang="en"><span class="bi-badge">EN</span><div class="bi-body"><p>Using only <code>numpy</code> and the standard library, this engine splits Markdown by section headings, runs dense cosine search (<code>mat @ q_vec</code>) alongside lexical BM25, and merges both rankings with Reciprocal Rank Fusion (RRF):</p>
+</div></div>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> math, re</span><br><span class="line"><span class="keyword">from</span> collections <span class="keyword">import</span> Counter, defaultdict</span><br><span class="line"><span class="keyword">from</span> dataclasses <span class="keyword">import</span> dataclass</span><br><span class="line"><span class="keyword">import</span> numpy <span class="keyword">as</span> np</span><br><span class="line"></span><br><span class="line"><span class="meta">@dataclass(slots=True)</span></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Chunk</span>:</span></span><br><span class="line">    id: str</span><br><span class="line">    source: str</span><br><span class="line">    text: str</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">chunk_markdown</span><span class="params">(source: str, content: str)</span> -&gt; list[Chunk]:</span></span><br><span class="line">    <span class="string">"""按二级标题切分，保留标题上下文，避免硬切撕裂语义。"""</span></span><br><span class="line">    parts = re.split(<span class="string">r"(?m)^(?=##\s+)"</span>, content.strip())</span><br><span class="line">    <span class="keyword">return</span> [Chunk(id=<span class="string">f"<span class="subst">&#123;source&#125;</span>#<span class="subst">&#123;i&#125;</span>"</span>, source=source, text=p.strip()) <span class="keyword">for</span> i, p <span class="keyword">in</span> enumerate(parts) <span class="keyword">if</span> p.strip()]</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">tokenize</span><span class="params">(text: str)</span> -&gt; list[str]:</span></span><br><span class="line">    <span class="keyword">return</span> re.findall(<span class="string">r"[a-zA-Z0-9_]+|[\u4e00-\u9fff]"</span>, text.lower())</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">MiniHybridRAG</span>:</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__init__</span><span class="params">(self, chunks: list[Chunk], embed_fn)</span> -&gt; <span class="keyword">None</span>:</span></span><br><span class="line">        self.chunks = chunks</span><br><span class="line">        self.embed_fn = embed_fn</span><br><span class="line">        <span class="comment"># 1. Dense 向量索引（L2 归一化后点积 == 余弦相似度）</span></span><br><span class="line">        vecs = np.asarray(embed_fn([c.text <span class="keyword">for</span> c <span class="keyword">in</span> chunks]), dtype=np.float32)</span><br><span class="line">        self.mat = vecs / np.maximum(np.linalg.norm(vecs, axis=<span class="number">1</span>, keepdims=<span class="keyword">True</span>), <span class="number">1e-12</span>)</span><br><span class="line">        <span class="comment"># 2. BM25 词频统计</span></span><br><span class="line">        self.docs_tok = [tokenize(c.text) <span class="keyword">for</span> c <span class="keyword">in</span> chunks]</span><br><span class="line">        self.avg_dl = sum(len(t) <span class="keyword">for</span> t <span class="keyword">in</span> self.docs_tok) / max(len(self.docs_tok), <span class="number">1</span>)</span><br><span class="line">        df = Counter(tok <span class="keyword">for</span> doc <span class="keyword">in</span> self.docs_tok <span class="keyword">for</span> tok <span class="keyword">in</span> set(doc))</span><br><span class="line">        n = len(self.docs_tok)</span><br><span class="line">        self.idf = &#123;t: math.log((n - c + <span class="number">0.5</span>) / (c + <span class="number">0.5</span>) + <span class="number">1.0</span>) <span class="keyword">for</span> t, c <span class="keyword">in</span> df.items()&#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">_bm25_rank</span><span class="params">(self, query: str, k1: float = <span class="number">1.5</span>, b: float = <span class="number">0.75</span>)</span> -&gt; list[int]:</span></span><br><span class="line">        q_toks = tokenize(query)</span><br><span class="line">        scores = []</span><br><span class="line">        <span class="keyword">for</span> idx, doc <span class="keyword">in</span> enumerate(self.docs_tok):</span><br><span class="line">            tf = Counter(doc)</span><br><span class="line">            dl = len(doc)</span><br><span class="line">            s = sum(</span><br><span class="line">                self.idf.get(t, <span class="number">0.0</span>) * (tf[t] * (k1 + <span class="number">1</span>)) / (tf[t] + k1 * (<span class="number">1</span> - b + b * dl / self.avg_dl))</span><br><span class="line">                <span class="keyword">for</span> t <span class="keyword">in</span> q_toks <span class="keyword">if</span> t <span class="keyword">in</span> tf</span><br><span class="line">            )</span><br><span class="line">            scores.append((s, idx))</span><br><span class="line">        <span class="keyword">return</span> [idx <span class="keyword">for</span> _, idx <span class="keyword">in</span> sorted(scores, reverse=<span class="keyword">True</span>)]</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">search</span><span class="params">(self, query: str, top_k: int = <span class="number">4</span>, rrf_k: int = <span class="number">60</span>)</span> -&gt; list[Chunk]:</span></span><br><span class="line">        q_vec = np.asarray(self.embed_fn([query])[<span class="number">0</span>], dtype=np.float32)</span><br><span class="line">        q_vec /= max(float(np.linalg.norm(q_vec)), <span class="number">1e-12</span>)</span><br><span class="line">        dense_order = np.argsort(-(self.mat @ q_vec)).tolist()</span><br><span class="line">        bm25_order = self._bm25_rank(query)</span><br><span class="line"></span><br><span class="line">        rrf: dict[int, float] = defaultdict(float)</span><br><span class="line">        <span class="keyword">for</span> rank, idx <span class="keyword">in</span> enumerate(dense_order[:<span class="number">20</span>], start=<span class="number">1</span>):</span><br><span class="line">            rrf[idx] += <span class="number">1.0</span> / (rrf_k + rank)</span><br><span class="line">        <span class="keyword">for</span> rank, idx <span class="keyword">in</span> enumerate(bm25_order[:<span class="number">20</span>], start=<span class="number">1</span>):</span><br><span class="line">            rrf[idx] += <span class="number">1.0</span> / (rrf_k + rank)</span><br><span class="line"></span><br><span class="line">        best_ids = [idx <span class="keyword">for</span> idx, _ <span class="keyword">in</span> sorted(rrf.items(), key=<span class="keyword">lambda</span> x: x[<span class="number">1</span>], reverse=<span class="keyword">True</span>)[:top_k]]</span><br><span class="line">        <span class="keyword">return</span> [self.chunks[i] <span class="keyword">for</span> i <span class="keyword">in</span> best_ids]</span><br></pre></td></tr></table></figure>
+<h2 id="2-_拼装防幻觉可溯源_Prompt_/_Grounded_Citation_Prompt">2. 拼装防幻觉可溯源 Prompt / Grounded Citation Prompt</h2><div class="bi-block bi-zh" data-lang="zh"><span class="bi-badge">中文</span><div class="bi-body"><p>拿到 <code>top_chunks = rag.search(question)</code> 后，把每段标上 <code>[1]</code>、<code>[2]</code> 塞进 <code>&lt;context&gt;</code>，强制要求模型每条结论必须附引用编号、找不到就明确拒答：</p>
+</div></div>
+<div class="bi-block bi-en" data-lang="en"><span class="bi-badge">EN</span><div class="bi-body"><p>Number every retrieved chunk (<code>[1]</code>, <code>[2]</code>, …) inside <code>&lt;context&gt;</code> and instruct the LLM to cite sources inline or abstain when evidence is absent:</p>
+</div></div>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">build_rag_prompt</span><span class="params">(question: str, chunks: list[Chunk])</span> -&gt; str:</span></span><br><span class="line">    ctx = <span class="string">"\n\n"</span>.join(<span class="string">f"[<span class="subst">&#123;i&#125;</span>] (<span class="subst">&#123;c.source&#125;</span>)\n<span class="subst">&#123;c.text&#125;</span>"</span> <span class="keyword">for</span> i, c <span class="keyword">in</span> enumerate(chunks, start=<span class="number">1</span>))</span><br><span class="line">    <span class="keyword">return</span> (</span><br><span class="line">        <span class="string">"严格依据 &lt;context&gt; 回答问题，并在关键陈述后标注来源编号如 [1]。\n"</span></span><br><span class="line">        <span class="string">"如果上下文没有依据，直接回答“知识库中未找到相关信息”，严禁臆测。\n\n"</span></span><br><span class="line">        <span class="string">f"&lt;context&gt;\n<span class="subst">&#123;ctx&#125;</span>\n&lt;/context&gt;\n\n&lt;question&gt;<span class="subst">&#123;question&#125;</span>&lt;/question&gt;"</span></span><br><span class="line">    )</span><br></pre></td></tr></table></figure>
+<div class="col-callout col-callout-tip"><div class="col-callout-title"><span class="col-callout-icon">💡</span>规模扩大到百万文档怎么办？ / Scaling to Millions of Chunks</div><div class="col-callout-body"><p>当文档从几千段涨到几十万/百万段时，只需把上面的 <code>NumPy</code> 矩阵替换成 <strong>PostgreSQL + <code>pgvector</code> (HNSW 索引) + 原生全文检索 <code>tsvector</code></strong>，一行 SQL 同时搞定权限过滤与混合检索！详见 <a href="/pg-tutorials/03-pgvector-and-production/">PostgreSQL 专栏 PG-03</a>。</p>
+</div></div>
+
+  </div>
+
+  <footer class="col-article-footer">
+    <div class="col-nav-grid">
+      
+        <a class="col-nav-card col-nav-prev" href="/python-ai-practice/01-llm-sdk-structured-streaming/index.html">
+          <span class="col-nav-dir">← 上一篇 / Previous</span>
+          <span class="col-nav-title">Python 调用大模型实战：统一 SDK、流式输出、结构化 JSON 与重试容错</span>
+        </a>
+      
+
+      
+        <a class="col-nav-card col-nav-next" href="/python-ai-practice/03-build-tool-agent-and-eval/index.html">
+          <span class="col-nav-dir">下一篇 / Next →</span>
+          <span class="col-nav-title">用 Python 打造可控 AI Agent 与 pytest 自动化 Eval 评测流水线</span>
+        </a>
+      
+    </div>
+  </footer>
+</article>
+
+<script>
+(function() {
+  var root = document.getElementById('column-article-root');
+  if (!root) return;
+  var buttons = root.querySelectorAll('.lang-btn');
+  var storageKey = 'hzan_ai_lang_mode';
+
+  function applyMode(mode) {
+    if (mode !== 'both' && mode !== 'zh' && mode !== 'en') mode = 'both';
+    root.classList.remove('lang-mode-both', 'lang-mode-zh', 'lang-mode-en');
+    root.classList.add('lang-mode-' + mode);
+    buttons.forEach(function(btn) {
+      btn.classList.toggle('active', btn.getAttribute('data-mode') === mode);
+    });
+    try { localStorage.setItem(storageKey, mode); } catch (e) {}
+  }
+
+  buttons.forEach(function(btn) {
+    btn.addEventListener('click', function() {
+      applyMode(btn.getAttribute('data-mode'));
+    });
+  });
+
+  try {
+    var saved = localStorage.getItem(storageKey);
+    if (saved) applyMode(saved);
+  } catch (e) {}
+})();
+</script>
+
+    </div>
+    
+    <footer id="footer">
+  <div class="footer-left">
+    Copyright &copy; 2026 Zan
+  </div>
+  <div class="footer-right">
+    <nav>
+      <ul>
+         
+          <li><a href="/">Home</a></li>
+         
+          <li><a href="/columns/">Columns</a></li>
+         
+          <li><a href="/ai-tutorials/">AI Tutorials</a></li>
+         
+          <li><a href="/agent-playbook/">Agent Tips</a></li>
+         
+          <li><a href="/ai-news/">AI News</a></li>
+         
+          <li><a href="/archives/">Writing</a></li>
+         
+          <li><a href="/about/">About</a></li>
+        
+      </ul>
+    </nav>
+  </div>
+</footer>
+
+</body>
+</html>
+<!-- styles -->
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css">
+<link rel="stylesheet" href="/lib/meslo-LG/styles.css">
+<link rel="stylesheet" href="/lib/justified-gallery/justifiedGallery.min.css">
+
+
+<!-- jquery -->
+<script src="/lib/jquery/jquery.min.js"></script>
+<script src="/lib/justified-gallery/jquery.justifiedGallery.min.js"></script>
+<script src="/js/main.js"></script>
+<!-- Google Analytics -->
+
+    <script type="text/javascript">
+        (function(i,s,o,g,r,a,m) {i['GoogleAnalyticsObject']=r;i[r]=i[r]||function() {
+        (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+        m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+        })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+        ga('create', 'UA-86660611-1', 'auto');
+        ga('send', 'pageview');
+    </script>
+
+<!-- Disqus Comments -->
+
+    <script type="text/javascript">
+        var disqus_shortname = 'huzan';
+
+        (function(){
+            var dsq = document.createElement('script');
+            dsq.type = 'text/javascript';
+            dsq.async = true;
+            dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+            (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+        }());
+    </script>
+
+

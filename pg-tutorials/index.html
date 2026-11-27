@@ -1,0 +1,299 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <!-- so meta -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="HandheldFriendly" content="True">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+    <meta name="description" content="为什么今天几乎所有现代后端与 AI 应用都在选 PostgreSQL？从高效建表、CTE 与窗口函数，到 B-Tree/GIN 索引、EXPLAIN ANALYZE 慢查询诊断与 MVCC 并发原理，再到 JSONB + pgvector 混合向量检索与零停机运维，三篇讲透核心干货。">
+<meta property="og:type" content="website">
+<meta property="og:title" content="PostgreSQL 数据库教程专栏">
+<meta property="og:url" content="https://h-zan.github.io/pg-tutorials/index.html">
+<meta property="og:site_name" content="HuZan">
+<meta property="og:description" content="为什么今天几乎所有现代后端与 AI 应用都在选 PostgreSQL？从高效建表、CTE 与窗口函数，到 B-Tree/GIN 索引、EXPLAIN ANALYZE 慢查询诊断与 MVCC 并发原理，再到 JSONB + pgvector 混合向量检索与零停机运维，三篇讲透核心干货。">
+<meta property="og:locale" content="default">
+<meta property="og:updated_time" content="2026-11-27T03:25:12.172Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="PostgreSQL 数据库教程专栏">
+<meta name="twitter:description" content="为什么今天几乎所有现代后端与 AI 应用都在选 PostgreSQL？从高效建表、CTE 与窗口函数，到 B-Tree/GIN 索引、EXPLAIN ANALYZE 慢查询诊断与 MVCC 并发原理，再到 JSONB + pgvector 混合向量检索与零停机运维，三篇讲透核心干货。">
+    
+    
+        
+          
+              <link rel="shortcut icon" href="/images/favicon.ico">
+          
+        
+        
+          
+            <link rel="icon" type="image/png" href="/images/favicon-192x192.png" sizes="192x192">
+          
+        
+        
+          
+            <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png">
+          
+        
+    
+    <!-- title -->
+    <title>PostgreSQL 数据库教程专栏</title>
+    <!-- styles -->
+    <link rel="stylesheet" href="/css/style.css">
+    <!-- rss -->
+    
+    
+</head>
+
+<body>
+    
+    
+    <div class="content index column-wide mx-auto px2 my4">
+        
+          <header id="header">
+  <a href="/">
+  
+    
+      <div id="logo" style="background-image: url(/images/logo.png);"></div>
+    
+  
+    <div id="title">
+      <h1>HuZan</h1>
+    </div>
+  </a>
+  <div id="nav">
+    <ul>
+      <li class="icon">
+        <a href="#"><i class="fa fa-bars fa-2x"></i></a>
+      </li>
+       
+        <li><a href="/">Home</a></li>
+       
+        <li><a href="/columns/">Columns</a></li>
+       
+        <li><a href="/ai-tutorials/">AI Tutorials</a></li>
+       
+        <li><a href="/agent-playbook/">Agent Tips</a></li>
+       
+        <li><a href="/ai-news/">AI News</a></li>
+       
+        <li><a href="/archives/">Writing</a></li>
+       
+        <li><a href="/about/">About</a></li>
+      
+    </ul>
+  </div>
+</header>
+
+        
+        
+
+<div class="column-page generic-column-hub col-accent-blue">
+  <nav class="col-breadcrumb" aria-label="Breadcrumb">
+    <a href="/">Home</a>
+    <span class="sep">/</span>
+    <a href="/columns/">Columns · 全部专栏</a>
+    <span class="sep">/</span>
+    <span>PostgreSQL 数据库教程专栏</span>
+  </nav>
+
+  <section class="col-hero">
+    
+      <div class="col-hero-media">
+        <img src="/images/pg-tutorials/hero-banner.jpg" alt="PostgreSQL 数据库教程专栏">
+      </div>
+    
+    <div class="col-hero-content">
+      <span class="col-eyebrow accent-text-blue">COLUMN · AI 与全栈时代首选数据库</span>
+      <h1 class="col-hero-title">
+        PostgreSQL 数据库教程专栏
+        
+          <span class="col-hero-sub">PostgreSQL Practical Guide</span>
+        
+      </h1>
+      
+        <p class="col-hero-desc">为什么今天几乎所有现代后端与 AI 应用都在选 PostgreSQL？从高效建表、CTE 与窗口函数，到 B-Tree/GIN 索引、EXPLAIN ANALYZE 慢查询诊断与 MVCC 并发原理，再到 JSONB + pgvector 混合向量检索与零停机运维，三篇讲透核心干货。</p>
+      
+      
+        <div class="col-tier-pills">
+          
+            <span class="tier-pill static-pill">📊 CTE &amp; 窗口函数高效 SQL</span>
+          
+            <span class="tier-pill static-pill">⚡ B-Tree / GIN / EXPLAIN 调优</span>
+          
+            <span class="tier-pill static-pill">🔒 MVCC 并发与 VACUUM 机制</span>
+          
+            <span class="tier-pill static-pill">🧠 JSONB + pgvector 向量检索</span>
+          
+        </div>
+      
+    </div>
+  </section>
+
+  
+
+  <section class="col-list-section">
+    <div class="col-list-header">
+      <h2>📚 专栏文章列表 · 3 篇硬核实战</h2>
+      <span class="col-list-hint">按推荐阅读顺序排列 · 支持中英双语一键切换</span>
+    </div>
+
+    <div class="col-card-grid">
+      
+        <a class="col-card accent-hover-blue" href="/pg-tutorials/01-pg-fundamentals-and-sql/index.html">
+          <div class="col-card-top">
+            <span class="col-card-code accent-text-blue">PG-01</span>
+            
+              <span class="col-card-meta">⏱ 8 min</span>
+            
+          </div>
+          <h3 class="col-card-title">PostgreSQL 快速入门与高效 SQL 实战：建表避坑、CTE 与窗口函数</h3>
+          
+            <div class="col-card-title-en">PostgreSQL Fast Track: Clean Schema Design, CTEs &amp; Window Functions</div>
+          
+          
+            <p class="col-card-summary">为什么今天做全栈和 AI 项目默认选 PostgreSQL？从一行 Docker 启库、最容易踩坑的数据类型选择，到真正把 SQL 表达力拉升 10 倍的 WITH (CTE) 与窗口函数。</p>
+          
+          
+            <div class="col-card-tags">
+              
+                <span class="col-tag">#PostgreSQL</span>
+              
+                <span class="col-tag">#SQL</span>
+              
+                <span class="col-tag">#CTE</span>
+              
+                <span class="col-tag">#窗口函数</span>
+              
+            </div>
+          
+        </a>
+      
+        <a class="col-card accent-hover-blue" href="/pg-tutorials/02-indexes-explain-mvcc/index.html">
+          <div class="col-card-top">
+            <span class="col-card-code accent-text-blue">PG-02</span>
+            
+              <span class="col-card-meta">⏱ 9 min</span>
+            
+          </div>
+          <h3 class="col-card-title">PostgreSQL 性能优化核心：索引选型、EXPLAIN ANALYZE 读图与 MVCC 并发</h3>
+          
+            <div class="col-card-title-en">PostgreSQL Performance Core: Index Selection, EXPLAIN ANALYZE &amp; MVCC Internals</div>
+          
+          
+            <p class="col-card-summary">慢查询不再靠猜！3 分钟看懂 EXPLAIN (ANALYZE, BUFFERS)，掌握组合索引列顺序、部分索引与 GIN 索引实战，并彻底理解 PG 读写不阻塞的 MVCC 原理与 VACUUM 机制。</p>
+          
+          
+            <div class="col-card-tags">
+              
+                <span class="col-tag">#PostgreSQL</span>
+              
+                <span class="col-tag">#索引优化</span>
+              
+                <span class="col-tag">#EXPLAIN</span>
+              
+                <span class="col-tag">#MVCC</span>
+              
+            </div>
+          
+        </a>
+      
+        <a class="col-card accent-hover-blue" href="/pg-tutorials/03-pgvector-and-production/index.html">
+          <div class="col-card-top">
+            <span class="col-card-code accent-text-blue">PG-03</span>
+            
+              <span class="col-card-meta">⏱ 9 min</span>
+            
+          </div>
+          <h3 class="col-card-title">AI 时代的 PostgreSQL：JSONB 混合建模、pgvector 向量检索与生产运维</h3>
+          
+            <div class="col-card-title-en">PostgreSQL for the AI Era: JSONB, pgvector Hybrid Search &amp; Zero-Downtime Ops</div>
+          
+          
+            <p class="col-card-summary">一库打天下：用 PostgreSQL + pgvector (HNSW) + 原生全文检索实现“租户权限过滤 + 语义向量 + 关键词”单 SQL 混合 RAG，并掌握线上零锁表加索引、PgBouncer 连接池与备份保命指南。</p>
+          
+          
+            <div class="col-card-tags">
+              
+                <span class="col-tag">#pgvector</span>
+              
+                <span class="col-tag">#HNSW</span>
+              
+                <span class="col-tag">#JSONB</span>
+              
+                <span class="col-tag">#生产运维</span>
+              
+            </div>
+          
+        </a>
+      
+    </div>
+  </section>
+</div>
+
+    </div>
+    
+    <footer id="footer">
+  <div class="footer-left">
+    Copyright &copy; 2026 Zan
+  </div>
+  <div class="footer-right">
+    <nav>
+      <ul>
+         
+          <li><a href="/">Home</a></li>
+         
+          <li><a href="/columns/">Columns</a></li>
+         
+          <li><a href="/ai-tutorials/">AI Tutorials</a></li>
+         
+          <li><a href="/agent-playbook/">Agent Tips</a></li>
+         
+          <li><a href="/ai-news/">AI News</a></li>
+         
+          <li><a href="/archives/">Writing</a></li>
+         
+          <li><a href="/about/">About</a></li>
+        
+      </ul>
+    </nav>
+  </div>
+</footer>
+
+</body>
+</html>
+<!-- styles -->
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css">
+<link rel="stylesheet" href="/lib/meslo-LG/styles.css">
+<link rel="stylesheet" href="/lib/justified-gallery/justifiedGallery.min.css">
+
+
+<!-- jquery -->
+<script src="/lib/jquery/jquery.min.js"></script>
+<script src="/lib/justified-gallery/jquery.justifiedGallery.min.js"></script>
+<script src="/js/main.js"></script>
+<!-- Google Analytics -->
+
+    <script type="text/javascript">
+        (function(i,s,o,g,r,a,m) {i['GoogleAnalyticsObject']=r;i[r]=i[r]||function() {
+        (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+        m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+        })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+        ga('create', 'UA-86660611-1', 'auto');
+        ga('send', 'pageview');
+    </script>
+
+<!-- Disqus Comments -->
+
+    <script type="text/javascript">
+        var disqus_shortname = 'huzan';
+
+        (function(){
+            var dsq = document.createElement('script');
+            dsq.type = 'text/javascript';
+            dsq.async = true;
+            dsq.src = '//' + disqus_shortname + '.disqus.com/count.js';
+            (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+        }());
+    </script>
+
+

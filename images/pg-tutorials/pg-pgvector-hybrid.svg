@@ -1,0 +1,48 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 880 280" width="880" height="280">
+  <defs>
+    <marker id="arr-pg3" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M 0 1 L 10 5 L 0 9 z" fill="#2bbc8a"/>
+    </marker>
+    <linearGradient id="bg-pg3" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#181a1d"/>
+      <stop offset="100%" stop-color="#22262b"/>
+    </linearGradient>
+  </defs>
+  <rect width="880" height="280" rx="12" fill="url(#bg-pg3)" stroke="#363b42" stroke-width="1.5"/>
+  <text x="440" y="32" text-anchor="middle" fill="#eeeeee" font-family="sans-serif" font-size="16" font-weight="700">AI 时代一库打天下：PostgreSQL 关系 + JSONB + pgvector 混合架构</text>
+
+  <!-- Single PG Engine Box -->
+  <rect x="26" y="64" width="530" height="170" rx="10" fill="#1e242a" stroke="#4ea8de" stroke-width="1.8"/>
+  <text x="291" y="90" text-anchor="middle" fill="#4ea8de" font-family="monospace" font-size="13" font-weight="700">SINGLE POSTGRESQL INSTANCE · 强一致 ACID 事务</text>
+
+  <rect x="44" y="108" width="154" height="106" rx="6" fill="#24272b" stroke="#2bbc8a"/>
+  <text x="121" y="132" text-anchor="middle" fill="#2bbc8a" font-family="sans-serif" font-size="12" font-weight="700">关系表 + 权限 ACL</text>
+  <text x="121" y="156" text-anchor="middle" fill="#c9cacc" font-family="monospace" font-size="10.5">tenant_id = 42</text>
+  <text x="121" y="176" text-anchor="middle" fill="#c9cacc" font-family="monospace" font-size="10.5">status = 'active'</text>
+  <text x="121" y="198" text-anchor="middle" fill="#9aa0a6" font-family="sans-serif" font-size="10">行级安全 RLS 零越权</text>
+
+  <rect x="214" y="108" width="154" height="106" rx="6" fill="#24272b" stroke="#f0a500"/>
+  <text x="291" y="132" text-anchor="middle" fill="#f0a500" font-family="sans-serif" font-size="12" font-weight="700">JSONB + 全文检索</text>
+  <text x="291" y="156" text-anchor="middle" fill="#c9cacc" font-family="monospace" font-size="10.5">meta @&gt; '{"tag"}'</text>
+  <text x="291" y="176" text-anchor="middle" fill="#c9cacc" font-family="monospace" font-size="10.5">tsvector @@ query</text>
+  <text x="291" y="198" text-anchor="middle" fill="#9aa0a6" font-family="sans-serif" font-size="10">半结构化 + 精确词召回</text>
+
+  <rect x="384" y="108" width="154" height="106" rx="6" fill="#24272b" stroke="#c678dd"/>
+  <text x="461" y="132" text-anchor="middle" fill="#c678dd" font-family="sans-serif" font-size="12" font-weight="700">pgvector + HNSW</text>
+  <text x="461" y="156" text-anchor="middle" fill="#c9cacc" font-family="monospace" font-size="10.5">embedding &lt;=&gt; $q</text>
+  <text x="461" y="176" text-anchor="middle" fill="#c9cacc" font-family="monospace" font-size="10.5">halfvec(1536)</text>
+  <text x="461" y="198" text-anchor="middle" fill="#9aa0a6" font-family="sans-serif" font-size="10">毫秒级语义近邻检索</text>
+
+  <line x1="556" y1="149" x2="594" y2="149" stroke="#2bbc8a" stroke-width="2" marker-end="url(#arr-pg3)"/>
+
+  <!-- Right: Benefits -->
+  <rect x="598" y="64" width="256" height="170" rx="10" fill="#1e2523" stroke="#2bbc8a" stroke-width="1.5"/>
+  <text x="726" y="90" text-anchor="middle" fill="#2bbc8a" font-family="monospace" font-size="12" font-weight="700">WHY TEAMS LOVE IT</text>
+  <text x="616" y="120" fill="#eeeeee" font-family="sans-serif" font-size="11.5">✓ 删改文档与向量在同一事务</text>
+  <text x="616" y="144" fill="#eeeeee" font-family="sans-serif" font-size="11.5">✓ 彻底消灭双写不一致与延迟</text>
+  <text x="616" y="168" fill="#eeeeee" font-family="sans-serif" font-size="11.5">✓ 少运维一套独立向量数据库</text>
+  <text x="616" y="192" fill="#eeeeee" font-family="sans-serif" font-size="11.5">✓ 一条 SQL 融合权限+向量+词</text>
+  <text x="616" y="218" fill="#d5ff80" font-family="monospace" font-size="10.5">千万级以内 RAG 首选底座！</text>
+
+  <text x="440" y="260" text-anchor="middle" fill="#888e96" font-family="sans-serif" font-size="11">生产架构黄金信条：不要过早引入多套异构存储——先把 PostgreSQL 榨干，它比你想象的强大得多</text>
+</svg>
