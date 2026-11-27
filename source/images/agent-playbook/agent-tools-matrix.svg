@@ -1,49 +1,49 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 880 340" width="880" height="340">
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 880 350" width="880" height="350">
   <defs>
     <linearGradient id="bg-a1" x1="0" y1="0" x2="1" y2="1">
       <stop offset="0%" stop-color="#181a1d"/>
       <stop offset="100%" stop-color="#22262b"/>
     </linearGradient>
   </defs>
-  <rect width="880" height="340" rx="12" fill="url(#bg-a1)" stroke="#363b42" stroke-width="1.5"/>
-  <text x="440" y="32" text-anchor="middle" fill="#eeeeee" font-family="sans-serif" font-size="16" font-weight="700">主流 Agent 工具生态与双平台形态全景 · CLI vs Desktop Agent Landscape</text>
+  <rect width="880" height="350" rx="12" fill="url(#bg-a1)" stroke="#363b42" stroke-width="1.5"/>
+  <text x="440" y="32" text-anchor="middle" fill="#eeeeee" font-family="sans-serif" font-size="16" font-weight="700">主流 Agent 三巨头全景（均具备 CLI + 桌面端）· CLI &amp; Desktop Landscape</text>
 
   <!-- 3 Tool Cards -->
-  <rect x="26" y="54" width="262" height="170" rx="8" fill="#24272b" stroke="#2bbc8a" stroke-width="1.5"/>
+  <rect x="26" y="54" width="262" height="178" rx="8" fill="#24272b" stroke="#2bbc8a" stroke-width="1.5"/>
   <text x="157" y="80" text-anchor="middle" fill="#2bbc8a" font-family="monospace" font-size="13" font-weight="700">Claude Code</text>
-  <text x="157" y="100" text-anchor="middle" fill="#9aa0a6" font-family="sans-serif" font-size="11">CLI 终端 + Desktop + IDE 插件</text>
+  <text x="157" y="100" text-anchor="middle" fill="#9aa0a6" font-family="sans-serif" font-size="11">CLI (claude) + Desktop + IDE 插件</text>
   <text x="42" y="126" fill="#eeeeee" font-family="sans-serif" font-size="11.5">• 深度代码库理解与重构王者</text>
   <text x="42" y="148" fill="#eeeeee" font-family="sans-serif" font-size="11.5">• CLAUDE.md + Skills + Hooks</text>
-  <text x="42" y="170" fill="#eeeeee" font-family="sans-serif" font-size="11.5">• 原生 MCP &amp; 子代理并行</text>
-  <text x="42" y="194" fill="#2bbc8a" font-family="monospace" font-size="10.5">最佳场景：大型仓库深度编码/排障</text>
-  <text x="42" y="213" fill="#9aa0a6" font-family="monospace" font-size="10">Mac: 原生终端 | Win: WSL2/GitBash</text>
+  <text x="42" y="170" fill="#eeeeee" font-family="sans-serif" font-size="11.5">• 原生 MCP &amp; 子代理上下文隔离</text>
+  <text x="42" y="196" fill="#2bbc8a" font-family="monospace" font-size="10.5">最佳场景：大型仓库深度编码/排障</text>
+  <text x="42" y="216" fill="#9aa0a6" font-family="monospace" font-size="10">Mac: 原生终端 | Win: WSL2/GitBash</text>
 
-  <rect x="309" y="54" width="262" height="170" rx="8" fill="#24272b" stroke="#38bdf8" stroke-width="1.5"/>
+  <rect x="309" y="54" width="262" height="178" rx="8" fill="#24272b" stroke="#38bdf8" stroke-width="1.5"/>
   <text x="440" y="80" text-anchor="middle" fill="#38bdf8" font-family="monospace" font-size="13" font-weight="700">OpenAI Codex</text>
-  <text x="440" y="100" text-anchor="middle" fill="#9aa0a6" font-family="sans-serif" font-size="11">Codex CLI + Desktop App + Cloud</text>
-  <text x="325" y="126" fill="#eeeeee" font-family="sans-serif" font-size="11.5">• 本地沙箱 + 云端异步并行任务</text>
+  <text x="440" y="100" text-anchor="middle" fill="#9aa0a6" font-family="sans-serif" font-size="11">CLI (codex) + Desktop App + Cloud</text>
+  <text x="325" y="126" fill="#eeeeee" font-family="sans-serif" font-size="11.5">• 本地沙箱 + 云端异步并行队列</text>
   <text x="325" y="148" fill="#eeeeee" font-family="sans-serif" font-size="11.5">• AGENTS.md 标准规范驱动</text>
   <text x="325" y="170" fill="#eeeeee" font-family="sans-serif" font-size="11.5">• 多分支 Worktree 批量提 PR</text>
-  <text x="325" y="194" fill="#38bdf8" font-family="monospace" font-size="10.5">最佳场景：异步批量修 Bug/写测试</text>
-  <text x="325" y="213" fill="#9aa0a6" font-family="monospace" font-size="10">Mac: brew/App | Win: WSL2 体验最佳</text>
+  <text x="325" y="196" fill="#38bdf8" font-family="monospace" font-size="10.5">最佳场景：异步批量修 Bug/写测试</text>
+  <text x="325" y="216" fill="#9aa0a6" font-family="monospace" font-size="10">Mac: brew/App | Win: WSL2 体验最佳</text>
 
-  <rect x="592" y="54" width="262" height="170" rx="8" fill="#24272b" stroke="#c678dd" stroke-width="1.5"/>
-  <text x="723" y="80" text-anchor="middle" fill="#c678dd" font-family="monospace" font-size="13" font-weight="700">Antigravity</text>
-  <text x="723" y="100" text-anchor="middle" fill="#9aa0a6" font-family="sans-serif" font-size="11">Agent-First 桌面 IDE + 远程工作区</text>
-  <text x="608" y="126" fill="#eeeeee" font-family="sans-serif" font-size="11.5">• 编辑器 + 终端 + 浏览器一体联动</text>
-  <text x="608" y="148" fill="#eeeeee" font-family="sans-serif" font-size="11.5">• Artifacts 计划/截图/设计可视审阅</text>
-  <text x="608" y="170" fill="#eeeeee" font-family="sans-serif" font-size="11.5">• 多 Agent 编排与跨工具插件生态</text>
-  <text x="608" y="194" fill="#c678dd" font-family="monospace" font-size="10.5">最佳场景：端到端建项目/全栈+UI设计</text>
-  <text x="608" y="213" fill="#9aa0a6" font-family="monospace" font-size="10">Mac &amp; Win 原生桌面客户端一键运行</text>
+  <rect x="592" y="54" width="262" height="178" rx="8" fill="#24272b" stroke="#c678dd" stroke-width="1.5"/>
+  <text x="723" y="80" text-anchor="middle" fill="#c678dd" font-family="monospace" font-size="13" font-weight="700">Google Antigravity</text>
+  <text x="723" y="100" text-anchor="middle" fill="#9aa0a6" font-family="sans-serif" font-size="11">CLI (agy) + App + IDE + 7 IDE 插件</text>
+  <text x="608" y="126" fill="#eeeeee" font-family="sans-serif" font-size="11.5">• agy 单二进制零依赖，支持多模型</text>
+  <text x="608" y="148" fill="#eeeeee" font-family="sans-serif" font-size="11.5">• /plan /grill-me /goal /diff 完备</text>
+  <text x="608" y="170" fill="#eeeeee" font-family="sans-serif" font-size="11.5">• 桌面端联动浏览器 + Artifacts 审阅</text>
+  <text x="608" y="196" fill="#c678dd" font-family="monospace" font-size="10.5">最佳场景：端到端建项/CLI+视觉联动</text>
+  <text x="608" y="216" fill="#9aa0a6" font-family="monospace" font-size="10">Mac &amp; Win 原生一键装 agy 与 App</text>
 
   <!-- Bottom OS Comparison Bar -->
-  <rect x="26" y="242" width="404" height="78" rx="8" fill="#1e2422" stroke="#2bbc8a" stroke-opacity="0.6"/>
-  <text x="44" y="266" fill="#2bbc8a" font-family="sans-serif" font-size="12.5" font-weight="700">🍎 macOS 提效组合</text>
-  <text x="44" y="286" fill="#c9cacc" font-family="sans-serif" font-size="11">• 原生 POSIX 环境：Homebrew + Ghostty/iTerm2 + tmux</text>
-  <text x="44" y="306" fill="#c9cacc" font-family="sans-serif" font-size="11">• 权限隔离用沙箱/独立分支，CLI + Antigravity 双屏无缝切换</text>
+  <rect x="26" y="250" width="404" height="78" rx="8" fill="#1e2422" stroke="#2bbc8a" stroke-opacity="0.6"/>
+  <text x="44" y="274" fill="#2bbc8a" font-family="sans-serif" font-size="12.5" font-weight="700">🍎 macOS 提效组合</text>
+  <text x="44" y="294" fill="#c9cacc" font-family="sans-serif" font-size="11">• 原生 POSIX：Ghostty/iTerm2 + tmux + agy / claude / codex</text>
+  <text x="44" y="314" fill="#c9cacc" font-family="sans-serif" font-size="11">• 权限隔离用沙箱/分支，CLI + Antigravity App 双屏无缝切换</text>
 
-  <rect x="450" y="242" width="404" height="78" rx="8" fill="#1e262c" stroke="#38bdf8" stroke-opacity="0.6"/>
-  <text x="468" y="266" fill="#38bdf8" font-family="sans-serif" font-size="12.5" font-weight="700">🪟 Windows 避坑组合</text>
-  <text x="468" y="286" fill="#c9cacc" font-family="sans-serif" font-size="11">• CLI 工具强烈推荐跑在 WSL2 (Ubuntu) + Windows Terminal</text>
-  <text x="468" y="306" fill="#c9cacc" font-family="sans-serif" font-size="11">• 规避路径斜杠/换行符 CRLF/PowerShell 转义 90% 坑</text>
+  <rect x="450" y="250" width="404" height="78" rx="8" fill="#1e262c" stroke="#38bdf8" stroke-opacity="0.6"/>
+  <text x="468" y="274" fill="#38bdf8" font-family="sans-serif" font-size="12.5" font-weight="700">🪟 Windows 双轨方案</text>
+  <text x="468" y="294" fill="#c9cacc" font-family="sans-serif" font-size="11">• agy CLI &amp; Antigravity App 原生 PowerShell/Win 一键跑通</text>
+  <text x="468" y="314" fill="#c9cacc" font-family="sans-serif" font-size="11">• 跑重度 Linux/Node/Bash 仓库建议进 WSL2 + Windows Terminal</text>
 </svg>

@@ -11,7 +11,7 @@
 - **核心目录与 6 大专栏索引**：
   - `source/_posts/`：作者历史随笔（**只读，严禁改动**）
   - `source/columns/` → `/columns/`：全站 6 大专栏聚合总览页
-  - `source/agent-playbook/` → `/agent-playbook/`：Agent 使用技巧专栏（4 篇，Codex/Claude Code/Antigravity、macOS & Windows、四大思维、高效/低效对比）
+  - `source/agent-playbook/` → `/agent-playbook/`：Agent 使用技巧专栏（5 篇，含 Antigravity CLI `agy` / Claude Code / Codex、macOS & Windows、四大思维、高效对比与 2026 前沿风向）
   - `source/ai-tutorials/` → `/ai-tutorials/`：AI 教程专栏（四级体系，8 篇）
   - `source/python-tutorials/` → `/python-tutorials/`：Python 教程专栏（3 篇，现代核心 / uv & asyncio / FastAPI & Pydantic）
   - `source/python-ai-practice/` → `/python-ai-practice/`：Python AI 实践专栏（3 篇，LLM SDK / 手写混合 RAG / 可控 Agent & Eval）
@@ -21,6 +21,11 @@
   - `scripts/node-compat-generate.js`：Hexo 3.7.1 在 Node 14+/22 下修复 0 字节输出 bug 的构建器
 
 ## 2. 已完成里程碑
+
+### Phase 2.1（2026-11-27）：补全 Antigravity CLI (`agy`) & 新增 2026 Agent 前沿风向专篇
+- [x] 更新 `AP-01` 与 `agent-tools-matrix.svg`：完整补齐 Google Antigravity CLI（`agy` 单二进制零依赖、macOS/Linux/Windows PowerShell 一行安装、`agy -p` 无头模式、`/grill-me` `/plan` `/goal` `/diff`、`Shift+Tab`/`Ctrl+R` 快捷键）
+- [x] 新增 `AP-05`《2026 Agent 前沿风向：为什么不再盲目堆多 Agent？Harness 工程、渐进式 Skills 与子代理隔离法则》及专属 SVG 图 `agent-frontier-2026-shift.svg`
+- [x] 全量构建验证与双分支发布上线
 
 ### Phase 2（2026-11-27）：新增 4 大实战专栏 & 全站多专栏矩阵架构
 - [x] 升级主题支持可扩展多专栏：新增通用 `column_hub.ejs`、全站 `/columns/` 聚合页 `columns_overview.ejs`、升级 `column_article.ejs` 六专栏路由映射、更新首页 6 专栏网格与顶栏导航
