@@ -1,0 +1,372 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <!-- so meta -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="HandheldFriendly" content="True">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+    <meta name="description" content="🔑先直接给结论 / Direct Answer First风向确实大变了，但不是“禁止用多 Agent”，而是彻底告别 2024–2025 年那种“给每个角色建一个 Agent 互相聊天”的过家家架构！ 2026 下半年的行业铁律变成了两句话：  默认「单 Agent 主循环 + 渐进式 Skills + 精简工具」优先； 派 Subagent（子代理）的唯一正当理由是「隔离上下文噪声 / 真正">
+<meta name="keywords" content="前沿技巧,Harness工程,Single vs Multi-Agent,Progressive Skills,Context Isolation">
+<meta property="og:type" content="website">
+<meta property="og:title" content="2026 Agent 前沿风向：为什么不再盲目堆多 Agent？Harness 工程、渐进式 Skills 与子代理隔离法则">
+<meta property="og:url" content="https://h-zan.github.io/agent-playbook/05-frontier-2026-harness-and-subagents/index.html">
+<meta property="og:site_name" content="HuZan">
+<meta property="og:description" content="🔑先直接给结论 / Direct Answer First风向确实大变了，但不是“禁止用多 Agent”，而是彻底告别 2024–2025 年那种“给每个角色建一个 Agent 互相聊天”的过家家架构！ 2026 下半年的行业铁律变成了两句话：  默认「单 Agent 主循环 + 渐进式 Skills + 精简工具」优先； 派 Subagent（子代理）的唯一正当理由是「隔离上下文噪声 / 真正">
+<meta property="og:locale" content="default">
+<meta property="og:image" content="https://h-zan.github.io/images/agent-playbook/agent-frontier-2026-shift.svg">
+<meta property="og:updated_time" content="2026-11-27T03:55:26.914Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="2026 Agent 前沿风向：为什么不再盲目堆多 Agent？Harness 工程、渐进式 Skills 与子代理隔离法则">
+<meta name="twitter:description" content="🔑先直接给结论 / Direct Answer First风向确实大变了，但不是“禁止用多 Agent”，而是彻底告别 2024–2025 年那种“给每个角色建一个 Agent 互相聊天”的过家家架构！ 2026 下半年的行业铁律变成了两句话：  默认「单 Agent 主循环 + 渐进式 Skills + 精简工具」优先； 派 Subagent（子代理）的唯一正当理由是「隔离上下文噪声 / 真正">
+<meta name="twitter:image" content="https://h-zan.github.io/images/agent-playbook/agent-frontier-2026-shift.svg">
+    
+    
+        
+          
+              <link rel="shortcut icon" href="/images/favicon.ico">
+          
+        
+        
+          
+            <link rel="icon" type="image/png" href="/images/favicon-192x192.png" sizes="192x192">
+          
+        
+        
+          
+            <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png">
+          
+        
+    
+    <!-- title -->
+    <title>2026 Agent 前沿风向：为什么不再盲目堆多 Agent？Harness 工程、渐进式 Skills 与子代理隔离法则</title>
+    <!-- styles -->
+    <link rel="stylesheet" href="/css/style.css">
+    <!-- rss -->
+    
+    
+</head>
+
+<body>
+    
+    
+    <div class="content index column-wide mx-auto px2 my4">
+        
+          <header id="header">
+  <a href="/">
+  
+    
+      <div id="logo" style="background-image: url(/images/logo.png);"></div>
+    
+  
+    <div id="title">
+      <h1>HuZan</h1>
+    </div>
+  </a>
+  <div id="nav">
+    <ul>
+      <li class="icon">
+        <a href="#"><i class="fa fa-bars fa-2x"></i></a>
+      </li>
+       
+        <li><a href="/">Home</a></li>
+       
+        <li><a href="/columns/">Columns</a></li>
+       
+        <li><a href="/ai-tutorials/">AI Tutorials</a></li>
+       
+        <li><a href="/agent-playbook/">Agent Tips</a></li>
+       
+        <li><a href="/ai-news/">AI News</a></li>
+       
+        <li><a href="/archives/">Writing</a></li>
+       
+        <li><a href="/about/">About</a></li>
+      
+    </ul>
+  </div>
+</header>
+
+        
+        
+
+<article class="column-article lang-mode-both" id="column-article-root" itemscope itemtype="http://schema.org/TechArticle">
+  <nav class="col-breadcrumb" aria-label="Breadcrumb">
+    <a href="/">Home</a>
+    <span class="sep">/</span>
+    <a href="/columns/">Columns</a>
+    <span class="sep">/</span>
+    <a href="/agent-playbook/">Agent 使用技巧专栏</a>
+    
+  </nav>
+
+  <header class="col-article-header">
+    <div class="col-article-badges">
+      
+        <span class="level-badge level-cyan">🤖 AGENT PLAYBOOK</span>
+      
+      
+        <span class="col-code-pill">AP-05</span>
+      
+      
+        <span class="col-meta-item">⏱ 9 min</span>
+      
+      
+        <time class="col-meta-item" datetime="2026-11-27T14:40:00.000Z">📅 2026-11-27</time>
+      
+    </div>
+
+    <h1 class="col-article-title" itemprop="headline">2026 Agent 前沿风向：为什么不再盲目堆多 Agent？Harness 工程、渐进式 Skills 与子代理隔离法则</h1>
+    
+      <p class="col-article-title-en">2026 Agent Frontier: Why Less Multi-Agent Wins — Harness Engineering, Progressive Skills &amp; Context Isolation</p>
+    
+
+    
+      <div class="col-article-tags">
+        
+          <span class="col-tag">#前沿技巧</span>
+        
+          <span class="col-tag">#Harness工程</span>
+        
+          <span class="col-tag">#Single vs Multi-Agent</span>
+        
+          <span class="col-tag">#Progressive Skills</span>
+        
+          <span class="col-tag">#Context Isolation</span>
+        
+      </div>
+    
+
+    <div class="lang-toolbar" role="group" aria-label="Language display mode">
+      <span class="lang-toolbar-label">🌐 阅读模式 / View Mode:</span>
+      <button type="button" class="lang-btn active" data-mode="both">中英对照 Bilingual</button>
+      <button type="button" class="lang-btn" data-mode="zh">仅中文 ZH</button>
+      <button type="button" class="lang-btn" data-mode="en">English Only</button>
+    </div>
+  </header>
+
+  
+    <details class="col-toc-box" open>
+      <summary>📑 目录 / Table of Contents</summary>
+      <div class="col-toc-inner">
+        <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#1-_为什么_2026_年大家开始“给多_Agent_降温”？_/_Why_the_Industry_Cooled_on_Multi-Agent_Org_Charts"><span class="toc-text">1. 为什么 2026 年大家开始“给多 Agent 降温”？ / Why the Industry Cooled on Multi-Agent Org Charts</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#2-_什么时候折叠成一个，什么时候必须派_Subagent？_/_Fold_vs-_Keep:_The_2026_Decision_Matrix"><span class="toc-text">2. 什么时候折叠成一个，什么时候必须派 Subagent？ / Fold vs. Keep: The 2026 Decision Matrix</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#3-_2026_必掌握的_4_大前沿实战技巧_/_4_Frontier_Techniques_Every_Power_User_Uses_in_2026"><span class="toc-text">3. 2026 必掌握的 4 大前沿实战技巧 / 4 Frontier Techniques Every Power User Uses in 2026</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#技巧_1：从_Prompt_/_Context_进化到_Harness_Engineering（护栏与环境工程）"><span class="toc-text">技巧 1：从 Prompt / Context 进化到 Harness Engineering（护栏与环境工程）</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#技巧_2：渐进式披露（Progressive_Disclosure）——Skills_与_Tools_严格分层"><span class="toc-text">技巧 2：渐进式披露（Progressive Disclosure）——Skills 与 Tools 严格分层</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#技巧_3：开工前先让_Agent_“反向拷问你”（Interview-Before-Plan）"><span class="toc-text">技巧 3：开工前先让 Agent “反向拷问你”（Interview-Before-Plan）</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#技巧_4：无头脚本化（Headless_CLI）+_定时/异步自治"><span class="toc-text">技巧 4：无头脚本化（Headless CLI）+ 定时/异步自治</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#4-_一手权威信源_/_Frontier_References"><span class="toc-text">4. 一手权威信源 / Frontier References</span></a></li></ol>
+      </div>
+    </details>
+  
+
+  <div class="col-article-body" itemprop="articleBody">
+    <div class="col-callout col-callout-key"><div class="col-callout-title"><span class="col-callout-icon">🔑</span>先直接给结论 / Direct Answer First</div><div class="col-callout-body"><p><strong>风向确实大变了，但不是“禁止用多 Agent”，而是彻底告别 2024–2025 年那种“给每个角色建一个 Agent 互相聊天”的过家家架构！</strong></p>
+<p>2026 下半年的行业铁律变成了两句话：</p>
+<ol>
+<li><strong>默认「单 Agent 主循环 + 渐进式 Skills + 精简工具」优先</strong>；</li>
+<li><strong>派 Subagent（子代理）的唯一正当理由是「隔离上下文噪声 / 真正并行 / 权限隔离」，而不是按人类部门画组织架构图。</strong></li>
+</ol>
+</div></div>
+<p><img src="/images/agent-playbook/agent-frontier-2026-shift.svg" alt="2026 Agent Architecture Shift"></p>
+<h2 id="1-_为什么_2026_年大家开始“给多_Agent_降温”？_/_Why_the_Industry_Cooled_on_Multi-Agent_Org_Charts">1. 为什么 2026 年大家开始“给多 Agent 降温”？ / Why the Industry Cooled on Multi-Agent Org Charts</h2><div class="bi-block bi-zh" data-lang="zh"><span class="bi-badge">中文</span><div class="bi-body"><p>2024–2025 年，全网教程都在画酷炫的“AI 虚拟公司”：一个产品经理 Agent 写完文档丢给架构师 Agent，再丢给前端/后端 Agent，最后丢给测试 Agent——图画得极好看，<strong>一进生产就翻车</strong>：</p>
+<ul>
+<li><strong>交接失真（Lossy Handoff）</strong>：每多一层 Agent 转手，中间推理细节就要被压缩成摘要，传三手后彻底跑偏。</li>
+<li><strong>性能不升反降</strong>：Google 与 Stanford 的实证研究指出，盲目引入多 Agent 协调层会让串行复杂推理表现<strong>暴跌 39% ~ 70%</strong>，Token 消耗却可能飙升至单 Agent 的 <strong>~15 倍</strong>！</li>
+<li><strong>模型变强了，旧胶水成了累赘</strong>：2026 年的新一代前沿模型已能在一个连续上下文里自己完成规划、调用工具与修正路线。Anthropic 在 <strong>2026 年 10 月</strong>发布的重磅实战指南（<em>When to fold subagents into your main agent loop</em>）中披露：把冗余子代理折叠回单主循环后，有客户实测端到端运行速度直接快了 <strong>~2 倍</strong>、语气与全局一致性大幅提升。</li>
+</ul>
+</div></div>
+<div class="bi-block bi-en" data-lang="en"><span class="bi-badge">EN</span><div class="bi-body"><p>In 2024–2025, everyone drew elaborate “AI org charts” (PM Agent → Architect Agent → Coder Agent → QA Agent). In production, those chains failed hard:</p>
+<ul>
+<li><strong>Lossy handoffs</strong> dropped crucial nuance at every agent boundary.</li>
+<li><strong>Coordination tax</strong>: Studies from Stanford and Google showed multi-agent coordination overhead can cut sequential reasoning accuracy by <strong>39%–70%</strong> while burning up to <strong>~15× more tokens</strong>.</li>
+<li><strong>Anthropic’s Oct 2026 guidance</strong> (<em>When to fold subagents into your main agent loop</em>) formalized the reversal: modern models can plan inside one continuous loop—folding unnecessary specialist subagents back into one loop made a real customer workflow <strong>~2× faster</strong> with higher end-to-end quality.</li>
+</ul>
+</div></div>
+<h2 id="2-_什么时候折叠成一个，什么时候必须派_Subagent？_/_Fold_vs-_Keep:_The_2026_Decision_Matrix">2. 什么时候折叠成一个，什么时候必须派 Subagent？ / Fold vs. Keep: The 2026 Decision Matrix</h2><table>
+<thead>
+<tr>
+<th style="text-align:left">判断维度 Dimension</th>
+<th style="text-align:left">✅ 用「单 Agent + Skills」更好</th>
+<th style="text-align:left">✅ 必须派「Subagent 子代理」</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left"><strong>上下文干净度</strong></td>
+<td style="text-align:left">任务连贯，单窗口远未爆满</td>
+<td style="text-align:left"><strong>重度搜索/读几十个文件/翻长日志</strong>：把脏噪声关在子代理里，只吐干净结论回主窗口</td>
+</tr>
+<tr>
+<td style="text-align:left"><strong>任务依赖关系</strong></td>
+<td style="text-align:left">串行推理（下一步强依赖上一步细节）</td>
+<td style="text-align:left"><strong>真正独立并行</strong>：同时调研 3 个方案、同时改 2 个互不耦合模块</td>
+</tr>
+<tr>
+<td style="text-align:left"><strong>权限与安全隔离</strong></td>
+<td style="text-align:left">同一套仓库读写权限即可完成</td>
+<td style="text-align:left"><strong>独立对抗审查 / 权限隔离</strong>：如只读 Reviewer（看不到草稿思维链）或隔离凭据的沙箱执行者</td>
+</tr>
+<tr>
+<td style="text-align:left"><strong>工作流复杂度</strong></td>
+<td style="text-align:left">只是“步骤规范不同”（如周报 vs 发版）→ 写成 <strong>Skill</strong> 即可</td>
+<td style="text-align:left">单一提示词下工具/规则严重冲突，且 <strong>Eval 实测</strong>证明拆开后分数明显更高</td>
+</tr>
+</tbody>
+</table>
+<h2 id="3-_2026_必掌握的_4_大前沿实战技巧_/_4_Frontier_Techniques_Every_Power_User_Uses_in_2026">3. 2026 必掌握的 4 大前沿实战技巧 / 4 Frontier Techniques Every Power User Uses in 2026</h2><h3 id="技巧_1：从_Prompt_/_Context_进化到_Harness_Engineering（护栏与环境工程）">技巧 1：从 Prompt / Context 进化到 <strong>Harness Engineering（护栏与环境工程）</strong></h3><div class="bi-block bi-zh" data-lang="zh"><span class="bi-badge">中文</span><div class="bi-body"><p>OpenAI（2026.02《Harness Engineering》）与 Martin Fowler（2026.04）共同定义了 2026 最核心的工程概念：<strong>决定 Agent 上限的往往不是换个更贵的模型，而是你给它搭的「执行套具（Harness）」！</strong></p>
+<p>最震撼的真实案例：2026 年 3 月，LangChain 团队<strong>一字未改底层模型</strong>，仅靠优化 Harness（更好的目录感知、确定性测试自检循环、上下文压缩与错误回流），就让自家 Coding Agent 在 Terminal Bench 2.0 榜单上从<strong>第 30 名一路杀进第 5 名</strong>！</p>
+<p><strong>个人立刻可落地的 Harness 改造</strong>：</p>
+<ul>
+<li>把项目里所有隐性知识变成机器可执行脚本（<code>make check</code> / <code>npm run verify</code>），让 Agent 每次改动必跑。</li>
+<li>写好 Hooks（如文件保存后自动跑 Formatter / 类型检查），把机械规范从 Prompt 里彻底卸载给确定性工具。</li>
+</ul>
+</div></div>
+<div class="bi-block bi-en" data-lang="en"><span class="bi-badge">EN</span><div class="bi-body"><p>Popularized in 2026 by OpenAI and Martin Fowler, <strong>Harness Engineering</strong> shifts focus from tweaking wording to engineering the agent’s execution environment. In March 2026, LangChain jumped from <strong>#30 to #5 on Terminal Bench 2.0</strong> without changing the underlying LLM—purely by improving their harness (verification loops, context hygiene, and tool ergonomics).</p>
+</div></div>
+<h3 id="技巧_2：渐进式披露（Progressive_Disclosure）——Skills_与_Tools_严格分层">技巧 2：渐进式披露（Progressive Disclosure）——Skills 与 Tools 严格分层</h3><div class="bi-block bi-zh" data-lang="zh"><span class="bi-badge">中文</span><div class="bi-body"><p>别再把 100 个工具和 5000 字规矩一股脑塞进启动提示词！Anthropic 实测发现：<strong>单次暴露超过 30~50 个工具定义时，模型选工具的准确率会明显断崖下跌</strong>。</p>
+<p>2026 最优雅的解法是<strong>渐进式披露（Progressive Disclosure）</strong>：</p>
+<ul>
+<li><strong>Skills（<code>SKILL.md</code>）= 怎么干活（方法论、步骤、审美标准、避坑清单）</strong>：平时只放 1 句简短摘要在上下文，只有真正命中场景时才按需全文加载（Anthropic 靠这一招把 Claude Code 基础系统提示词削减了 <strong>80% 以上</strong>！）。</li>
+<li><strong>Tools / MCP = 能干什么（原子动作、查数据、写文件、调外部 API）</strong>：按意图精简分组，工具报错信息要写得像“给同事的排障提示”，让模型看一眼就知道怎么自纠。</li>
+</ul>
+</div></div>
+<div class="bi-block bi-en" data-lang="en"><span class="bi-badge">EN</span><div class="bi-body"><p>Never dump 80 tools and 5,000 words of procedures into the initial prompt—tool accuracy degrades past ~30–50 active tools. Instead, split cleanly with <strong>Progressive Disclosure</strong>:</p>
+<ul>
+<li><strong>Skills</strong> hold procedural know-how and load <em>only on demand</em> (letting Anthropic trim &gt;80% of Claude Code’s base system prompt).</li>
+<li><strong>Tools / MCP</strong> expose lean, intent-grouped actions with self-explanatory error messages.</li>
+</ul>
+</div></div>
+<h3 id="技巧_3：开工前先让_Agent_“反向拷问你”（Interview-Before-Plan）">技巧 3：开工前先让 Agent “反向拷问你”（Interview-Before-Plan）</h3><div class="bi-block bi-zh" data-lang="zh"><span class="bi-badge">中文</span><div class="bi-body"><p>面对模糊的大需求，2026 顶级玩家不再急着让 Agent 直接写代码，而是先触发<strong>反向访谈</strong>（例如在 Antigravity 里直接敲 <code>/grill-me</code>，或在 Claude Code/Codex 里说 <em>“先向我提 3~5 个最关键的澄清问题并给推荐选项，对齐后再出方案”</em>）。</p>
+<p>花 90 秒回答 4 个精准问题，就能提前消除 90% 的架构返工——比改完 20 个文件再推倒重来快 10 倍！</p>
+</div></div>
+<div class="bi-block bi-en" data-lang="en"><span class="bi-badge">EN</span><div class="bi-body"><p>For ambiguous projects, have the agent interview <em>you</em> first (e.g., <code>/grill-me</code> in Antigravity or asking Claude Code/Codex for 3–5 clarifying questions with recommended defaults) before writing a single line of code. Ninety seconds of alignment prevents hours of rework.</p>
+</div></div>
+<h3 id="技巧_4：无头脚本化（Headless_CLI）+_定时/异步自治">技巧 4：无头脚本化（Headless CLI）+ 定时/异步自治</h3><div class="bi-block bi-zh" data-lang="zh"><span class="bi-badge">中文</span><div class="bi-body"><p>不要只把 Agent 留在交互聊天窗口里——2026 的前沿用法是把 <strong><code>agy -p</code> / <code>claude -p</code> / <code>codex exec</code></strong> 直接嵌进 Git Hook、CI 流水线或定时任务（如 Antigravity 的 <code>/schedule</code>）：</p>
+<ul>
+<li>每日自动扫描依赖漏洞 / 汇总 PR 变更写 Changelog；</li>
+<li>每次提 PR 自动跑独立 Reviewer Agent 做安全与边界审查；</li>
+<li>遇到 CI 红灯自动拉日志、复现单测、开 Draft Fix PR 等你早上醒来一键审批合并！</li>
+</ul>
+</div></div>
+<div class="bi-block bi-en" data-lang="en"><span class="bi-badge">EN</span><div class="bi-body"><p>Move beyond interactive chat: embed headless commands (<code>agy -p</code>, <code>claude -p</code>, <code>codex exec</code>) or <code>/schedule</code> into CI/CD and cron loops for automated PR security reviews, dependency audits, changelog drafts, and overnight bug-fix PRs ready for morning review.</p>
+</div></div>
+<h2 id="4-_一手权威信源_/_Frontier_References">4. 一手权威信源 / Frontier References</h2><ul>
+<li>📄 <strong>OpenAI Engineering (Feb 2026)</strong>: <a href="https://openai.com/index/harness-engineering/" target="_blank" rel="noopener">Harness engineering: leveraging Codex in an agent-first world</a></li>
+<li>🏛️ <strong>Martin Fowler (Apr 2026)</strong>: <a href="https://martinfowler.com/articles/harness-engineering.html" target="_blank" rel="noopener">Harness engineering for coding agent users</a></li>
+<li>🧠 <strong>Single vs. Multi-Agent (Oct 2026 Analysis of Anthropic’s Guidance)</strong>: <a href="https://www.joancomadran.dev/blog/single-agent-vs-multi-agent" target="_blank" rel="noopener">Single agent vs multi-agent: when subagents are worth it</a></li>
+<li>🎯 <strong>Context Isolation Essay (Nov 2026)</strong>: <a href="https://blog.beerandcode.com.br/en/tutorials/subagents-context-isolation" target="_blank" rel="noopener">Subagents: isolate context, don’t build an agent team</a></li>
+</ul>
+
+  </div>
+
+  <footer class="col-article-footer">
+    <div class="col-nav-grid">
+      
+        <a class="col-nav-card col-nav-prev" href="/agent-playbook/04-design-and-daily-work/index.html">
+          <span class="col-nav-dir">← 上一篇 / Previous</span>
+          <span class="col-nav-title">不止写代码：用 Agent 做产品设计、视觉迭代与高效职场工作流</span>
+        </a>
+      
+
+      
+        <a class="col-nav-card col-nav-next" href="/agent-playbook/">
+          <span class="col-nav-dir">返回专栏总览 / Column Hub →</span>
+          <span class="col-nav-title">Agent 使用技巧专栏</span>
+        </a>
+      
+    </div>
+  </footer>
+</article>
+
+<script>
+(function() {
+  var root = document.getElementById('column-article-root');
+  if (!root) return;
+  var buttons = root.querySelectorAll('.lang-btn');
+  var storageKey = 'hzan_ai_lang_mode';
+
+  function applyMode(mode) {
+    if (mode !== 'both' && mode !== 'zh' && mode !== 'en') mode = 'both';
+    root.classList.remove('lang-mode-both', 'lang-mode-zh', 'lang-mode-en');
+    root.classList.add('lang-mode-' + mode);
+    buttons.forEach(function(btn) {
+      btn.classList.toggle('active', btn.getAttribute('data-mode') === mode);
+    });
+    try { localStorage.setItem(storageKey, mode); } catch (e) {}
+  }
+
+  buttons.forEach(function(btn) {
+    btn.addEventListener('click', function() {
+      applyMode(btn.getAttribute('data-mode'));
+    });
+  });
+
+  try {
+    var saved = localStorage.getItem(storageKey);
+    if (saved) applyMode(saved);
+  } catch (e) {}
+})();
+</script>
+
+    </div>
+    
+    <footer id="footer">
+  <div class="footer-left">
+    Copyright &copy; 2026 Zan
+  </div>
+  <div class="footer-right">
+    <nav>
+      <ul>
+         
+          <li><a href="/">Home</a></li>
+         
+          <li><a href="/columns/">Columns</a></li>
+         
+          <li><a href="/ai-tutorials/">AI Tutorials</a></li>
+         
+          <li><a href="/agent-playbook/">Agent Tips</a></li>
+         
+          <li><a href="/ai-news/">AI News</a></li>
+         
+          <li><a href="/archives/">Writing</a></li>
+         
+          <li><a href="/about/">About</a></li>
+        
+      </ul>
+    </nav>
+  </div>
+</footer>
+
+</body>
+</html>
+<!-- styles -->
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css">
+<link rel="stylesheet" href="/lib/meslo-LG/styles.css">
+<link rel="stylesheet" href="/lib/justified-gallery/justifiedGallery.min.css">
+
+
+<!-- jquery -->
+<script src="/lib/jquery/jquery.min.js"></script>
+<script src="/lib/justified-gallery/jquery.justifiedGallery.min.js"></script>
+<script src="/js/main.js"></script>
+<!-- Google Analytics -->
+
+    <script type="text/javascript">
+        (function(i,s,o,g,r,a,m) {i['GoogleAnalyticsObject']=r;i[r]=i[r]||function() {
+        (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+        m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+        })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+        ga('create', 'UA-86660611-1', 'auto');
+        ga('send', 'pageview');
+    </script>
+
+<!-- Disqus Comments -->
+
+    <script type="text/javascript">
+        var disqus_shortname = 'huzan';
+
+        (function(){
+            var dsq = document.createElement('script');
+            dsq.type = 'text/javascript';
+            dsq.async = true;
+            dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+            (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+        }());
+    </script>
+
+

@@ -6,19 +6,19 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="HandheldFriendly" content="True">
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
-    <meta name="description" content="🔑核心结论先行 / TL;DR CLI（Claude Code / Codex CLI） 胜在贴近终端、脚本化与并行多任务；桌面软件（Antigravity / Codex App / Claude Desktop） 胜在可视化 Diff、浏览器联动、截图反馈与非编码办公。 最佳实践不是二选一，而是组合拳：日常交互式全栈/UI 用 Antigravity，深水区重构/终端批处理开 Claude">
-<meta name="keywords" content="Codex,Claude Code,Antigravity,macOS,Windows">
+    <meta name="description" content="🔑核心结论先行 / TL;DR 2026 三大主力已全部实现「CLI + 桌面软件」双形态：Claude Code（claude）、OpenAI Codex（codex）、Google Antigravity（agy CLI + App + IDE + 7 大编辑器插件）。 CLI 胜在贴近终端、可脚本化（无头批处理）与多窗并行；桌面端 胜在可视 Diff、浏览器联动、截图视觉迭代与非编码办公。">
+<meta name="keywords" content="Antigravity CLI,Codex,Claude Code,macOS,Windows">
 <meta property="og:type" content="website">
-<meta property="og:title" content="Agent 工具全景与双平台极速上手：Codex、Claude Code、Antigravity（macOS &amp; Windows）">
+<meta property="og:title" content="Agent 工具全景与双平台极速上手：Codex、Claude Code、Antigravity（含 CLI &amp; 桌面端）">
 <meta property="og:url" content="https://h-zan.github.io/agent-playbook/01-cli-and-desktop-setup/index.html">
 <meta property="og:site_name" content="HuZan">
-<meta property="og:description" content="🔑核心结论先行 / TL;DR CLI（Claude Code / Codex CLI） 胜在贴近终端、脚本化与并行多任务；桌面软件（Antigravity / Codex App / Claude Desktop） 胜在可视化 Diff、浏览器联动、截图反馈与非编码办公。 最佳实践不是二选一，而是组合拳：日常交互式全栈/UI 用 Antigravity，深水区重构/终端批处理开 Claude">
+<meta property="og:description" content="🔑核心结论先行 / TL;DR 2026 三大主力已全部实现「CLI + 桌面软件」双形态：Claude Code（claude）、OpenAI Codex（codex）、Google Antigravity（agy CLI + App + IDE + 7 大编辑器插件）。 CLI 胜在贴近终端、可脚本化（无头批处理）与多窗并行；桌面端 胜在可视 Diff、浏览器联动、截图视觉迭代与非编码办公。">
 <meta property="og:locale" content="default">
 <meta property="og:image" content="https://h-zan.github.io/images/agent-playbook/agent-tools-matrix.svg">
-<meta property="og:updated_time" content="2026-11-27T03:27:10.346Z">
+<meta property="og:updated_time" content="2026-11-27T03:55:26.110Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Agent 工具全景与双平台极速上手：Codex、Claude Code、Antigravity（macOS &amp; Windows）">
-<meta name="twitter:description" content="🔑核心结论先行 / TL;DR CLI（Claude Code / Codex CLI） 胜在贴近终端、脚本化与并行多任务；桌面软件（Antigravity / Codex App / Claude Desktop） 胜在可视化 Diff、浏览器联动、截图反馈与非编码办公。 最佳实践不是二选一，而是组合拳：日常交互式全栈/UI 用 Antigravity，深水区重构/终端批处理开 Claude">
+<meta name="twitter:title" content="Agent 工具全景与双平台极速上手：Codex、Claude Code、Antigravity（含 CLI &amp; 桌面端）">
+<meta name="twitter:description" content="🔑核心结论先行 / TL;DR 2026 三大主力已全部实现「CLI + 桌面软件」双形态：Claude Code（claude）、OpenAI Codex（codex）、Google Antigravity（agy CLI + App + IDE + 7 大编辑器插件）。 CLI 胜在贴近终端、可脚本化（无头批处理）与多窗并行；桌面端 胜在可视 Diff、浏览器联动、截图视觉迭代与非编码办公。">
 <meta name="twitter:image" content="https://h-zan.github.io/images/agent-playbook/agent-tools-matrix.svg">
     
     
@@ -39,7 +39,7 @@
         
     
     <!-- title -->
-    <title>Agent 工具全景与双平台极速上手：Codex、Claude Code、Antigravity（macOS &amp; Windows）</title>
+    <title>Agent 工具全景与双平台极速上手：Codex、Claude Code、Antigravity（含 CLI &amp; 桌面端）</title>
     <!-- styles -->
     <link rel="stylesheet" href="/css/style.css">
     <!-- rss -->
@@ -109,26 +109,26 @@
         <span class="col-code-pill">AP-01</span>
       
       
-        <span class="col-meta-item">⏱ 8 min</span>
+        <span class="col-meta-item">⏱ 9 min</span>
       
       
         <time class="col-meta-item" datetime="2026-11-27T12:10:00.000Z">📅 2026-11-27</time>
       
     </div>
 
-    <h1 class="col-article-title" itemprop="headline">Agent 工具全景与双平台极速上手：Codex、Claude Code、Antigravity（macOS &amp; Windows）</h1>
+    <h1 class="col-article-title" itemprop="headline">Agent 工具全景与双平台极速上手：Codex、Claude Code、Antigravity（含 CLI &amp; 桌面端）</h1>
     
-      <p class="col-article-title-en">Agent Toolchain &amp; Cross-Platform Setup: Codex, Claude Code &amp; Antigravity on macOS &amp; Windows</p>
+      <p class="col-article-title-en">Agent Toolchain &amp; Cross-Platform Setup: Codex, Claude Code &amp; Antigravity CLI/App on macOS &amp; Windows</p>
     
 
     
       <div class="col-article-tags">
         
+          <span class="col-tag">#Antigravity CLI</span>
+        
           <span class="col-tag">#Codex</span>
         
           <span class="col-tag">#Claude Code</span>
-        
-          <span class="col-tag">#Antigravity</span>
         
           <span class="col-tag">#macOS</span>
         
@@ -149,22 +149,22 @@
     <details class="col-toc-box" open>
       <summary>📑 目录 / Table of Contents</summary>
       <div class="col-toc-inner">
-        <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#1-_三大主力_Agent_怎么选？一张表定乾坤_/_Choosing_Between_Claude_Code,_Codex_&_Antigravity"><span class="toc-text">1. 三大主力 Agent 怎么选？一张表定乾坤 / Choosing Between Claude Code, Codex &amp; Antigravity</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#2-_macOS_vs_Windows_双平台极速配置（不踩坑版）_/_macOS_&_Windows_Setup_Without_Pain"><span class="toc-text">2. macOS vs Windows 双平台极速配置（不踩坑版） / macOS &amp; Windows Setup Without Pain</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#🍎_macOS_推荐配置_/_macOS_Setup"><span class="toc-text">🍎 macOS 推荐配置 / macOS Setup</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#🪟_Windows_避坑指南_/_Windows_Setup_(Save_Yourself_Hours)"><span class="toc-text">🪟 Windows 避坑指南 / Windows Setup (Save Yourself Hours)</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#3-_权限模式与安全边界：既要快、又要稳_/_Permission_Modes:_Fast_Yet_Safe"><span class="toc-text">3. 权限模式与安全边界：既要快、又要稳 / Permission Modes: Fast Yet Safe</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#4-_延伸官方资源_/_Official_References"><span class="toc-text">4. 延伸官方资源 / Official References</span></a></li></ol>
+        <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#1-_三大主力_Agent_怎么选？一张表定乾坤_/_Choosing_Between_Claude_Code,_Codex_&_Antigravity"><span class="toc-text">1. 三大主力 Agent 怎么选？一张表定乾坤 / Choosing Between Claude Code, Codex &amp; Antigravity</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#2-_Antigravity_CLI_(agy)_速查：为什么它特别顺手？_/_Antigravity_CLI_(agy)_Quick_Reference"><span class="toc-text">2. Antigravity CLI (agy) 速查：为什么它特别顺手？ / Antigravity CLI (agy) Quick Reference</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#3-_macOS_vs_Windows_双平台极速安装（不踩坑版）_/_macOS_&_Windows_Setup"><span class="toc-text">3. macOS vs Windows 双平台极速安装（不踩坑版） / macOS &amp; Windows Setup</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#🍎_macOS_/_Linux_一键安装_/_macOS_&_Linux"><span class="toc-text">🍎 macOS / Linux 一键安装 / macOS &amp; Linux</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#🪟_Windows_双轨方案（原生_+_WSL2_避坑指南）_/_Windows_Setup"><span class="toc-text">🪟 Windows 双轨方案（原生 + WSL2 避坑指南） / Windows Setup</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#4-_权限模式与安全边界：既要快、又要稳_/_Permission_Modes:_Fast_Yet_Safe"><span class="toc-text">4. 权限模式与安全边界：既要快、又要稳 / Permission Modes: Fast Yet Safe</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#5-_官方文档与下载地址_/_Official_Links"><span class="toc-text">5. 官方文档与下载地址 / Official Links</span></a></li></ol>
       </div>
     </details>
   
 
   <div class="col-article-body" itemprop="articleBody">
     <div class="col-callout col-callout-key"><div class="col-callout-title"><span class="col-callout-icon">🔑</span>核心结论先行 / TL;DR</div><div class="col-callout-body"><ul>
-<li><strong>CLI（Claude Code / Codex CLI）</strong> 胜在贴近终端、脚本化与并行多任务；<strong>桌面软件（Antigravity / Codex App / Claude Desktop）</strong> 胜在可视化 Diff、浏览器联动、截图反馈与非编码办公。</li>
-<li><strong>最佳实践不是二选一，而是组合拳</strong>：日常交互式全栈/UI 用 <strong>Antigravity</strong>，深水区重构/终端批处理开 <strong>Claude Code</strong>，异步挂后台修 Bug/写测试丢给 <strong>Codex</strong>。</li>
-<li><strong>Windows 用户第一条铁律</strong>：跑任何 CLI Agent，<strong>优先进 WSL2（Ubuntu）</strong>，直接避开 90% 的路径与脚本坑。</li>
+<li><strong>2026 三大主力已全部实现「CLI + 桌面软件」双形态</strong>：<strong>Claude Code（<code>claude</code>）</strong>、<strong>OpenAI Codex（<code>codex</code>）</strong>、<strong>Google Antigravity（<code>agy</code> CLI + App + IDE + 7 大编辑器插件）</strong>。</li>
+<li><strong>CLI</strong> 胜在贴近终端、可脚本化（无头批处理）与多窗并行；<strong>桌面端</strong> 胜在可视 Diff、浏览器联动、截图视觉迭代与非编码办公。</li>
+<li><strong>最佳实践是组合拳</strong>：终端高频干活随时用 <strong><code>agy</code> / <code>claude</code> / <code>codex</code></strong>；全栈/UI 设计看预览切 <strong>Antigravity App/IDE</strong>；异步批量修 Bug/补测试丢给 <strong>Codex</strong>。</li>
 </ul>
 </div></div>
 <p><img src="/images/agent-playbook/agent-tools-matrix.svg" alt="Agent CLI and Desktop Landscape"></p>
-<h2 id="1-_三大主力_Agent_怎么选？一张表定乾坤_/_Choosing_Between_Claude_Code,_Codex_&amp;_Antigravity">1. 三大主力 Agent 怎么选？一张表定乾坤 / Choosing Between Claude Code, Codex &amp; Antigravity</h2><div class="bi-block bi-zh" data-lang="zh"><span class="bi-badge">中文</span><div class="bi-body"><p>别盲目追新，看清每款工具的<strong>主战场</strong>，按任务派活才最高效：</p>
+<h2 id="1-_三大主力_Agent_怎么选？一张表定乾坤_/_Choosing_Between_Claude_Code,_Codex_&amp;_Antigravity">1. 三大主力 Agent 怎么选？一张表定乾坤 / Choosing Between Claude Code, Codex &amp; Antigravity</h2><div class="bi-block bi-zh" data-lang="zh"><span class="bi-badge">中文</span><div class="bi-body"><p>别盲目追新，看清每款工具的<strong>主战场与形态</strong>，按任务派活才最高效：</p>
 </div></div>
-<div class="bi-block bi-en" data-lang="en"><span class="bi-badge">EN</span><div class="bi-body"><p>Pick the right agent for the right job instead of forcing one tool everywhere:</p>
+<div class="bi-block bi-en" data-lang="en"><span class="bi-badge">EN</span><div class="bi-body"><p>All three leading ecosystems now ship both terminal CLIs and desktop surfaces. Match each tool to its strongest lane:</p>
 </div></div>
 <table>
 <thead>
@@ -179,64 +179,66 @@
 <tbody>
 <tr>
 <td style="text-align:left"><strong>Claude Code</strong></td>
-<td style="text-align:left">CLI + Desktop + IDE 插件</td>
+<td style="text-align:left">CLI (<code>claude</code>) + Desktop + IDE 插件</td>
 <td style="text-align:left"><code>CLAUDE.md</code> / <code>AGENTS.md</code></td>
-<td style="text-align:left">超强长上下文代码理解、Hooks、Skills、Subagents</td>
-<td style="text-align:left">复杂大仓库重构、疑难 Bug 根因定位、深度架构改造</td>
+<td style="text-align:left">深度代码库理解、Hooks、Skills、按需子代理隔离</td>
+<td style="text-align:left">大型仓库深度重构、疑难 Bug 根因定位</td>
 </tr>
 <tr>
 <td style="text-align:left"><strong>OpenAI Codex</strong></td>
-<td style="text-align:left">Codex CLI + 桌面 App + Cloud</td>
+<td style="text-align:left">CLI (<code>codex</code>) + Desktop App + Cloud</td>
 <td style="text-align:left"><code>AGENTS.md</code></td>
-<td style="text-align:left">本地沙箱 + 云端异步多任务并行、批量提 PR</td>
-<td style="text-align:left">挂后台刷单测、批量修 Issue、多分支并行实验</td>
+<td style="text-align:left">本地沙箱 + 云端异步并行任务、Worktree 批量提 PR</td>
+<td style="text-align:left">后台刷单测、批量修 Issue、多分支实验</td>
 </tr>
 <tr>
-<td style="text-align:left"><strong>Antigravity</strong></td>
-<td style="text-align:left">Agent-First 桌面 IDE + 远程环境</td>
-<td style="text-align:left"><code>AGENTS.md</code> + Skills + Artifacts</td>
-<td style="text-align:left">编辑器 + 终端 + 浏览器/设计预览一体化、可视 Artifacts 审阅</td>
-<td style="text-align:left">从 0 到 1 建全栈项目、UI 设计视觉迭代、跨工具自动化交付</td>
+<td style="text-align:left"><strong>Google Antigravity</strong></td>
+<td style="text-align:left"><strong>CLI (<code>agy</code>)</strong> + App + IDE + 7 IDE 插件 + Python SDK</td>
+<td style="text-align:left"><code>AGENTS.md</code> + Rules + Skills</td>
+<td style="text-align:left"><strong><code>agy</code> 单编译二进制（零 Node/Python 依赖）</strong>、单终端多模型、<code>/plan</code> <code>/grill-me</code> <code>/goal</code> <code>/diff</code>、桌面端联动浏览器与 Artifacts</td>
+<td style="text-align:left">端到端全栈建项、终端+视觉预览联动、多模型切换与办公自动化</td>
 </tr>
 </tbody>
 </table>
-<h2 id="2-_macOS_vs_Windows_双平台极速配置（不踩坑版）_/_macOS_&amp;_Windows_Setup_Without_Pain">2. macOS vs Windows 双平台极速配置（不踩坑版） / macOS &amp; Windows Setup Without Pain</h2><h3 id="🍎_macOS_推荐配置_/_macOS_Setup">🍎 macOS 推荐配置 / macOS Setup</h3><div class="bi-block bi-zh" data-lang="zh"><span class="bi-badge">中文</span><div class="bi-body"><p>macOS 天然是 Unix 环境，配好终端与包管理器就能丝滑起飞：</p>
+<h2 id="2-_Antigravity_CLI_(agy)_速查：为什么它特别顺手？_/_Antigravity_CLI_(agy)_Quick_Reference">2. Antigravity CLI (<code>agy</code>) 速查：为什么它特别顺手？ / Antigravity CLI (<code>agy</code>) Quick Reference</h2><div class="bi-block bi-zh" data-lang="zh"><span class="bi-badge">中文</span><div class="bi-body"><p>很多同学只知道 Antigravity 有桌面 App 和 IDE，其实它的官方终端客户端 <strong>Antigravity CLI（命令 <code>agy</code>）</strong> 与桌面端共享同一套 Agent Harness，有三个极大提效亮点：</p>
 <ol>
-<li><strong>终端升级</strong>：用 <strong>Ghostty</strong> / <strong>Warp</strong> / <strong>iTerm2</strong> 替代自带终端，配合 <code>tmux</code> 开多窗格并行跑多个 Agent。</li>
-<li><strong>CLI 安装与认证</strong>：Node 22+（<code>brew install node</code>）+ <code>gh</code> CLI（<code>brew install gh</code>），直接安装 Claude Code / Codex CLI；桌面端直接装 <strong>Antigravity</strong> 与 <strong>Codex App</strong>。</li>
-<li><strong>关键提效习惯</strong>：把 <code>git</code>、<code>rg</code>（ripgrep）、<code>jq</code>、<code>uv</code> 装齐——Agent 检索和跑脚本的速度会快 5 倍！</li>
-</ol>
-</div></div>
-<div class="bi-block bi-en" data-lang="en"><span class="bi-badge">EN</span><div class="bi-body"><p>macOS is native POSIX—install modern CLI utilities so your agents move 5× faster:</p>
-<ol>
-<li><strong>Terminal</strong>: Ghostty, Warp, or iTerm2 + <code>tmux</code> for parallel agent panes.</li>
-<li><strong>Core tools</strong>: <code>brew install node gh ripgrep jq uv</code> so agents search, parse JSON, and manage Python instantly.</li>
-<li><strong>Desktop</strong>: Pair <strong>Antigravity</strong> (full-stack + visual preview) with CLI agents in your terminal.</li>
-</ol>
-</div></div>
-<h3 id="🪟_Windows_避坑指南_/_Windows_Setup_(Save_Yourself_Hours)">🪟 Windows 避坑指南 / Windows Setup (Save Yourself Hours)</h3><div class="bi-block bi-zh" data-lang="zh"><span class="bi-badge">中文</span><div class="bi-body"><p>Windows 用户用 Agent 踩坑，90% 死在三个地方：<strong>反斜杠路径 <code>\</code></strong>、<strong>PowerShell 命令语法与 Bash 不兼容</strong>、<strong>文件换行符 CRLF 弄脏 Git Diff</strong>。</p>
-<p><strong>两条立竿见影的解法</strong>：</p>
-<ol>
-<li><strong>CLI Agent 一律装进 WSL2（Ubuntu 24.04）+ Windows Terminal</strong>：<ul>
-<li>把代码仓库直接放进 Linux 文件系统 <code>~/projects/</code>（<strong>千万别放 <code>/mnt/c/</code></strong>，跨盘 I/O 慢 10 倍！）。</li>
-<li>在 WSL2 里跑 Claude Code / Codex CLI，体验和 macOS/Linux 100% 一致。</li>
-</ul>
-</li>
-<li><strong>桌面软件原生跑 Windows</strong>：<ul>
-<li><strong>Antigravity</strong>、<strong>VS Code</strong> 直接原生安装 Windows 版，点击左下角 <code>Remote - WSL</code> 无缝直连 WSL2 里的项目与终端。</li>
-<li>若必须在原生 PowerShell 里跑，务必配置 <code>git config --global core.autocrlf input</code> 并在 <code>AGENTS.md</code> 写明“当前为 Windows PowerShell 环境”。</li>
+<li><strong>单编译二进制，零运行时依赖</strong>：不需要提前装 Node.js 或 Python，macOS、Linux、Windows（PowerShell/CMD）均支持<strong>一行命令直接安装</strong>。</li>
+<li><strong>一终端切换多模型家族</strong>：支持 Gemini、Claude 等多系列模型（视订阅计划），并支持从 Claude Code / Codex / Cursor 一键导入已有的 MCP、Skills 与规则。</li>
+<li><strong>内置高阶工程斜杠命令与快捷审阅</strong>：<ul>
+<li><code>agy</code> 启动交互式 TUI；<code>agy -i &quot;任务&quot;</code> 带初始提示启动；<code>agy -p &quot;任务&quot;</code> <strong>无头单次运行（极适合写进 Shell/CI 脚本）</strong>。</li>
+<li>交互内按 <strong><code>Shift + Tab</code></strong> 切换执行模式（<code>plan</code> / <code>default</code> / <code>accept-edits</code> / <code>auto</code>）；按 <strong><code>Ctrl + R</code></strong> 直达 Artifact 审阅页看计划和 Diff；常用 <code>/plan</code>、<code>/grill-me</code>（开工前先访谈对齐需求）、<code>/goal</code>、<code>/diff</code>、<code>/compact</code>、<code>/agents</code>。</li>
 </ul>
 </li>
 </ol>
 </div></div>
-<div class="bi-block bi-en" data-lang="en"><span class="bi-badge">EN</span><div class="bi-body"><p>90% of Windows agent pain comes from backslashes (<code>\</code>), PowerShell vs. Bash syntax mismatches, and <code>CRLF</code> git diffs.</p>
+<div class="bi-block bi-en" data-lang="en"><span class="bi-badge">EN</span><div class="bi-body"><p><strong>Antigravity CLI (<code>agy</code>)</strong> shares the exact same agent harness as the Antigravity App and IDE, shipping as a <strong>single compiled binary with zero Node/Python runtime dependencies</strong>:</p>
+<ul>
+<li>Launch with <code>agy</code> (interactive TUI), <code>agy -i &quot;prompt&quot;</code> (pre-filled interactive), or <code>agy -p &quot;prompt&quot;</code> (headless non-interactive mode for scripts/CI).</li>
+<li>Press <strong><code>Shift + Tab</code></strong> to toggle modes (<code>plan</code>, <code>default</code>, <code>accept-edits</code>, <code>auto</code>), <strong><code>Ctrl + R</code></strong> for Artifact Review, and use built-in slash commands like <code>/grill-me</code>, <code>/plan</code>, <code>/goal</code>, <code>/diff</code>, <code>/compact</code>, and <code>/agents</code>.</li>
+</ul>
+</div></div>
+<h2 id="3-_macOS_vs_Windows_双平台极速安装（不踩坑版）_/_macOS_&amp;_Windows_Setup">3. macOS vs Windows 双平台极速安装（不踩坑版） / macOS &amp; Windows Setup</h2><h3 id="🍎_macOS_/_Linux_一键安装_/_macOS_&amp;_Linux">🍎 macOS / Linux 一键安装 / macOS &amp; Linux</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 1. 基础高速工具链（装齐后，所有 Agent 搜代码、看 PR、管 Python 快 5 倍）</span></span><br><span class="line"><span class="comment"># macOS: brew install ripgrep jq gh uv node</span></span><br><span class="line"><span class="comment"># Linux: sudo apt install -y ripgrep jq gh &amp;&amp; curl -LsSf https://astral.sh/uv/install.sh | sh</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 2. 安装三大 CLI Agent（按需任选）</span></span><br><span class="line">curl -fsSL https://antigravity.google/cli/install.sh | bash   <span class="comment"># Antigravity CLI (agy，单二进制零依赖)</span></span><br><span class="line">npm install -g @anthropic-ai/claude-code                      <span class="comment"># Claude Code CLI (claude)</span></span><br><span class="line">npm install -g @openai/codex                                  <span class="comment"># OpenAI Codex CLI (codex)</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 3. 验证就绪</span></span><br><span class="line">agy --version &amp;&amp; gh auth status</span><br></pre></td></tr></table></figure>
+<h3 id="🪟_Windows_双轨方案（原生_+_WSL2_避坑指南）_/_Windows_Setup">🪟 Windows 双轨方案（原生 + WSL2 避坑指南） / Windows Setup</h3><div class="bi-block bi-zh" data-lang="zh"><span class="bi-badge">中文</span><div class="bi-body"><p>Windows 用户记住两条核心经验，直接避开 90% 路径反斜杠与 PowerShell 转义坑：</p>
 <ol>
-<li><strong>Run CLI agents inside WSL2 (Ubuntu) + Windows Terminal</strong>: Keep repos in <code>~/projects/</code> (never <code>/mnt/c/</code>, which is 10× slower).</li>
-<li><strong>Run Desktop apps natively</strong>: Install <strong>Antigravity</strong> / <strong>VS Code</strong> on Windows and connect straight into WSL2—best of both worlds.</li>
+<li><strong>原生极速通道（无需 WSL 也能直接跑）</strong>：<ul>
+<li><strong>Antigravity App / IDE</strong> 直接下载 Windows <code>.exe</code> 原生安装；</li>
+<li><strong>Antigravity CLI (<code>agy</code>)</strong> 在 PowerShell 中一行即可原生安装到 <code>%LOCALAPPDATA%\agy\bin</code>（免管理员权限）：<br><code>irm https://antigravity.google/cli/install.ps1 | iex</code></li>
+</ul>
+</li>
+<li><strong>重度开发仓库推荐通道（WSL2 Ubuntu + Windows Terminal）</strong>：<ul>
+<li>跑大量 Linux/Bash/Node/Python 项目的仓库，强烈建议把代码放进 <strong>WSL2 的 <code>~/projects/</code></strong>（<strong>切忌放 <code>/mnt/c/</code></strong>，跨盘 I/O 慢 10 倍），在 WSL2 内运行 <code>agy</code>、<code>claude</code>、<code>codex</code>，桌面端 Antigravity/VS Code 通过 Remote WSL 直连。</li>
+<li>若在原生 Windows 下协作 Git，务必执行 <code>git config --global core.autocrlf input</code> 防止换行符污染 Diff。</li>
+</ul>
+</li>
 </ol>
 </div></div>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># macOS / WSL2 (Ubuntu) 通用极速自检与常用安装命令</span></span><br><span class="line"><span class="comment"># 1. 基础高速工具链（让 Agent 搜代码、看 PR、管环境快到飞起）</span></span><br><span class="line"><span class="comment"># macOS: brew install ripgrep jq gh uv</span></span><br><span class="line"><span class="comment"># WSL2:  sudo apt update &amp;&amp; sudo apt install -y ripgrep jq gh &amp;&amp; curl -LsSf https://astral.sh/uv/install.sh | sh</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 2. 安装主流 CLI Agent（按需任选）</span></span><br><span class="line">npm install -g @anthropic-ai/claude-code   <span class="comment"># Claude Code CLI</span></span><br><span class="line">npm install -g @openai/codex               <span class="comment"># OpenAI Codex CLI</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 3. 验证 Git 与 GitHub CLI 就绪（让 Agent 能直接看 Issue / 提 PR）</span></span><br><span class="line">git --version &amp;&amp; gh auth status</span><br></pre></td></tr></table></figure>
-<h2 id="3-_权限模式与安全边界：既要快、又要稳_/_Permission_Modes:_Fast_Yet_Safe">3. 权限模式与安全边界：既要快、又要稳 / Permission Modes: Fast Yet Safe</h2><table>
+<div class="bi-block bi-en" data-lang="en"><span class="bi-badge">EN</span><div class="bi-body"><p>On Windows, you have two clean paths:</p>
+<ol>
+<li><strong>Native fast path</strong>: Install <strong>Antigravity App/IDE</strong> natively and install <strong>Antigravity CLI (<code>agy</code>)</strong> right in PowerShell with <code>irm https://antigravity.google/cli/install.ps1 | iex</code> (zero runtime dependencies, no admin needed).</li>
+<li><strong>Heavy Linux/POSIX repos</strong>: Put repositories inside <strong>WSL2 (<code>~/projects/</code>, never <code>/mnt/c/</code>)</strong> and run <code>agy</code>, <code>claude</code>, or <code>codex</code> in Windows Terminal for native Unix speed and zero path/CRLF friction.</li>
+</ol>
+</div></div>
+<h2 id="4-_权限模式与安全边界：既要快、又要稳_/_Permission_Modes:_Fast_Yet_Safe">4. 权限模式与安全边界：既要快、又要稳 / Permission Modes: Fast Yet Safe</h2><table>
 <thead>
 <tr>
 <th style="text-align:left">操作级别 Risk Level</th>
@@ -248,12 +250,12 @@
 <tr>
 <td style="text-align:left">🟢 <strong>只读探索</strong></td>
 <td style="text-align:left"><code>ls</code>, <code>rg</code>, <code>git status</code>, <code>git diff</code>, 读文件</td>
-<td style="text-align:left"><strong>自动放行</strong>（减少无意义弹窗打断思路）</td>
+<td style="text-align:left"><strong>自动放行</strong>（减少无意义确认打断心流）</td>
 </tr>
 <tr>
 <td style="text-align:left">🟡 <strong>本地可逆写操作</strong></td>
 <td style="text-align:left">改代码、跑 <code>pytest</code> / <code>npm test</code>、本地 <code>git commit</code></td>
-<td style="text-align:left"><strong>沙箱内自动放行</strong>（在功能分支上随时可 <code>git reset</code>）</td>
+<td style="text-align:left"><strong>沙箱内自动放行</strong>（在功能分支随时可回滚）</td>
 </tr>
 <tr>
 <td style="text-align:left">🔴 <strong>不可逆 / 外部影响</strong></td>
@@ -262,9 +264,10 @@
 </tr>
 </tbody>
 </table>
-<div class="col-callout col-callout-tip"><div class="col-callout-title"><span class="col-callout-icon">💡</span>桌面软件 + CLI 的黄金联动技巧 / Pro Tip</div><div class="col-callout-body"><p>在项目根目录放一份<strong>极简 <code>AGENTS.md</code></strong>（Claude Code 可用符号链接 <code>ln -s AGENTS.md CLAUDE.md</code> 共享同一份规范），这样不管你今天用 Antigravity、Claude Code 还是 Codex，<strong>所有 Agent 自动遵守同一套项目规矩</strong>，零重复维护！</p>
+<div class="col-callout col-callout-tip"><div class="col-callout-title"><span class="col-callout-icon">💡</span>跨工具共享一套规矩 / One Rules File for Every Agent</div><div class="col-callout-body"><p>在项目根目录维护一份<strong>极简 <code>AGENTS.md</code></strong>（Claude Code 可用 <code>ln -s AGENTS.md CLAUDE.md</code> 软链复用），这样不管你今天切 <code>agy</code>、<code>claude</code>、<code>codex</code> 还是桌面 IDE，<strong>所有 Agent 自动遵守同一套项目铁律</strong>！</p>
 </div></div>
-<h2 id="4-_延伸官方资源_/_Official_References">4. 延伸官方资源 / Official References</h2><ul>
+<h2 id="5-_官方文档与下载地址_/_Official_Links">5. 官方文档与下载地址 / Official Links</h2><ul>
+<li>🚀 <strong>Google Antigravity Docs (App / CLI <code>agy</code> / IDE / SDK)</strong>: <a href="https://antigravity.google/docs/getting-started/" target="_blank" rel="noopener">Get Started with Google Antigravity</a> · <a href="https://github.com/google-antigravity/antigravity-cli" target="_blank" rel="noopener">Antigravity CLI GitHub</a></li>
 <li>📘 <strong>Claude Code Docs</strong>: <a href="https://docs.anthropic.com/en/docs/claude-code/overview" target="_blank" rel="noopener">Anthropic Claude Code Overview</a></li>
 <li>📗 <strong>OpenAI Codex</strong>: <a href="https://github.com/openai/codex" target="_blank" rel="noopener">OpenAI Codex CLI (GitHub)</a></li>
 <li>🪟 <strong>Microsoft WSL2</strong>: <a href="https://learn.microsoft.com/en-us/windows/wsl/install" target="_blank" rel="noopener">Install WSL2 on Windows</a></li>
