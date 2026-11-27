@@ -1,0 +1,46 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 880 310" width="880" height="310">
+  <defs>
+    <marker id="arr-pr1" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M 0 1 L 10 5 L 0 9 z" fill="#2bbc8a"/>
+    </marker>
+    <linearGradient id="bg-pr1" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#181a1d"/>
+      <stop offset="100%" stop-color="#22262b"/>
+    </linearGradient>
+  </defs>
+  <rect width="880" height="310" rx="12" fill="url(#bg-pr1)" stroke="#363b42" stroke-width="1.5"/>
+  <text x="440" y="32" text-anchor="middle" fill="#eeeeee" font-family="sans-serif" font-size="16" font-weight="700">Project 1 全景：0→1 交付 AI 知识库全栈应用 + Harness 门禁</text>
+
+  <!-- Step 1 -->
+  <rect x="26" y="64" width="254" height="176" rx="8" fill="#24272b" stroke="#38bdf8" stroke-width="1.5"/>
+  <text x="153" y="88" text-anchor="middle" fill="#38bdf8" font-family="monospace" font-size="11.5" font-weight="700">STEP 1 · 访谈与建基</text>
+  <text x="44" y="114" fill="#eeeeee" font-family="sans-serif" font-size="12" font-weight="700">先定边界再写第一行代码</text>
+  <text x="44" y="138" fill="#c9cacc" font-family="sans-serif" font-size="11">• `/grill-me` 90 秒对齐 MVP 范围</text>
+  <text x="44" y="160" fill="#c9cacc" font-family="sans-serif" font-size="11">• 30 行 `AGENTS.md` + `Makefile`</text>
+  <text x="44" y="182" fill="#c9cacc" font-family="sans-serif" font-size="11">• Docker 一键拉起 `pgvector:pg17`</text>
+  <text x="44" y="212" fill="#38bdf8" font-family="monospace" font-size="10.5">验收：docker + uv + pytest 空跑绿</text>
+
+  <line x1="280" y1="152" x2="308" y2="152" stroke="#2bbc8a" stroke-width="2" marker-end="url(#arr-pr1)"/>
+
+  <!-- Step 2 -->
+  <rect x="312" y="64" width="256" height="176" rx="8" fill="#24272b" stroke="#f43f5e" stroke-width="1.5"/>
+  <text x="440" y="88" text-anchor="middle" fill="#f43f5e" font-family="monospace" font-size="11.5" font-weight="700">STEP 2 · 小步原子实施</text>
+  <text x="330" y="114" fill="#eeeeee" font-family="sans-serif" font-size="12" font-weight="700">三段垂直切片，每片必提交</text>
+  <text x="330" y="138" fill="#c9cacc" font-family="sans-serif" font-size="11">• 切片 A：SQL Schema + HNSW 索引</text>
+  <text x="330" y="160" fill="#c9cacc" font-family="sans-serif" font-size="11">• 切片 B：FastAPI 入库/混合检索 API</text>
+  <text x="330" y="182" fill="#c9cacc" font-family="sans-serif" font-size="11">• 切片 C：极简暗色前端 + 引用高亮</text>
+  <text x="330" y="212" fill="#f43f5e" font-family="monospace" font-size="10.5">控噪：每完成 1 切片立刻开新会话</text>
+
+  <line x1="568" y1="152" x2="596" y2="152" stroke="#2bbc8a" stroke-width="2" marker-end="url(#arr-pr1)"/>
+
+  <!-- Step 3 -->
+  <rect x="600" y="64" width="254" height="176" rx="8" fill="#1e2523" stroke="#2bbc8a" stroke-width="1.6"/>
+  <text x="727" y="88" text-anchor="middle" fill="#2bbc8a" font-family="monospace" font-size="11.5" font-weight="700">STEP 3 · 确定性验收交付</text>
+  <text x="618" y="114" fill="#eeeeee" font-family="sans-serif" font-size="12" font-weight="700">Harness 跑绿 + 独立审查</text>
+  <text x="618" y="138" fill="#c9cacc" font-family="sans-serif" font-size="11">• `make verify`（ruff + pytest + curl）</text>
+  <text x="618" y="160" fill="#c9cacc" font-family="sans-serif" font-size="11">• 截屏闭环微调 UI 间距与对比度</text>
+  <text x="618" y="182" fill="#c9cacc" font-family="sans-serif" font-size="11">• 独立只读会话审 `git diff` 找隐患</text>
+  <text x="618" y="212" fill="#d5ff80" font-family="monospace" font-size="10.5">交付：干净仓库 + 更新 work.md</text>
+
+  <text x="440" y="278" text-anchor="middle" fill="#888e96" font-family="sans-serif" font-size="11">串联本站 Python + Python AI + PostgreSQL 核心技术栈，一套流程直接复用到任意全栈项目</text>
+</svg>

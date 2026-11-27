@@ -5,7 +5,7 @@
     <% if (is_post()) { %>
       <%- partial('_partial/post/actions_desktop') %>
     <% } %>
-    <% var isColumnLayout = (page.layout === 'ai_tutorials_index' || page.layout === 'ai_news_index' || page.layout === 'column_article' || page.layout === 'column_hub' || page.layout === 'columns_overview'); %>
+    <% var isColumnLayout = (page.layout === 'ai_tutorials_index' || page.layout === 'ai_news_index' || page.layout === 'column_article' || page.layout === 'column_hub' || page.layout === 'columns_overview' || page.layout === 'agent_projects_index'); %>
     <div class="content index <%= isColumnLayout ? 'column-wide' : 'width' %> mx-auto px2 my4">
         <% if (!is_post()) { %>
           <%- partial('_partial/header') %>

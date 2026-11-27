@@ -8,7 +8,7 @@
 1. **严禁改动历史随笔**：不得编辑、重命名或删除 `source/_posts/` 下既有文件。
 2. **专栏架构与随笔隔离**：
    - 全站专栏聚合页：`source/columns/index.md`（`layout: columns_overview`）。
-   - 现有 6 大专栏：`ai-tutorials`（四级体系）、`ai-news`（日报）、`agent-playbook`、`python-tutorials`、`python-ai-practice`、`pg-tutorials`。
+   - 现有 7 大专栏：`ai-tutorials`（四级体系）、`ai-news`（日报）、`agent-playbook`、`agent-projects`（双轨 12 篇：速通+分步）、`python-tutorials`、`python-ai-practice`、`pg-tutorials`。
    - 新增常规专栏复用 `layout: column_hub`，在 `themes/cactus-dark/layout/column_article.ejs` 的 `columnMeta`、`columns_overview.ejs` 和 `index.ejs` 注册即可。
    - 专栏文章放 `source/<column>/<slug>/index.md`（`layout: column_article`、`column: <id>`、`order: <数字>`）。
 3. **内容与排版规范**：

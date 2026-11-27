@@ -709,6 +709,7 @@ $accent-gold = #f0a500
 $accent-violet = #c678dd
 $accent-blue = #4ea8de
 $accent-orange = #ff9f43
+$accent-rose = #f43f5e
 
 .badge-emerald
   background: $tier-beginner !important
@@ -728,6 +729,9 @@ $accent-orange = #ff9f43
 .badge-orange
   background: $accent-orange !important
   color: #16181a !important
+.badge-rose
+  background: $accent-rose !important
+  color: #ffffff !important
 
 .level-badge
   &.level-cyan
@@ -742,6 +746,9 @@ $accent-orange = #ff9f43
   &.level-blue
     background: $accent-blue
     color: #11161b
+  &.level-rose
+    background: $accent-rose
+    color: #ffffff
 
 .accent-text-emerald
   color: $tier-beginner !important
@@ -755,6 +762,8 @@ $accent-orange = #ff9f43
   color: $accent-blue !important
 .accent-text-orange
   color: $accent-orange !important
+.accent-text-rose
+  color: $accent-rose !important
 
 .accent-hover-emerald:hover
   border-color: $tier-beginner !important
@@ -768,6 +777,66 @@ $accent-orange = #ff9f43
   border-color: $accent-blue !important
 .accent-hover-orange:hover
   border-color: $accent-orange !important
+.accent-hover-rose:hover
+  border-color: $accent-rose !important
+
+// Dual-Track Agent Projects Workshop
+.track-pill-express
+  border-color: rgba(244, 63, 94, 0.5) !important
+  color: #fda4af !important
+  &:hover
+    border-color: $accent-rose !important
+    color: #ffffff !important
+    background: rgba(244, 63, 94, 0.16) !important
+.track-pill-guided
+  border-color: rgba(43, 188, 138, 0.5) !important
+  color: #6ee7b7 !important
+  &:hover
+    border-color: $tier-beginner !important
+    color: #ffffff !important
+    background: rgba(43, 188, 138, 0.16) !important
+
+.express-grid-3,
+.guided-grid-3
+  grid-template-columns: repeat(3, minmax(0, 1fr))
+
+.project-group-box
+  background: rgba(255, 255, 255, 0.02)
+  border: 1px solid $col-border
+  border-radius: 12px
+  padding: 1.25rem 1.3rem
+  margin-bottom: 1.4rem
+  .project-group-head
+    display: flex
+    justify-content: space-between
+    align-items: flex-start
+    gap: 1rem
+    margin-bottom: 1rem
+    flex-wrap: wrap
+  .project-group-title
+    margin: 0.45rem 0 0.25rem 0 !important
+    font-size: 1.08rem !important
+    color: $color-lightest !important
+    text-decoration: none !important
+  .project-group-desc
+    margin: 0
+    font-size: 0.86rem
+    color: $col-muted
+    line-height: 1.6
+    text-align: left !important
+  .project-express-jump
+    white-space: nowrap
+    font-size: 0.8rem
+    font-weight: 700
+    color: #fda4af !important
+    background: rgba(244, 63, 94, 0.12)
+    border: 1px solid rgba(244, 63, 94, 0.4)
+    border-radius: 6px
+    padding: 5px 11px
+    background-image: none !important
+    &:hover
+      background: $accent-rose
+      color: #ffffff !important
 
 .static-pill
   cursor: default
@@ -832,6 +901,11 @@ $accent-orange = #ff9f43
     color: $color-lightest !important
     &:before
       display: none !important
+
+@media screen and (max-width: 780px)
+  .express-grid-3,
+  .guided-grid-3
+    grid-template-columns: 1fr
 
 @media screen and (max-width: 680px)
   .column-showcase .showcase-grid,

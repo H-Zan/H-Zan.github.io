@@ -117,3 +117,7 @@ Move beyond interactive chat: embed headless commands (`agy -p`, `claude -p`, `c
 - 🏛️ **Martin Fowler (Apr 2026)**: [Harness engineering for coding agent users](https://martinfowler.com/articles/harness-engineering.html)
 - 🧠 **Single vs. Multi-Agent (Oct 2026 Analysis of Anthropic's Guidance)**: [Single agent vs multi-agent: when subagents are worth it](https://www.joancomadran.dev/blog/single-agent-vs-multi-agent)
 - 🎯 **Context Isolation Essay (Nov 2026)**: [Subagents: isolate context, don't build an agent team](https://blog.beerandcode.com.br/en/tutorials/subagents-context-isolation)
+
+{% callout tip "立刻上手实操 / Ready to Build?" %}
+光看不练假把式！前往全新双轨专栏 **[🛠️ Agent 实战项目工坊](/agent-projects/)**，亲手用这 4 项 2026 前沿技巧完成 3 大硬核实战项目（老手走 ⚡ 3 篇速通版，基础读者走 🧱 9 篇分步手把手连载）。
+{% endcallout %}

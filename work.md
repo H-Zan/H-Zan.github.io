@@ -10,8 +10,9 @@
   - `master`：静态 HTML 部署分支（`public/` 构建产物推送到此分支，GitHub Pages 从 `master /` 提供服务）
 - **核心目录与 6 大专栏索引**：
   - `source/_posts/`：作者历史随笔（**只读，严禁改动**）
-  - `source/columns/` → `/columns/`：全站 6 大专栏聚合总览页
+  - `source/columns/` → `/columns/`：全站 7 大专栏聚合总览页
   - `source/agent-playbook/` → `/agent-playbook/`：Agent 使用技巧专栏（5 篇，含 Antigravity CLI `agy` / Claude Code / Codex、macOS & Windows、四大思维、高效对比与 2026 前沿风向）
+  - `source/agent-projects/` → `/agent-projects/`：Agent 实战项目工坊（双轨 12 篇：⚡ 有经验速通版 3 篇 + 🧱 基础分步版 3 项目 × 3 阶段 9 篇）
   - `source/ai-tutorials/` → `/ai-tutorials/`：AI 教程专栏（四级体系，8 篇）
   - `source/python-tutorials/` → `/python-tutorials/`：Python 教程专栏（3 篇，现代核心 / uv & asyncio / FastAPI & Pydantic）
   - `source/python-ai-practice/` → `/python-ai-practice/`：Python AI 实践专栏（3 篇，LLM SDK / 手写混合 RAG / 可控 Agent & Eval）
@@ -21,6 +22,14 @@
   - `scripts/node-compat-generate.js`：Hexo 3.7.1 在 Node 14+/22 下修复 0 字节输出 bug 的构建器
 
 ## 2. 已完成里程碑
+
+### Phase 3（2026-11-27）：新增双轨专栏《Agent 实战项目工坊》（`/agent-projects/`）
+- [x] 通过 `/grill-me` 对齐双轨架构、三工具对照视角（`agy` / `claude` / `codex`）与 3 大实战选题
+- [x] 新增专属双轨模板 `agent_projects_index.ejs`，并在 `layout.ejs`、`column_article.ejs`、`columns_overview.ejs`、`index.ejs`、`columns.styl` 注册第 7 专栏
+- [x] 生成专栏封面图 + 3 张项目全景 SVG 架构图（`p1-fullstack-harness.svg`、`p2-mini-harness-arch.svg`、`p3-legacy-refactor-flow.svg`）
+- [x] 完成 ⚡ 有经验速通版 3 篇（`EX-01` / `EX-02` / `EX-03`）
+- [x] 完成 🧱 基础分步版 9 篇（`P1-01~03`、`P2-01~03`、`P3-01~03`），与速通版双向互链
+- [x] 全量构建校验（190 个静态文件全部非空、0 坏链、0 断图、`source/_posts/` 0 修改），推送 `hexo` & `master` 并验证线上 HTTP 200
 
 ### Phase 2.1（2026-11-27）：补全 Antigravity CLI (`agy`) & 新增 2026 Agent 前沿风向专篇
 - [x] 更新 `AP-01` 与 `agent-tools-matrix.svg`：完整补齐 Google Antigravity CLI（`agy` 单二进制零依赖、macOS/Linux/Windows PowerShell 一行安装、`agy -p` 无头模式、`/grill-me` `/plan` `/goal` `/diff`、`Shift+Tab`/`Ctrl+R` 快捷键）

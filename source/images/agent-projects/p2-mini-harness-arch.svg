@@ -1,0 +1,40 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 880 310" width="880" height="310">
+  <defs>
+    <marker id="arr-pr2" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M 0 1 L 10 5 L 0 9 z" fill="#c678dd"/>
+    </marker>
+    <linearGradient id="bg-pr2" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#181a1d"/>
+      <stop offset="100%" stop-color="#22262b"/>
+    </linearGradient>
+  </defs>
+  <rect width="880" height="310" rx="12" fill="url(#bg-pr2)" stroke="#363b42" stroke-width="1.5"/>
+  <text x="440" y="32" text-anchor="middle" fill="#eeeeee" font-family="sans-serif" font-size="16" font-weight="700">Project 2 全景：200 行 Python 手搓 2026 前沿 Agent Harness 引擎</text>
+
+  <!-- Main Single Loop -->
+  <rect x="26" y="64" width="322" height="196" rx="10" fill="#1e2523" stroke="#2bbc8a" stroke-width="1.6"/>
+  <text x="187" y="88" text-anchor="middle" fill="#2bbc8a" font-family="monospace" font-size="12" font-weight="700">MAIN SINGLE-AGENT LOOP</text>
+  <rect x="44" y="104" width="286" height="40" rx="6" fill="#24272b" stroke="#363b42"/>
+  <text x="187" y="129" text-anchor="middle" fill="#eeeeee" font-family="sans-serif" font-size="11.5">极简基础 Prompt + 步数/费用熔断器</text>
+  <rect x="44" y="152" width="286" height="40" rx="6" fill="#24272b" stroke="#363b42"/>
+  <text x="187" y="177" text-anchor="middle" fill="#eeeeee" font-family="sans-serif" font-size="11.5">Pydantic Tool Registry（&lt;15 精简工具）</text>
+  <rect x="44" y="200" width="286" height="42" rx="6" fill="#24272b" stroke="#2bbc8a"/>
+  <text x="187" y="226" text-anchor="middle" fill="#d5ff80" font-family="monospace" font-size="11">JSONL Trace + pytest Eval 守门员</text>
+
+  <line x1="348" y1="124" x2="394" y2="104" stroke="#c678dd" stroke-width="1.8" marker-end="url(#arr-pr2)"/>
+  <line x1="348" y1="196" x2="394" y2="212" stroke="#c678dd" stroke-width="1.8" marker-end="url(#arr-pr2)"/>
+
+  <!-- Progressive Skills Loader -->
+  <rect x="398" y="64" width="456" height="88" rx="8" fill="#24272b" stroke="#f0a500" stroke-width="1.5"/>
+  <text x="416" y="88" fill="#f0a500" font-family="monospace" font-size="12" font-weight="700">PROGRESSIVE SKILLS LOADER · 渐进式技能按需加载</text>
+  <text x="416" y="112" fill="#eeeeee" font-family="sans-serif" font-size="11.5">1. 启动时仅注入 `skills/*/SKILL.md` 的 1 行 name + description</text>
+  <text x="416" y="134" fill="#c9cacc" font-family="sans-serif" font-size="11.5">2. 模型调用 `load_skill(name)` 时才读取完整规程 → 省 80% 基础上下文</text>
+
+  <!-- Context-Isolating Subagent -->
+  <rect x="398" y="172" width="456" height="88" rx="8" fill="#24272b" stroke="#c678dd" stroke-width="1.5"/>
+  <text x="416" y="196" fill="#c678dd" font-family="monospace" font-size="12" font-weight="700">ISOLATED SUBAGENT TOOL · 上下文隔离型只读子代理</text>
+  <text x="416" y="220" fill="#eeeeee" font-family="sans-serif" font-size="11.5">1. 以普通工具 `run_research_subagent(query)` 形式按需触发</text>
+  <text x="416" y="242" fill="#c9cacc" font-family="sans-serif" font-size="11.5">2. 独立空上下文翻遍海量文件/日志，用完即弃，仅回传 200 字精炼结论</text>
+
+  <text x="440" y="290" text-anchor="middle" fill="#888e96" font-family="sans-serif" font-size="11">核心哲学：把 Anthropic 2026.10 指南与 OpenAI Harness Engineering 浓缩进 200 行透明 Python</text>
+</svg>

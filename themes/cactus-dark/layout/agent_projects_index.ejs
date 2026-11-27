@@ -1,0 +1,142 @@
+<%
+  var allPages = [];
+  site.pages.forEach(function(p) {
+    if (p.column === 'agent-projects') {
+      allPages.push(p);
+    }
+  });
+  allPages.sort(function(a, b) {
+    return (a.order || 999) - (b.order || 999);
+  });
+
+  var expressItems = allPages.filter(function(p) { return p.track === 'express'; });
+
+  var projectGroups = [
+    {
+      key: 'p1',
+      badge: 'PROJECT 01 · 全栈 0→1',
+      title: 'Project 1：0→1 交付 AI 知识库全栈应用（FastAPI + pgvector + 暗色前端）',
+      desc: '用 /grill-me 对齐范围、写极简 AGENTS.md 与 Makefile 门禁、三段垂直切片小步实施，最后跑通 pytest + curl + 截屏闭环上线。',
+      expressPath: '/agent-projects/p1-express-fullstack-ai-kb/'
+    },
+    {
+      key: 'p2',
+      badge: 'PROJECT 02 · 手搓 Harness',
+      title: 'Project 2：200 行 Python 手搓 2026 前沿 Agent Harness 引擎',
+      desc: '把 Anthropic 2026.10 指南与 OpenAI Harness Engineering 落成代码：单循环底座 + 渐进式 SKILL.md 按需加载 + 上下文隔离只读子代理 + Eval 门禁。',
+      expressPath: '/agent-projects/p2-express-mini-agent-harness/'
+    },
+    {
+      key: 'p3',
+      badge: 'PROJECT 03 · 老仓库手术',
+      title: 'Project 3：存量复杂老仓库安全改造（只读隔离调研 + 特性测试 + 零事故重构）',
+      desc: '解决真实工作中“老代码一改就崩”的噩梦：只读 Subagent 摸底划红线 → 先立保护网 → Worktree 最小变更重构 → 独立会话审 Diff 发布。',
+      expressPath: '/agent-projects/p3-express-legacy-repo-refactor/'
+    }
+  ];
+%>
+
+<div class="column-page agent-projects-hub">
+  <nav class="col-breadcrumb" aria-label="Breadcrumb">
+    <a href="<%- url_for('/') %>">Home</a>
+    <span class="sep">/</span>
+    <a href="<%- url_for('/columns/') %>">Columns · 全部专栏</a>
+    <span class="sep">/</span>
+    <span>Agent 实战项目工坊</span>
+  </nav>
+
+  <section class="col-hero">
+    <div class="col-hero-media">
+      <img src="<%- url_for('/images/agent-projects/hero-banner.jpg') %>" alt="Agent Hands-On Projects Workshop Banner">
+    </div>
+    <div class="col-hero-content">
+      <span class="col-eyebrow accent-text-rose">COLUMN · 双轨实操项目工坊</span>
+      <h1 class="col-hero-title">Agent 实战项目工坊 <span class="col-hero-sub">Agent Hands-On Projects</span></h1>
+      <p class="col-hero-desc">
+        把 2026 前沿 Agent 技巧（Harness 工程、渐进式 Skills、按需 Subagent 隔离、确定性验证闭环）真正落进 3 个硬核项目。采用<strong>双轨阅读设计</strong>：有经验开发者走 <strong>⚡ 速通版（3 篇）</strong> 5 分钟直拿骨架；基础读者走 <strong>🧱 分步版（3 项目 × 3 阶段 = 9 篇）</strong> 一步一验证跟着做！关键命令均附 <code>agy</code> / <code>claude</code> / <code>codex</code> 三工具对照。
+      </p>
+      <div class="col-tier-pills">
+        <a class="tier-pill track-pill-express" href="#track-express">⚡ 有经验速通版（3 篇）</a>
+        <a class="tier-pill track-pill-guided" href="#track-guided">🧱 基础分步版（3 项目 · 9 篇）</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- Track 1: Express Track -->
+  <section id="track-express" class="col-tier-section">
+    <div class="col-tier-header">
+      <span class="level-badge level-rose">⚡ EXPRESS TRACK · 有经验速通版</span>
+      <h2>有经验直通车 · 3 篇全景抄作业</h2>
+      <div class="col-tier-en">For Experienced Developers · End-to-End Blueprints, Commands &amp; Gates in One Page</div>
+      <p class="col-tier-desc">省去基础铺垫，直接给项目文件树、关键 AGENTS.md / Harness 脚本、三工具核心指令对照与验收门禁，看完 10 分钟就能照搬进自己的项目。</p>
+    </div>
+
+    <div class="col-card-grid express-grid-3">
+      <% expressItems.forEach(function(item) { %>
+        <a class="col-card accent-hover-rose" href="<%- url_for(item.path) %>">
+          <div class="col-card-top">
+            <span class="col-card-code accent-text-rose"><%= item.code %></span>
+            <% if (item.read_time) { %>
+              <span class="col-card-meta">⏱ <%= item.read_time %></span>
+            <% } %>
+          </div>
+          <h3 class="col-card-title"><%= item.title %></h3>
+          <% if (item.title_en) { %>
+            <div class="col-card-title-en"><%= item.title_en %></div>
+          <% } %>
+          <% if (item.summary) { %>
+            <p class="col-card-summary"><%= item.summary %></p>
+          <% } %>
+          <% if (item.tags && item.tags.length) { %>
+            <div class="col-card-tags">
+              <% item.tags.forEach(function(tag) { %>
+                <span class="col-tag">#<%= typeof tag === 'string' ? tag : tag.name %></span>
+              <% }); %>
+            </div>
+          <% } %>
+        </a>
+      <% }); %>
+    </div>
+  </section>
+
+  <!-- Track 2: Guided Track -->
+  <section id="track-guided" class="col-tier-section">
+    <div class="col-tier-header">
+      <span class="level-badge level-beginner">🧱 GUIDED TRACK · 基础分步版</span>
+      <h2>基础手把手连载 · 3 大项目 × 3 阶段（9 篇）</h2>
+      <div class="col-tier-en">Step-by-Step Walkthroughs · Plan &amp; Harness → Build &amp; Isolate → Verify &amp; Ship</div>
+      <p class="col-tier-desc">每个项目拆成清晰的 3 个里程碑，讲透每一步“为什么这么做、输入什么指令、怎么看验收结果、踩坑怎么回滚”。</p>
+    </div>
+
+    <% projectGroups.forEach(function(grp) { %>
+      <% var steps = allPages.filter(function(p) { return p.track === 'guided' && p.project === grp.key; }); %>
+      <div class="project-group-box">
+        <div class="project-group-head">
+          <div>
+            <span class="col-code-pill"><%= grp.badge %></span>
+            <h3 class="project-group-title"><%= grp.title %></h3>
+            <p class="project-group-desc"><%= grp.desc %></p>
+          </div>
+          <a class="project-express-jump" href="<%- url_for(grp.expressPath) %>">⚡ 看本项目速通版 →</a>
+        </div>
+
+        <div class="col-card-grid guided-grid-3">
+          <% steps.forEach(function(item) { %>
+            <a class="col-card accent-hover-emerald" href="<%- url_for(item.path) %>">
+              <div class="col-card-top">
+                <span class="col-card-code accent-text-emerald"><%= item.code %></span>
+                <% if (item.read_time) { %>
+                  <span class="col-card-meta">⏱ <%= item.read_time %></span>
+                <% } %>
+              </div>
+              <h4 class="col-card-title"><%= item.title %></h4>
+              <% if (item.summary) { %>
+                <p class="col-card-summary"><%= item.summary %></p>
+              <% } %>
+            </a>
+          <% }); %>
+        </div>
+      </div>
+    <% }); %>
+  </section>
+</div>
