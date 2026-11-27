@@ -2,16 +2,107 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   
   <url>
-    <loc>https://h-zan.github.io/agent-playbook/index.html</loc>
+    <loc>https://h-zan.github.io/agent-projects/p3-step3-diff-review-release/index.html</loc>
     
-    <lastmod>2026-11-27T03:55:45.912Z</lastmod>
+    <lastmod>2026-11-27T04:27:48.333Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>https://h-zan.github.io/agent-projects/p3-step2-characterization-refactor/index.html</loc>
+    
+    <lastmod>2026-11-27T04:27:47.633Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>https://h-zan.github.io/agent-projects/p3-step1-audit-and-boundaries/index.html</loc>
+    
+    <lastmod>2026-11-27T04:27:38.121Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>https://h-zan.github.io/agent-projects/p2-step3-subagent-and-eval/index.html</loc>
+    
+    <lastmod>2026-11-27T04:27:03.822Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>https://h-zan.github.io/agent-projects/p2-step2-progressive-skills/index.html</loc>
+    
+    <lastmod>2026-11-27T04:27:03.102Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>https://h-zan.github.io/agent-projects/p2-step1-single-loop-core/index.html</loc>
+    
+    <lastmod>2026-11-27T04:26:51.994Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>https://h-zan.github.io/agent-projects/p1-step3-verify-and-ship/index.html</loc>
+    
+    <lastmod>2026-11-27T04:26:20.072Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>https://h-zan.github.io/agent-projects/p1-step2-backend-frontend/index.html</loc>
+    
+    <lastmod>2026-11-27T04:26:19.408Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>https://h-zan.github.io/agent-projects/p1-step1-plan-and-harness/index.html</loc>
+    
+    <lastmod>2026-11-27T04:26:08.323Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>https://h-zan.github.io/agent-projects/p3-express-legacy-repo-refactor/index.html</loc>
+    
+    <lastmod>2026-11-27T04:25:25.820Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>https://h-zan.github.io/agent-projects/p2-express-mini-agent-harness/index.html</loc>
+    
+    <lastmod>2026-11-27T04:25:25.208Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>https://h-zan.github.io/agent-projects/p1-express-fullstack-ai-kb/index.html</loc>
+    
+    <lastmod>2026-11-27T04:25:12.443Z</lastmod>
     
   </url>
   
   <url>
     <loc>https://h-zan.github.io/agent-playbook/05-frontier-2026-harness-and-subagents/index.html</loc>
     
-    <lastmod>2026-11-27T03:55:26.914Z</lastmod>
+    <lastmod>2026-11-27T04:24:16.096Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>https://h-zan.github.io/agent-projects/index.html</loc>
+    
+    <lastmod>2026-11-27T04:24:15.419Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>https://h-zan.github.io/agent-playbook/index.html</loc>
+    
+    <lastmod>2026-11-27T03:55:45.912Z</lastmod>
     
   </url>
   
@@ -219,7 +310,7 @@
   </url>
   
   <url>
-    <loc>https://h-zan.github.io/2017/08/28/%E4%BB%BB%E4%BD%95%E5%AF%BB%E6%B1%82%E5%AE%89%E6%85%B0%E7%9A%84%E8%A1%8C%E4%B8%BA%E9%83%BD%E4%B8%8D%E4%BC%9A%E8%AE%A9%E4%BD%A0%E6%88%90%E9%95%BF/</loc>
+    <loc>https://h-zan.github.io/2017/08/29/%E5%85%B3%E9%94%AE%E5%AF%B9%E8%AF%9D%E7%AC%94%E8%AE%B0/</loc>
     
     <lastmod>2026-11-27T02:48:28.651Z</lastmod>
     
@@ -233,14 +324,21 @@
   </url>
   
   <url>
-    <loc>https://h-zan.github.io/2017/08/31/%E5%88%A4%E6%96%ADapk%E6%98%AF%E5%90%A6%E4%B8%BAdebug%E7%89%88%E6%9C%AC/</loc>
+    <loc>https://h-zan.github.io/2017/08/28/%E4%BB%BB%E4%BD%95%E5%AF%BB%E6%B1%82%E5%AE%89%E6%85%B0%E7%9A%84%E8%A1%8C%E4%B8%BA%E9%83%BD%E4%B8%8D%E4%BC%9A%E8%AE%A9%E4%BD%A0%E6%88%90%E9%95%BF/</loc>
     
     <lastmod>2026-11-27T02:48:28.651Z</lastmod>
     
   </url>
   
   <url>
-    <loc>https://h-zan.github.io/2017/08/29/%E5%85%B3%E9%94%AE%E5%AF%B9%E8%AF%9D%E7%AC%94%E8%AE%B0/</loc>
+    <loc>https://h-zan.github.io/2018/09/08/%E5%8E%BB%E9%99%A4button%E7%9A%84%E9%98%B4%E5%BD%B1/</loc>
+    
+    <lastmod>2026-11-27T02:48:28.651Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>https://h-zan.github.io/2017/08/31/%E5%88%A4%E6%96%ADapk%E6%98%AF%E5%90%A6%E4%B8%BAdebug%E7%89%88%E6%9C%AC/</loc>
     
     <lastmod>2026-11-27T02:48:28.651Z</lastmod>
     
@@ -255,13 +353,6 @@
   
   <url>
     <loc>https://h-zan.github.io/2017/09/15/%E5%9C%A8%E6%9C%AC%E5%9C%B0%E5%88%86%E6%94%AF%E6%B2%A1%E6%9C%89%E8%BF%9C%E5%88%86%E6%94%AF%E7%9A%84%E6%83%85%E5%86%B5%E4%B8%8B%E6%8A%8A%E8%BF%9C%E7%A8%8B%E5%88%86%E6%94%AF%E6%8B%89%E5%88%B0%E6%9C%AC%E5%9C%B0/</loc>
-    
-    <lastmod>2026-11-27T02:48:28.651Z</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>https://h-zan.github.io/2018/09/08/%E5%8E%BB%E9%99%A4button%E7%9A%84%E9%98%B4%E5%BD%B1/</loc>
     
     <lastmod>2026-11-27T02:48:28.651Z</lastmod>
     
@@ -352,14 +443,14 @@
   </url>
   
   <url>
-    <loc>https://h-zan.github.io/2017/09/01/DrawerLayout-%E9%98%B2%E7%A9%BF%E9%80%8F/</loc>
+    <loc>https://h-zan.github.io/2018/09/27/Git%E4%BF%AE%E6%94%B9%E6%9C%80%E5%90%8E%E4%B8%80%E6%AC%A1%E6%8F%90%E4%BA%A4%E7%9A%84commit-message/</loc>
     
     <lastmod>2026-11-27T02:48:28.645Z</lastmod>
     
   </url>
   
   <url>
-    <loc>https://h-zan.github.io/2018/09/27/Git%E4%BF%AE%E6%94%B9%E6%9C%80%E5%90%8E%E4%B8%80%E6%AC%A1%E6%8F%90%E4%BA%A4%E7%9A%84commit-message/</loc>
+    <loc>https://h-zan.github.io/2017/09/01/DrawerLayout-%E9%98%B2%E7%A9%BF%E9%80%8F/</loc>
     
     <lastmod>2026-11-27T02:48:28.645Z</lastmod>
     
@@ -373,13 +464,6 @@
   </url>
   
   <url>
-    <loc>https://h-zan.github.io/2018/04/10/Kotlin%E4%BD%BF%E7%94%A8-1/</loc>
-    
-    <lastmod>2026-11-27T02:48:28.645Z</lastmod>
-    
-  </url>
-  
-  <url>
     <loc>https://h-zan.github.io/2017/09/09/HttpURLConnection-Post/</loc>
     
     <lastmod>2026-11-27T02:48:28.645Z</lastmod>
@@ -387,14 +471,7 @@
   </url>
   
   <url>
-    <loc>https://h-zan.github.io/2018/09/17/Mac-Jenkins-Android-%E6%8C%81%E7%BB%AD%E9%9B%86%E6%88%90%E6%89%93%E5%8C%85/</loc>
-    
-    <lastmod>2026-11-27T02:48:28.645Z</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>https://h-zan.github.io/2018/09/27/Bolg%E6%96%87%E4%BB%B6%E5%A4%B9%E4%B8%8B%E6%89%BE%E4%B8%8D%E5%88%B0node%E5%91%BD%E4%BB%A4/</loc>
+    <loc>https://h-zan.github.io/2018/04/10/Kotlin%E4%BD%BF%E7%94%A8-1/</loc>
     
     <lastmod>2026-11-27T02:48:28.645Z</lastmod>
     
@@ -415,14 +492,7 @@
   </url>
   
   <url>
-    <loc>https://h-zan.github.io/2017/09/07/WebView-%E8%87%AA%E5%8A%A8%E6%92%AD%E6%94%BEh5%E9%9F%B3%E4%B9%90/</loc>
-    
-    <lastmod>2026-11-27T02:48:28.645Z</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>https://h-zan.github.io/2017/09/06/WebView-onKeyDown%E9%80%80%E5%87%BA%E6%97%B6-%E5%81%9C%E6%AD%A2%E9%9F%B3%E4%B9%90%E6%92%AD%E6%94%BE/</loc>
+    <loc>https://h-zan.github.io/2018/09/27/Bolg%E6%96%87%E4%BB%B6%E5%A4%B9%E4%B8%8B%E6%89%BE%E4%B8%8D%E5%88%B0node%E5%91%BD%E4%BB%A4/</loc>
     
     <lastmod>2026-11-27T02:48:28.645Z</lastmod>
     
@@ -436,13 +506,6 @@
   </url>
   
   <url>
-    <loc>https://h-zan.github.io/2017/08/28/git-%E6%96%B0%E9%A1%B9%E7%9B%AE%E7%AC%AC%E4%B8%80%E6%AC%A1%E6%8F%90%E4%BA%A4%E6%AD%A5%E9%AA%A4/</loc>
-    
-    <lastmod>2026-11-27T02:48:28.645Z</lastmod>
-    
-  </url>
-  
-  <url>
     <loc>https://h-zan.github.io/2017/09/13/git-%E9%94%99%E8%AF%AF/</loc>
     
     <lastmod>2026-11-27T02:48:28.645Z</lastmod>
@@ -450,7 +513,35 @@
   </url>
   
   <url>
+    <loc>https://h-zan.github.io/2017/08/28/git-%E6%96%B0%E9%A1%B9%E7%9B%AE%E7%AC%AC%E4%B8%80%E6%AC%A1%E6%8F%90%E4%BA%A4%E6%AD%A5%E9%AA%A4/</loc>
+    
+    <lastmod>2026-11-27T02:48:28.645Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>https://h-zan.github.io/2018/09/17/Mac-Jenkins-Android-%E6%8C%81%E7%BB%AD%E9%9B%86%E6%88%90%E6%89%93%E5%8C%85/</loc>
+    
+    <lastmod>2026-11-27T02:48:28.645Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>https://h-zan.github.io/2017/09/06/WebView-onKeyDown%E9%80%80%E5%87%BA%E6%97%B6-%E5%81%9C%E6%AD%A2%E9%9F%B3%E4%B9%90%E6%92%AD%E6%94%BE/</loc>
+    
+    <lastmod>2026-11-27T02:48:28.645Z</lastmod>
+    
+  </url>
+  
+  <url>
     <loc>https://h-zan.github.io/2017/10/30/google-cloud-platform-%E6%90%AD%E5%BB%BAss/</loc>
+    
+    <lastmod>2026-11-27T02:48:28.645Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>https://h-zan.github.io/2017/09/07/WebView-%E8%87%AA%E5%8A%A8%E6%92%AD%E6%94%BEh5%E9%9F%B3%E4%B9%90/</loc>
     
     <lastmod>2026-11-27T02:48:28.645Z</lastmod>
     

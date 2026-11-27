@@ -1,0 +1,292 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <!-- so meta -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="HandheldFriendly" content="True">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+    <meta name="description" content="📌双轨导航 / Dual-Track Navigation当前为 🧱 基础分步版（Project 3 · 第 3/3 步 完结） · ← 上一步 Step 2 · ⚡ 看本项目速通版  1. 全新只读会话：给整个分支做对抗式 Diff 审计 / Fresh-Session Adversarial Diff Audit中文合入主干前，用 git diff main...HEAD 喂给一个从未参与">
+<meta name="keywords" content="基础分步版,Project 3,Diff审计,零事故上线">
+<meta property="og:type" content="website">
+<meta property="og:title" content="Project 3 · Step 3：独立对抗审查与零停机发布——Diff 审计、线上冒烟与踩坑沉淀">
+<meta property="og:url" content="https://h-zan.github.io/agent-projects/p3-step3-diff-review-release/index.html">
+<meta property="og:site_name" content="HuZan">
+<meta property="og:description" content="📌双轨导航 / Dual-Track Navigation当前为 🧱 基础分步版（Project 3 · 第 3/3 步 完结） · ← 上一步 Step 2 · ⚡ 看本项目速通版  1. 全新只读会话：给整个分支做对抗式 Diff 审计 / Fresh-Session Adversarial Diff Audit中文合入主干前，用 git diff main...HEAD 喂给一个从未参与">
+<meta property="og:locale" content="default">
+<meta property="og:updated_time" content="2026-11-27T04:27:48.333Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Project 3 · Step 3：独立对抗审查与零停机发布——Diff 审计、线上冒烟与踩坑沉淀">
+<meta name="twitter:description" content="📌双轨导航 / Dual-Track Navigation当前为 🧱 基础分步版（Project 3 · 第 3/3 步 完结） · ← 上一步 Step 2 · ⚡ 看本项目速通版  1. 全新只读会话：给整个分支做对抗式 Diff 审计 / Fresh-Session Adversarial Diff Audit中文合入主干前，用 git diff main...HEAD 喂给一个从未参与">
+    
+    
+        
+          
+              <link rel="shortcut icon" href="/images/favicon.ico">
+          
+        
+        
+          
+            <link rel="icon" type="image/png" href="/images/favicon-192x192.png" sizes="192x192">
+          
+        
+        
+          
+            <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png">
+          
+        
+    
+    <!-- title -->
+    <title>Project 3 · Step 3：独立对抗审查与零停机发布——Diff 审计、线上冒烟与踩坑沉淀</title>
+    <!-- styles -->
+    <link rel="stylesheet" href="/css/style.css">
+    <!-- rss -->
+    
+    
+</head>
+
+<body>
+    
+    
+    <div class="content index column-wide mx-auto px2 my4">
+        
+          <header id="header">
+  <a href="/">
+  
+    
+      <div id="logo" style="background-image: url(/images/logo.png);"></div>
+    
+  
+    <div id="title">
+      <h1>HuZan</h1>
+    </div>
+  </a>
+  <div id="nav">
+    <ul>
+      <li class="icon">
+        <a href="#"><i class="fa fa-bars fa-2x"></i></a>
+      </li>
+       
+        <li><a href="/">Home</a></li>
+       
+        <li><a href="/columns/">Columns</a></li>
+       
+        <li><a href="/ai-tutorials/">AI Tutorials</a></li>
+       
+        <li><a href="/agent-playbook/">Agent Tips</a></li>
+       
+        <li><a href="/ai-news/">AI News</a></li>
+       
+        <li><a href="/archives/">Writing</a></li>
+       
+        <li><a href="/about/">About</a></li>
+      
+    </ul>
+  </div>
+</header>
+
+        
+        
+
+<article class="column-article lang-mode-both" id="column-article-root" itemscope itemtype="http://schema.org/TechArticle">
+  <nav class="col-breadcrumb" aria-label="Breadcrumb">
+    <a href="/">Home</a>
+    <span class="sep">/</span>
+    <a href="/columns/">Columns</a>
+    <span class="sep">/</span>
+    <a href="/agent-projects/">Agent 实战项目工坊</a>
+    
+  </nav>
+
+  <header class="col-article-header">
+    <div class="col-article-badges">
+      
+        <span class="level-badge level-rose">🛠️ AGENT PROJECTS</span>
+      
+      
+        <span class="col-code-pill">P3-03</span>
+      
+      
+        <span class="col-meta-item">⏱ 6 min</span>
+      
+      
+        <time class="col-meta-item" datetime="2026-11-27T17:00:00.000Z">📅 2026-11-27</time>
+      
+    </div>
+
+    <h1 class="col-article-title" itemprop="headline">Project 3 · Step 3：独立对抗审查与零停机发布——Diff 审计、线上冒烟与踩坑沉淀</h1>
+    
+      <p class="col-article-title-en">Project 3 · Step 3: Independent Diff Audit, Live Smoke Test &amp; Lessons Loop</p>
+    
+
+    
+      <div class="col-article-tags">
+        
+          <span class="col-tag">#基础分步版</span>
+        
+          <span class="col-tag">#Project 3</span>
+        
+          <span class="col-tag">#Diff审计</span>
+        
+          <span class="col-tag">#零事故上线</span>
+        
+      </div>
+    
+
+    <div class="lang-toolbar" role="group" aria-label="Language display mode">
+      <span class="lang-toolbar-label">🌐 阅读模式 / View Mode:</span>
+      <button type="button" class="lang-btn active" data-mode="both">中英对照 Bilingual</button>
+      <button type="button" class="lang-btn" data-mode="zh">仅中文 ZH</button>
+      <button type="button" class="lang-btn" data-mode="en">English Only</button>
+    </div>
+  </header>
+
+  
+    <details class="col-toc-box" open>
+      <summary>📑 目录 / Table of Contents</summary>
+      <div class="col-toc-inner">
+        <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#1-_全新只读会话：给整个分支做对抗式_Diff_审计_/_Fresh-Session_Adversarial_Diff_Audit"><span class="toc-text">1. 全新只读会话：给整个分支做对抗式 Diff 审计 / Fresh-Session Adversarial Diff Audit</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#2-_发布后_30_秒线上真冒烟_/_30-Second_Live_Post-Deploy_Smoke_Check"><span class="toc-text">2. 发布后 30 秒线上真冒烟 / 30-Second Live Post-Deploy Smoke Check</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#3-_清理_Worktree_+_沉淀知识复利_/_Cleanup_&_Compound_Knowledge"><span class="toc-text">3. 清理 Worktree + 沉淀知识复利 / Cleanup &amp; Compound Knowledge</span></a></li></ol>
+      </div>
+    </details>
+  
+
+  <div class="col-article-body" itemprop="articleBody">
+    <div class="col-callout col-callout-info"><div class="col-callout-title"><span class="col-callout-icon">📌</span>双轨导航 / Dual-Track Navigation</div><div class="col-callout-body"><p>当前为 <strong>🧱 基础分步版（Project 3 · 第 3/3 步 完结）</strong> · <a href="/agent-projects/p3-step2-characterization-refactor/">← 上一步 Step 2</a> · <a href="/agent-projects/p3-express-legacy-repo-refactor/">⚡ 看本项目速通版</a></p>
+</div></div>
+<h2 id="1-_全新只读会话：给整个分支做对抗式_Diff_审计_/_Fresh-Session_Adversarial_Diff_Audit">1. 全新只读会话：给整个分支做对抗式 Diff 审计 / Fresh-Session Adversarial Diff Audit</h2><div class="bi-block bi-zh" data-lang="zh"><span class="bi-badge">中文</span><div class="bi-body"><p>合入主干前，用 <code>git diff main...HEAD</code> 喂给一个<strong>从未参与过编码的新会话</strong>，专抓隐蔽退化、边界遗漏和越权改动：</p>
+</div></div>
+<div class="bi-block bi-en" data-lang="en"><span class="bi-badge">EN</span><div class="bi-body"><p>Before merging, pipe <code>git diff main...HEAD</code> into a brand-new, unbiased read-only session to catch silent regressions or boundary leaks:</p>
+</div></div>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 三大 CLI 任选其一执行独立审稿</span></span><br><span class="line">git diff main...HEAD | agy -p <span class="string">"只读审查这份老仓库重构 Diff：重点检查 1) 是否破坏旧 URL/接口兼容性 2) 有无硬编码密钥或路径 3) 有无漏改配置，按风险分级输出。"</span></span><br><span class="line"><span class="comment"># Claude Code: git diff main...HEAD | claude -p "..."</span></span><br><span class="line"><span class="comment"># OpenAI Codex: codex review</span></span><br></pre></td></tr></table></figure>
+<h2 id="2-_发布后_30_秒线上真冒烟_/_30-Second_Live_Post-Deploy_Smoke_Check">2. 发布后 30 秒线上真冒烟 / 30-Second Live Post-Deploy Smoke Check</h2><div class="bi-block bi-zh" data-lang="zh"><span class="bi-badge">中文</span><div class="bi-body"><p>推送并部署完成后，<strong>别把“CI 绿了”当终点</strong>——立刻从外部真实请求线上关键 URL（涵盖新功能页 + 至少 1 个老历史页面 + 核心静态资源），全部看到实打实的 <code>200</code> 才算真正收工：</p>
+</div></div>
+<div class="bi-block bi-en" data-lang="en"><span class="bi-badge">EN</span><div class="bi-body"><p>Never stop at a green CI badge—probe live production URLs (new pages + at least one untouched legacy page + key static assets) and verify real HTTP <code>200</code> responses:</p>
+</div></div>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">for</span> url <span class="keyword">in</span> <span class="string">"https://your-site.example/"</span> <span class="string">"https://your-site.example/new-feature/"</span> <span class="string">"https://your-site.example/legacy-page/"</span>; <span class="keyword">do</span></span><br><span class="line">  code=$(curl -s -o /dev/null -w <span class="string">"%&#123;http_code&#125;"</span> <span class="string">"<span class="variable">$url</span>"</span>)</span><br><span class="line">  <span class="built_in">echo</span> <span class="string">"<span class="variable">$code</span> <span class="variable">$url</span>"</span></span><br><span class="line"><span class="keyword">done</span></span><br></pre></td></tr></table></figure>
+<h2 id="3-_清理_Worktree_+_沉淀知识复利_/_Cleanup_&amp;_Compound_Knowledge">3. 清理 Worktree + 沉淀知识复利 / Cleanup &amp; Compound Knowledge</h2><div class="bi-block bi-zh" data-lang="zh"><span class="bi-badge">中文</span><div class="bi-body"><ol>
+<li>合并分支后删除临时工作区：<code>git worktree remove ../legacy-safe-refactor</code>。</li>
+<li>把这次改造挖出来的隐藏环境坑（比如老构建工具兼容参数、线上部署分支规则）<strong>用 1~2 行极简补录进 <code>AGENTS.md</code></strong>，把最终状态与新路由记入 <code>work.md</code>。</li>
+</ol>
+<p>至此，<strong>《Agent 实战项目工坊》三大核心实战全部通关！</strong> 无论从 0 到 1 建全栈、手搓前沿 Harness，还是安全改造多年老仓库，你都已经手握一套可复制、可验证、跨 <code>agy</code> / <code>claude</code> / <code>codex</code> 通用的工业级作战手册。</p>
+</div></div>
+<div class="bi-block bi-en" data-lang="en"><span class="bi-badge">EN</span><div class="bi-body"><p>Clean up your temporary worktree (<code>git worktree remove ...</code>), distill any hard-won legacy gotchas into 1–2 crisp lines in <code>AGENTS.md</code>, and update <code>work.md</code>. You have completed all three hands-on tracks of the <strong>Agent Projects Workshop</strong>!</p>
+</div></div>
+
+  </div>
+
+  <footer class="col-article-footer">
+    <div class="col-nav-grid">
+      
+        <a class="col-nav-card col-nav-prev" href="/agent-projects/p3-step2-characterization-refactor/index.html">
+          <span class="col-nav-dir">← 上一篇 / Previous</span>
+          <span class="col-nav-title">Project 3 · Step 2：先立保护网再动刀——特性回归测试、最小变更重构与防上下文腐烂</span>
+        </a>
+      
+
+      
+        <a class="col-nav-card col-nav-next" href="/agent-projects/">
+          <span class="col-nav-dir">返回专栏总览 / Column Hub →</span>
+          <span class="col-nav-title">Agent 实战项目工坊</span>
+        </a>
+      
+    </div>
+  </footer>
+</article>
+
+<script>
+(function() {
+  var root = document.getElementById('column-article-root');
+  if (!root) return;
+  var buttons = root.querySelectorAll('.lang-btn');
+  var storageKey = 'hzan_ai_lang_mode';
+
+  function applyMode(mode) {
+    if (mode !== 'both' && mode !== 'zh' && mode !== 'en') mode = 'both';
+    root.classList.remove('lang-mode-both', 'lang-mode-zh', 'lang-mode-en');
+    root.classList.add('lang-mode-' + mode);
+    buttons.forEach(function(btn) {
+      btn.classList.toggle('active', btn.getAttribute('data-mode') === mode);
+    });
+    try { localStorage.setItem(storageKey, mode); } catch (e) {}
+  }
+
+  buttons.forEach(function(btn) {
+    btn.addEventListener('click', function() {
+      applyMode(btn.getAttribute('data-mode'));
+    });
+  });
+
+  try {
+    var saved = localStorage.getItem(storageKey);
+    if (saved) applyMode(saved);
+  } catch (e) {}
+})();
+</script>
+
+    </div>
+    
+    <footer id="footer">
+  <div class="footer-left">
+    Copyright &copy; 2026 Zan
+  </div>
+  <div class="footer-right">
+    <nav>
+      <ul>
+         
+          <li><a href="/">Home</a></li>
+         
+          <li><a href="/columns/">Columns</a></li>
+         
+          <li><a href="/ai-tutorials/">AI Tutorials</a></li>
+         
+          <li><a href="/agent-playbook/">Agent Tips</a></li>
+         
+          <li><a href="/ai-news/">AI News</a></li>
+         
+          <li><a href="/archives/">Writing</a></li>
+         
+          <li><a href="/about/">About</a></li>
+        
+      </ul>
+    </nav>
+  </div>
+</footer>
+
+</body>
+</html>
+<!-- styles -->
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css">
+<link rel="stylesheet" href="/lib/meslo-LG/styles.css">
+<link rel="stylesheet" href="/lib/justified-gallery/justifiedGallery.min.css">
+
+
+<!-- jquery -->
+<script src="/lib/jquery/jquery.min.js"></script>
+<script src="/lib/justified-gallery/jquery.justifiedGallery.min.js"></script>
+<script src="/js/main.js"></script>
+<!-- Google Analytics -->
+
+    <script type="text/javascript">
+        (function(i,s,o,g,r,a,m) {i['GoogleAnalyticsObject']=r;i[r]=i[r]||function() {
+        (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+        m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+        })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+        ga('create', 'UA-86660611-1', 'auto');
+        ga('send', 'pageview');
+    </script>
+
+<!-- Disqus Comments -->
+
+    <script type="text/javascript">
+        var disqus_shortname = 'huzan';
+
+        (function(){
+            var dsq = document.createElement('script');
+            dsq.type = 'text/javascript';
+            dsq.async = true;
+            dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+            (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+        }());
+    </script>
+
+

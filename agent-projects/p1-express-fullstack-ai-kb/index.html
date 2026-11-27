@@ -1,0 +1,336 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <!-- so meta -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="HandheldFriendly" content="True">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+    <meta name="description" content="📌双轨导航 / Dual-Track Guide本篇是 ⚡ 有经验速通版（直接给蓝图、脚本与验收门禁）。如果你想一步步跟着敲、看清每一步背后原理，请切换到 🧱 基础分步版：Step 1 访谈建基 → Step 2 垂直切片实施 → Step 3 确定性验证交付   1. 架构目标与极简目录树 / Target Scope &amp;amp; Directory Blueprint中文用 2026 前沿">
+<meta name="keywords" content="速通版,全栈实战,FastAPI,pgvector,Harness工程">
+<meta property="og:type" content="website">
+<meta property="og:title" content="【速通】Project 1：0→1 交付 AI 知识库全栈应用（FastAPI + pgvector + 暗色前端 + Harness）">
+<meta property="og:url" content="https://h-zan.github.io/agent-projects/p1-express-fullstack-ai-kb/index.html">
+<meta property="og:site_name" content="HuZan">
+<meta property="og:description" content="📌双轨导航 / Dual-Track Guide本篇是 ⚡ 有经验速通版（直接给蓝图、脚本与验收门禁）。如果你想一步步跟着敲、看清每一步背后原理，请切换到 🧱 基础分步版：Step 1 访谈建基 → Step 2 垂直切片实施 → Step 3 确定性验证交付   1. 架构目标与极简目录树 / Target Scope &amp;amp; Directory Blueprint中文用 2026 前沿">
+<meta property="og:locale" content="default">
+<meta property="og:image" content="https://h-zan.github.io/images/agent-projects/p1-fullstack-harness.svg">
+<meta property="og:updated_time" content="2026-11-27T04:25:12.443Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="【速通】Project 1：0→1 交付 AI 知识库全栈应用（FastAPI + pgvector + 暗色前端 + Harness）">
+<meta name="twitter:description" content="📌双轨导航 / Dual-Track Guide本篇是 ⚡ 有经验速通版（直接给蓝图、脚本与验收门禁）。如果你想一步步跟着敲、看清每一步背后原理，请切换到 🧱 基础分步版：Step 1 访谈建基 → Step 2 垂直切片实施 → Step 3 确定性验证交付   1. 架构目标与极简目录树 / Target Scope &amp;amp; Directory Blueprint中文用 2026 前沿">
+<meta name="twitter:image" content="https://h-zan.github.io/images/agent-projects/p1-fullstack-harness.svg">
+    
+    
+        
+          
+              <link rel="shortcut icon" href="/images/favicon.ico">
+          
+        
+        
+          
+            <link rel="icon" type="image/png" href="/images/favicon-192x192.png" sizes="192x192">
+          
+        
+        
+          
+            <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png">
+          
+        
+    
+    <!-- title -->
+    <title>【速通】Project 1：0→1 交付 AI 知识库全栈应用（FastAPI + pgvector + 暗色前端 + Harness）</title>
+    <!-- styles -->
+    <link rel="stylesheet" href="/css/style.css">
+    <!-- rss -->
+    
+    
+</head>
+
+<body>
+    
+    
+    <div class="content index column-wide mx-auto px2 my4">
+        
+          <header id="header">
+  <a href="/">
+  
+    
+      <div id="logo" style="background-image: url(/images/logo.png);"></div>
+    
+  
+    <div id="title">
+      <h1>HuZan</h1>
+    </div>
+  </a>
+  <div id="nav">
+    <ul>
+      <li class="icon">
+        <a href="#"><i class="fa fa-bars fa-2x"></i></a>
+      </li>
+       
+        <li><a href="/">Home</a></li>
+       
+        <li><a href="/columns/">Columns</a></li>
+       
+        <li><a href="/ai-tutorials/">AI Tutorials</a></li>
+       
+        <li><a href="/agent-playbook/">Agent Tips</a></li>
+       
+        <li><a href="/ai-news/">AI News</a></li>
+       
+        <li><a href="/archives/">Writing</a></li>
+       
+        <li><a href="/about/">About</a></li>
+      
+    </ul>
+  </div>
+</header>
+
+        
+        
+
+<article class="column-article lang-mode-both" id="column-article-root" itemscope itemtype="http://schema.org/TechArticle">
+  <nav class="col-breadcrumb" aria-label="Breadcrumb">
+    <a href="/">Home</a>
+    <span class="sep">/</span>
+    <a href="/columns/">Columns</a>
+    <span class="sep">/</span>
+    <a href="/agent-projects/">Agent 实战项目工坊</a>
+    
+  </nav>
+
+  <header class="col-article-header">
+    <div class="col-article-badges">
+      
+        <span class="level-badge level-rose">🛠️ AGENT PROJECTS</span>
+      
+      
+        <span class="col-code-pill">EX-01</span>
+      
+      
+        <span class="col-meta-item">⏱ 7 min</span>
+      
+      
+        <time class="col-meta-item" datetime="2026-11-27T15:10:00.000Z">📅 2026-11-27</time>
+      
+    </div>
+
+    <h1 class="col-article-title" itemprop="headline">【速通】Project 1：0→1 交付 AI 知识库全栈应用（FastAPI + pgvector + 暗色前端 + Harness）</h1>
+    
+      <p class="col-article-title-en">[Express] Project 1: Ship a Full-Stack AI Knowledge Base (FastAPI + pgvector + UI + Harness)</p>
+    
+
+    
+      <div class="col-article-tags">
+        
+          <span class="col-tag">#速通版</span>
+        
+          <span class="col-tag">#全栈实战</span>
+        
+          <span class="col-tag">#FastAPI</span>
+        
+          <span class="col-tag">#pgvector</span>
+        
+          <span class="col-tag">#Harness工程</span>
+        
+      </div>
+    
+
+    <div class="lang-toolbar" role="group" aria-label="Language display mode">
+      <span class="lang-toolbar-label">🌐 阅读模式 / View Mode:</span>
+      <button type="button" class="lang-btn active" data-mode="both">中英对照 Bilingual</button>
+      <button type="button" class="lang-btn" data-mode="zh">仅中文 ZH</button>
+      <button type="button" class="lang-btn" data-mode="en">English Only</button>
+    </div>
+  </header>
+
+  
+    <details class="col-toc-box" open>
+      <summary>📑 目录 / Table of Contents</summary>
+      <div class="col-toc-inner">
+        <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#1-_架构目标与极简目录树_/_Target_Scope_&_Directory_Blueprint"><span class="toc-text">1. 架构目标与极简目录树 / Target Scope &amp; Directory Blueprint</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#2-_三大_Agent_CLI_核心操作对照表_/_agy_·_claude_·_codex_Command_Map"><span class="toc-text">2. 三大 Agent CLI 核心操作对照表 / agy · claude · codex Command Map</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#3-_核心_Harness_资产（直接复制用）_/_Copy-Paste_Harness_Files"><span class="toc-text">3. 核心 Harness 资产（直接复制用） / Copy-Paste Harness Files</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#4-_三段垂直切片极速派活指令_/_3_Vertical_Slice_Prompts"><span class="toc-text">4. 三段垂直切片极速派活指令 / 3 Vertical Slice Prompts</span></a></li></ol>
+      </div>
+    </details>
+  
+
+  <div class="col-article-body" itemprop="articleBody">
+    <div class="col-callout col-callout-info"><div class="col-callout-title"><span class="col-callout-icon">📌</span>双轨导航 / Dual-Track Guide</div><div class="col-callout-body"><p>本篇是 <strong>⚡ 有经验速通版</strong>（直接给蓝图、脚本与验收门禁）。如果你想一步步跟着敲、看清每一步背后原理，请切换到 <strong>🧱 基础分步版</strong>：<br><a href="/agent-projects/p1-step1-plan-and-harness/">Step 1 访谈建基</a> → <a href="/agent-projects/p1-step2-backend-frontend/">Step 2 垂直切片实施</a> → <a href="/agent-projects/p1-step3-verify-and-ship/">Step 3 确定性验证交付</a></p>
+</div></div>
+<p><img src="/images/agent-projects/p1-fullstack-harness.svg" alt="Project 1 Full-Stack AI KB with Agent Harness"></p>
+<h2 id="1-_架构目标与极简目录树_/_Target_Scope_&amp;_Directory_Blueprint">1. 架构目标与极简目录树 / Target Scope &amp; Directory Blueprint</h2><div class="bi-block bi-zh" data-lang="zh"><span class="bi-badge">中文</span><div class="bi-body"><p>用 2026 前沿 <strong>Harness Engineering</strong> 流程从零交付一个可上线的私有 AI 知识库：支持上传 Markdown 切片入库、PostgreSQL <code>pgvector</code> + 全文检索 RRF 混合召回、带来源编号问答，以及单文件暗色前端。</p>
+</div></div>
+<div class="bi-block bi-en" data-lang="en"><span class="bi-badge">EN</span><div class="bi-body"><p>Deliver an end-to-end private AI Knowledge Base (Markdown ingestion, PostgreSQL <code>pgvector</code> + full-text RRF hybrid search, cited answers, and a dark UI) using 2026 Harness Engineering discipline:</p>
+</div></div>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">ai-kb-fullstack/</span><br><span class="line">├── AGENTS.md              # 30 行项目铁律与必跑验证命令</span><br><span class="line">├── work.md                # 3 个切片进度看板（跨会话交接）</span><br><span class="line">├── Makefile               # `make up` / `make verify` 一键门禁</span><br><span class="line">├── docker-compose.yml     # pgvector/pgvector:pg17</span><br><span class="line">├── sql/001_init.sql       # kb_chunks 表 + HNSW + GIN 索引</span><br><span class="line">├── app/</span><br><span class="line">│   ├── main.py            # FastAPI: /health, /ingest, /query</span><br><span class="line">│   ├── rag.py             # 切分 + Embedding + SQL RRF 混合检索</span><br><span class="line">│   └── static/index.html  # 零构建极简暗色搜索与引用高亮 UI</span><br><span class="line">└── tests/</span><br><span class="line">    └── test_api.py        # pytest 集成冒烟测试（mock embedding 保速）</span><br></pre></td></tr></table></figure>
+<h2 id="2-_三大_Agent_CLI_核心操作对照表_/_agy_·_claude_·_codex_Command_Map">2. 三大 Agent CLI 核心操作对照表 / <code>agy</code> · <code>claude</code> · <code>codex</code> Command Map</h2><table>
+<thead>
+<tr>
+<th style="text-align:left">阶段 Stage</th>
+<th style="text-align:left">Google Antigravity (<code>agy</code>)</th>
+<th style="text-align:left">Claude Code (<code>claude</code>)</th>
+<th style="text-align:left">OpenAI Codex (<code>codex</code>)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left"><strong>需求访谈对齐</strong></td>
+<td style="text-align:left">启动后直接敲 <code>/grill-me</code></td>
+<td style="text-align:left">要求：“先问我 4 个澄清问题再出 Plan”</td>
+<td style="text-align:left">同左，或开启 Plan 规划输出</td>
+</tr>
+<tr>
+<td style="text-align:left"><strong>切规划模式</strong></td>
+<td style="text-align:left"><code>Shift+Tab</code> 切 <code>plan</code> 或 <code>/plan</code></td>
+<td style="text-align:left"><code>Shift+Tab</code> 切 Plan Mode</td>
+<td style="text-align:left">提示先输出 <code>PLAN.md</code> 确认后再改</td>
+</tr>
+<tr>
+<td style="text-align:left"><strong>每切片完清噪</strong></td>
+<td style="text-align:left"><code>/compact</code> 或 <code>Ctrl+D</code> 重开 <code>agy</code></td>
+<td style="text-align:left"><code>/clear</code> 开干净会话</td>
+<td style="text-align:left">新开会话读 <code>AGENTS.md</code> + <code>work.md</code></td>
+</tr>
+<tr>
+<td style="text-align:left"><strong>审 Diff / 门禁</strong></td>
+<td style="text-align:left"><code>/diff</code> + <code>Ctrl+R</code> 审 Artifact</td>
+<td style="text-align:left"><code>!git diff --stat</code> + 跑 <code>make verify</code></td>
+<td style="text-align:left">独立终端跑 <code>make verify</code> + 审 Diff</td>
+</tr>
+</tbody>
+</table>
+<h2 id="3-_核心_Harness_资产（直接复制用）_/_Copy-Paste_Harness_Files">3. 核心 Harness 资产（直接复制用） / Copy-Paste Harness Files</h2><figure class="highlight makefile"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># Makefile — 把验收标准变成机器 Exit Code 0</span></span><br><span class="line"><span class="meta"><span class="meta-keyword">.PHONY</span>: up migrate test verify</span></span><br><span class="line"></span><br><span class="line"><span class="section">up:</span></span><br><span class="line">	docker compose up -d</span><br><span class="line"></span><br><span class="line"><span class="section">migrate:</span></span><br><span class="line">	psql <span class="string">"$$DATABASE_URL"</span> -f sql/001_init.sql</span><br><span class="line"></span><br><span class="line"><span class="section">verify:</span></span><br><span class="line">	uv run ruff check app tests</span><br><span class="line">	uv run pytest -q</span><br><span class="line">	@echo <span class="string">"ALL HARNESS GATES PASSED"</span></span><br></pre></td></tr></table></figure>
+<figure class="highlight markdown"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="section"># AGENTS.md</span></span><br><span class="line"><span class="section">## Commands</span></span><br><span class="line"><span class="bullet">- </span>Start DB: <span class="code">`make up &amp;&amp; make migrate`</span></span><br><span class="line"><span class="bullet">- </span>Verify (MUST pass before done): <span class="code">`make verify`</span></span><br><span class="line"></span><br><span class="line"><span class="section">## Rules</span></span><br><span class="line"><span class="bullet">1. </span>Work in vertical slices (SQL -&gt; API -&gt; UI); commit after each green slice.</span><br><span class="line"><span class="bullet">2. </span>All RAG queries MUST enforce <span class="code">`tenant_id`</span> filter + return citation IDs.</span><br><span class="line"><span class="bullet">3. </span>Keep frontend single-file in <span class="code">`app/static/index.html`</span> (#1d1f21 bg, #2bbc8a accent).</span><br><span class="line"><span class="bullet">4. </span>Update <span class="code">`work.md`</span> at the end of every slice.</span><br></pre></td></tr></table></figure>
+<h2 id="4-_三段垂直切片极速派活指令_/_3_Vertical_Slice_Prompts">4. 三段垂直切片极速派活指令 / 3 Vertical Slice Prompts</h2><div class="bi-block bi-zh" data-lang="zh"><span class="bi-badge">中文</span><div class="bi-body"><p>按顺序分 <strong>3 个干净短会话</strong>派活，每个切片跑通 <code>make verify</code> 并 <code>git commit</code> 后立刻清上下文进入下一片：</p>
+<ol>
+<li><strong>切片 1（底座）</strong>：<em>“读 <code>AGENTS.md</code>，生成 <code>docker-compose.yml</code>、<code>sql/001_init.sql</code>（含 <code>halfvec(1536)</code> HNSW 与 <code>tsvector</code> GIN 索引）及 <code>Makefile</code>，跑通建表与空测试并更新 <code>work.md</code>。”</em></li>
+<li><strong>切片 2（API）</strong>：<em>“读 <code>AGENTS.md</code> 和 <code>work.md</code>，在 <code>app/rag.py</code> 与 <code>app/main.py</code> 实现 <code>/ingest</code>、<code>/query</code>（单 SQL RRF 混合检索 + 租户隔离），补齐 <code>tests/test_api.py</code>，跑通 <code>make verify</code>。”</em></li>
+<li><strong>切片 3（UI + 独立审查）</strong>：<em>“实现 <code>app/static/index.html</code> 暗色知识库界面并启动服务用 <code>curl</code> 与截图验证；最后新开一个只读会话审查 <code>git diff</code> 检查 SQL 注入与边界条件。”</em></li>
+</ol>
+</div></div>
+<div class="bi-block bi-en" data-lang="en"><span class="bi-badge">EN</span><div class="bi-body"><p>Execute in <strong>3 fresh, focused sessions</strong> (commit + reset context after each green <code>make verify</code>):</p>
+<ol>
+<li><strong>Slice 1 (Foundation)</strong>: Docker PG17 + <code>001_init.sql</code> (<code>halfvec</code> HNSW + GIN) + <code>Makefile</code>.</li>
+<li><strong>Slice 2 (API &amp; Tests)</strong>: <code>/ingest</code> &amp; <code>/query</code> single-SQL RRF retrieval with <code>tenant_id</code> ACL + <code>pytest</code> suite.</li>
+<li><strong>Slice 3 (UI &amp; Independent Review)</strong>: Single-file dark UI + live <code>curl</code>/screenshot check + separate read-only session auditing <code>git diff</code>.</li>
+</ol>
+</div></div>
+
+  </div>
+
+  <footer class="col-article-footer">
+    <div class="col-nav-grid">
+      
+        <a class="col-nav-card col-nav-prev" href="/agent-projects/">
+          <span class="col-nav-dir">← 返回专栏目录 / Back to Index</span>
+          <span class="col-nav-title">Agent 实战项目工坊</span>
+        </a>
+      
+
+      
+        <a class="col-nav-card col-nav-next" href="/agent-projects/p2-express-mini-agent-harness/index.html">
+          <span class="col-nav-dir">下一篇 / Next →</span>
+          <span class="col-nav-title">【速通】Project 2：200 行 Python 手搓 2026 前沿 Agent Harness 引擎</span>
+        </a>
+      
+    </div>
+  </footer>
+</article>
+
+<script>
+(function() {
+  var root = document.getElementById('column-article-root');
+  if (!root) return;
+  var buttons = root.querySelectorAll('.lang-btn');
+  var storageKey = 'hzan_ai_lang_mode';
+
+  function applyMode(mode) {
+    if (mode !== 'both' && mode !== 'zh' && mode !== 'en') mode = 'both';
+    root.classList.remove('lang-mode-both', 'lang-mode-zh', 'lang-mode-en');
+    root.classList.add('lang-mode-' + mode);
+    buttons.forEach(function(btn) {
+      btn.classList.toggle('active', btn.getAttribute('data-mode') === mode);
+    });
+    try { localStorage.setItem(storageKey, mode); } catch (e) {}
+  }
+
+  buttons.forEach(function(btn) {
+    btn.addEventListener('click', function() {
+      applyMode(btn.getAttribute('data-mode'));
+    });
+  });
+
+  try {
+    var saved = localStorage.getItem(storageKey);
+    if (saved) applyMode(saved);
+  } catch (e) {}
+})();
+</script>
+
+    </div>
+    
+    <footer id="footer">
+  <div class="footer-left">
+    Copyright &copy; 2026 Zan
+  </div>
+  <div class="footer-right">
+    <nav>
+      <ul>
+         
+          <li><a href="/">Home</a></li>
+         
+          <li><a href="/columns/">Columns</a></li>
+         
+          <li><a href="/ai-tutorials/">AI Tutorials</a></li>
+         
+          <li><a href="/agent-playbook/">Agent Tips</a></li>
+         
+          <li><a href="/ai-news/">AI News</a></li>
+         
+          <li><a href="/archives/">Writing</a></li>
+         
+          <li><a href="/about/">About</a></li>
+        
+      </ul>
+    </nav>
+  </div>
+</footer>
+
+</body>
+</html>
+<!-- styles -->
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css">
+<link rel="stylesheet" href="/lib/meslo-LG/styles.css">
+<link rel="stylesheet" href="/lib/justified-gallery/justifiedGallery.min.css">
+
+
+<!-- jquery -->
+<script src="/lib/jquery/jquery.min.js"></script>
+<script src="/lib/justified-gallery/jquery.justifiedGallery.min.js"></script>
+<script src="/js/main.js"></script>
+<!-- Google Analytics -->
+
+    <script type="text/javascript">
+        (function(i,s,o,g,r,a,m) {i['GoogleAnalyticsObject']=r;i[r]=i[r]||function() {
+        (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+        m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+        })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+        ga('create', 'UA-86660611-1', 'auto');
+        ga('send', 'pageview');
+    </script>
+
+<!-- Disqus Comments -->
+
+    <script type="text/javascript">
+        var disqus_shortname = 'huzan';
+
+        (function(){
+            var dsq = document.createElement('script');
+            dsq.type = 'text/javascript';
+            dsq.async = true;
+            dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+            (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+        }());
+    </script>
+
+

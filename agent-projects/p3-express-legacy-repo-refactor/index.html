@@ -1,0 +1,322 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <!-- so meta -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="HandheldFriendly" content="True">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+    <meta name="description" content="📌双轨导航 / Dual-Track Guide本篇是 ⚡ 有经验速通版（直接给老仓库改造 4 步 SOP 与核心校验脚本）。想手把手跟练每一步细节，请走 🧱 基础分步版：Step 1 只读隔离摸底 → Step 2 保护网与小步重构 → Step 3 独立审 Diff 发布   1. 老仓库改造 4 条生死红线 / 4 Non-Negotiable Legacy Rules中文接手多年积累的">
+<meta name="keywords" content="速通版,存量改造,安全重构,Git Worktree,Diff审查">
+<meta property="og:type" content="website">
+<meta property="og:title" content="【速通】Project 3：存量复杂老仓库安全改造（隔离摸底 + 保护网 + 零事故重构）">
+<meta property="og:url" content="https://h-zan.github.io/agent-projects/p3-express-legacy-repo-refactor/index.html">
+<meta property="og:site_name" content="HuZan">
+<meta property="og:description" content="📌双轨导航 / Dual-Track Guide本篇是 ⚡ 有经验速通版（直接给老仓库改造 4 步 SOP 与核心校验脚本）。想手把手跟练每一步细节，请走 🧱 基础分步版：Step 1 只读隔离摸底 → Step 2 保护网与小步重构 → Step 3 独立审 Diff 发布   1. 老仓库改造 4 条生死红线 / 4 Non-Negotiable Legacy Rules中文接手多年积累的">
+<meta property="og:locale" content="default">
+<meta property="og:image" content="https://h-zan.github.io/images/agent-projects/p3-legacy-refactor-flow.svg">
+<meta property="og:updated_time" content="2026-11-27T04:25:25.820Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="【速通】Project 3：存量复杂老仓库安全改造（隔离摸底 + 保护网 + 零事故重构）">
+<meta name="twitter:description" content="📌双轨导航 / Dual-Track Guide本篇是 ⚡ 有经验速通版（直接给老仓库改造 4 步 SOP 与核心校验脚本）。想手把手跟练每一步细节，请走 🧱 基础分步版：Step 1 只读隔离摸底 → Step 2 保护网与小步重构 → Step 3 独立审 Diff 发布   1. 老仓库改造 4 条生死红线 / 4 Non-Negotiable Legacy Rules中文接手多年积累的">
+<meta name="twitter:image" content="https://h-zan.github.io/images/agent-projects/p3-legacy-refactor-flow.svg">
+    
+    
+        
+          
+              <link rel="shortcut icon" href="/images/favicon.ico">
+          
+        
+        
+          
+            <link rel="icon" type="image/png" href="/images/favicon-192x192.png" sizes="192x192">
+          
+        
+        
+          
+            <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png">
+          
+        
+    
+    <!-- title -->
+    <title>【速通】Project 3：存量复杂老仓库安全改造（隔离摸底 + 保护网 + 零事故重构）</title>
+    <!-- styles -->
+    <link rel="stylesheet" href="/css/style.css">
+    <!-- rss -->
+    
+    
+</head>
+
+<body>
+    
+    
+    <div class="content index column-wide mx-auto px2 my4">
+        
+          <header id="header">
+  <a href="/">
+  
+    
+      <div id="logo" style="background-image: url(/images/logo.png);"></div>
+    
+  
+    <div id="title">
+      <h1>HuZan</h1>
+    </div>
+  </a>
+  <div id="nav">
+    <ul>
+      <li class="icon">
+        <a href="#"><i class="fa fa-bars fa-2x"></i></a>
+      </li>
+       
+        <li><a href="/">Home</a></li>
+       
+        <li><a href="/columns/">Columns</a></li>
+       
+        <li><a href="/ai-tutorials/">AI Tutorials</a></li>
+       
+        <li><a href="/agent-playbook/">Agent Tips</a></li>
+       
+        <li><a href="/ai-news/">AI News</a></li>
+       
+        <li><a href="/archives/">Writing</a></li>
+       
+        <li><a href="/about/">About</a></li>
+      
+    </ul>
+  </div>
+</header>
+
+        
+        
+
+<article class="column-article lang-mode-both" id="column-article-root" itemscope itemtype="http://schema.org/TechArticle">
+  <nav class="col-breadcrumb" aria-label="Breadcrumb">
+    <a href="/">Home</a>
+    <span class="sep">/</span>
+    <a href="/columns/">Columns</a>
+    <span class="sep">/</span>
+    <a href="/agent-projects/">Agent 实战项目工坊</a>
+    
+  </nav>
+
+  <header class="col-article-header">
+    <div class="col-article-badges">
+      
+        <span class="level-badge level-rose">🛠️ AGENT PROJECTS</span>
+      
+      
+        <span class="col-code-pill">EX-03</span>
+      
+      
+        <span class="col-meta-item">⏱ 7 min</span>
+      
+      
+        <time class="col-meta-item" datetime="2026-11-27T15:30:00.000Z">📅 2026-11-27</time>
+      
+    </div>
+
+    <h1 class="col-article-title" itemprop="headline">【速通】Project 3：存量复杂老仓库安全改造（隔离摸底 + 保护网 + 零事故重构）</h1>
+    
+      <p class="col-article-title-en">[Express] Project 3: Safe Legacy Repo Refactoring with Harness Gates &amp; Context Isolation</p>
+    
+
+    
+      <div class="col-article-tags">
+        
+          <span class="col-tag">#速通版</span>
+        
+          <span class="col-tag">#存量改造</span>
+        
+          <span class="col-tag">#安全重构</span>
+        
+          <span class="col-tag">#Git Worktree</span>
+        
+          <span class="col-tag">#Diff审查</span>
+        
+      </div>
+    
+
+    <div class="lang-toolbar" role="group" aria-label="Language display mode">
+      <span class="lang-toolbar-label">🌐 阅读模式 / View Mode:</span>
+      <button type="button" class="lang-btn active" data-mode="both">中英对照 Bilingual</button>
+      <button type="button" class="lang-btn" data-mode="zh">仅中文 ZH</button>
+      <button type="button" class="lang-btn" data-mode="en">English Only</button>
+    </div>
+  </header>
+
+  
+    <details class="col-toc-box" open>
+      <summary>📑 目录 / Table of Contents</summary>
+      <div class="col-toc-inner">
+        <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#1-_老仓库改造_4_条生死红线_/_4_Non-Negotiable_Legacy_Rules"><span class="toc-text">1. 老仓库改造 4 条生死红线 / 4 Non-Negotiable Legacy Rules</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#2-_一键验收守护脚本模板（可直接放进老仓库）_/_Copy-Paste_Release_Guard_Script"><span class="toc-text">2. 一键验收守护脚本模板（可直接放进老仓库） / Copy-Paste Release Guard Script</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#3-_三大_CLI_工具老仓库实操对照_/_agy_·_claude_·_codex_Legacy_SOP"><span class="toc-text">3. 三大 CLI 工具老仓库实操对照 / agy · claude · codex Legacy SOP</span></a></li></ol>
+      </div>
+    </details>
+  
+
+  <div class="col-article-body" itemprop="articleBody">
+    <div class="col-callout col-callout-info"><div class="col-callout-title"><span class="col-callout-icon">📌</span>双轨导航 / Dual-Track Guide</div><div class="col-callout-body"><p>本篇是 <strong>⚡ 有经验速通版</strong>（直接给老仓库改造 4 步 SOP 与核心校验脚本）。想手把手跟练每一步细节，请走 <strong>🧱 基础分步版</strong>：<br><a href="/agent-projects/p3-step1-audit-and-boundaries/">Step 1 只读隔离摸底</a> → <a href="/agent-projects/p3-step2-characterization-refactor/">Step 2 保护网与小步重构</a> → <a href="/agent-projects/p3-step3-diff-review-release/">Step 3 独立审 Diff 发布</a></p>
+</div></div>
+<p><img src="/images/agent-projects/p3-legacy-refactor-flow.svg" alt="Project 3 Legacy Repo Safe Refactoring Flow"></p>
+<h2 id="1-_老仓库改造_4_条生死红线_/_4_Non-Negotiable_Legacy_Rules">1. 老仓库改造 4 条生死红线 / 4 Non-Negotiable Legacy Rules</h2><div class="bi-block bi-zh" data-lang="zh"><span class="bi-badge">中文</span><div class="bi-body"><p>接手多年积累的历史仓库（无文档、旧版本依赖、线上有真实用户），用 Agent 改造绝不能上来就喊“帮我重构一下”，必须严格按 4 步手术 SOP 执行：</p>
+<ol>
+<li><strong>只读隔离摸底</strong>：先派只读子代理/独立只读会话把目录、构建命令、隐藏环境坑（如 Node 版本兼容、旧插件依赖）摸清，浓缩成 30 行 <code>AGENTS.md</code>（写死禁区目录！）。</li>
+<li><strong>先立保护网再动刀</strong>：在改第一行业务代码前，先写<strong>特性测试（Characterization Tests）+ 产物校验脚本</strong>，锁死老功能不能坏。</li>
+<li><strong>Worktree + 单模块小步</strong>：开独立分支，一次只动一个模块；一旦 Agent 连续两轮越改越乱，立刻 <code>git checkout -- .</code> 重开干净会话。</li>
+<li><strong>独立只读会话对抗审 Diff</strong>：改完后另开<strong>全新无偏见会话</strong>专门审查 <code>git diff</code>，核验禁区目录 0 变更、无静默破坏、线上冒烟 HTTP 200。</li>
+</ol>
+</div></div>
+<div class="bi-block bi-en" data-lang="en"><span class="bi-badge">EN</span><div class="bi-body"><p>Never tell an agent “refactor this legacy repo.” Follow the 4-step surgical protocol: (1) read-only isolated audit into <code>AGENTS.md</code> with hard off-limits paths, (2) lock current behavior with characterization tests + build validators <em>before</em> editing, (3) small single-module commits inside a <code>git worktree</code>, and (4) a fresh read-only review session auditing <code>git diff</code>.</p>
+</div></div>
+<h2 id="2-_一键验收守护脚本模板（可直接放进老仓库）_/_Copy-Paste_Release_Guard_Script">2. 一键验收守护脚本模板（可直接放进老仓库） / Copy-Paste Release Guard Script</h2><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#!/usr/bin/env bash</span></span><br><span class="line"><span class="comment"># scripts/verify-release.sh — 老仓库发布前必过三道闸门</span></span><br><span class="line"><span class="built_in">set</span> -euo pipefail</span><br><span class="line"></span><br><span class="line"><span class="built_in">echo</span> <span class="string">"1/3 Checking off-limits legacy paths are untouched..."</span></span><br><span class="line"><span class="keyword">if</span> [ -n <span class="string">"<span class="variable">$(git status --short source/_posts/ legacy_migrations/ 2&gt;/dev/null || true)</span>"</span> ]; <span class="keyword">then</span></span><br><span class="line">  <span class="built_in">echo</span> <span class="string">"ERROR: Off-limits legacy files were modified!"</span> &gt;&amp;2</span><br><span class="line">  <span class="built_in">exit</span> 1</span><br><span class="line"><span class="keyword">fi</span></span><br><span class="line"></span><br><span class="line"><span class="built_in">echo</span> <span class="string">"2/3 Running build &amp; test suite..."</span></span><br><span class="line">npm run build &amp;&amp; pytest -q</span><br><span class="line"></span><br><span class="line"><span class="built_in">echo</span> <span class="string">"3/3 Checking zero empty build artifacts..."</span></span><br><span class="line">EMPTY_COUNT=$(find public dist -<span class="built_in">type</span> f -empty 2&gt;/dev/null | wc -l)</span><br><span class="line"><span class="keyword">if</span> [ <span class="string">"<span class="variable">$EMPTY_COUNT</span>"</span> -gt 0 ]; <span class="keyword">then</span></span><br><span class="line">  <span class="built_in">echo</span> <span class="string">"ERROR: Found <span class="variable">$EMPTY_COUNT</span> zero-byte build artifacts!"</span> &gt;&amp;2</span><br><span class="line">  <span class="built_in">exit</span> 1</span><br><span class="line"><span class="keyword">fi</span></span><br><span class="line"><span class="built_in">echo</span> <span class="string">"ALL LEGACY GUARD GATES PASSED!"</span></span><br></pre></td></tr></table></figure>
+<h2 id="3-_三大_CLI_工具老仓库实操对照_/_agy_·_claude_·_codex_Legacy_SOP">3. 三大 CLI 工具老仓库实操对照 / <code>agy</code> · <code>claude</code> · <code>codex</code> Legacy SOP</h2><table>
+<thead>
+<tr>
+<th style="text-align:left">手术阶段 Stage</th>
+<th style="text-align:left">Antigravity (<code>agy</code>)</th>
+<th style="text-align:left">Claude Code (<code>claude</code>)</th>
+<th style="text-align:left">OpenAI Codex (<code>codex</code>)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left"><strong>只读摸底写规则</strong></td>
+<td style="text-align:left"><code>agy -p &quot;只读分析仓库结构与构建命令，输出极简 AGENTS.md 草案&quot;</code></td>
+<td style="text-align:left"><code>claude -p &quot;只读扫描仓库，列出构建命令与风险点&quot;</code></td>
+<td style="text-align:left"><code>codex exec &quot;read-only audit repo and draft AGENTS.md&quot;</code></td>
+</tr>
+<tr>
+<td style="text-align:left"><strong>隔离分支重构</strong></td>
+<td style="text-align:left"><code>git worktree add ../refactor refactor/v2</code> 后在该目录启动 <code>agy</code></td>
+<td style="text-align:left">同左，在 worktree 内跑 <code>claude</code></td>
+<td style="text-align:left">Codex App/CLI 原生新建 Worktree 分支任务</td>
+</tr>
+<tr>
+<td style="text-align:left"><strong>独立对抗审 Diff</strong></td>
+<td style="text-align:left">新开终端：`git diff main \</td>
+<td style="text-align:left">agy -p “以严苛审稿人视角找退化风险”`</td>
+<td style="text-align:left">`git diff main \</td>
+<td>claude -p “审查边界漏洞与越权改动”`</td>
+<td><code>codex review</code> 独立审查当前分支 Diff</td>
+</tr>
+</tbody>
+</table>
+
+  </div>
+
+  <footer class="col-article-footer">
+    <div class="col-nav-grid">
+      
+        <a class="col-nav-card col-nav-prev" href="/agent-projects/p2-express-mini-agent-harness/index.html">
+          <span class="col-nav-dir">← 上一篇 / Previous</span>
+          <span class="col-nav-title">【速通】Project 2：200 行 Python 手搓 2026 前沿 Agent Harness 引擎</span>
+        </a>
+      
+
+      
+        <a class="col-nav-card col-nav-next" href="/agent-projects/p1-step1-plan-and-harness/index.html">
+          <span class="col-nav-dir">下一篇 / Next →</span>
+          <span class="col-nav-title">Project 1 · Step 1：先访谈再建基——用 /grill-me、AGENTS.md 与 Docker PG 搭好起跑线</span>
+        </a>
+      
+    </div>
+  </footer>
+</article>
+
+<script>
+(function() {
+  var root = document.getElementById('column-article-root');
+  if (!root) return;
+  var buttons = root.querySelectorAll('.lang-btn');
+  var storageKey = 'hzan_ai_lang_mode';
+
+  function applyMode(mode) {
+    if (mode !== 'both' && mode !== 'zh' && mode !== 'en') mode = 'both';
+    root.classList.remove('lang-mode-both', 'lang-mode-zh', 'lang-mode-en');
+    root.classList.add('lang-mode-' + mode);
+    buttons.forEach(function(btn) {
+      btn.classList.toggle('active', btn.getAttribute('data-mode') === mode);
+    });
+    try { localStorage.setItem(storageKey, mode); } catch (e) {}
+  }
+
+  buttons.forEach(function(btn) {
+    btn.addEventListener('click', function() {
+      applyMode(btn.getAttribute('data-mode'));
+    });
+  });
+
+  try {
+    var saved = localStorage.getItem(storageKey);
+    if (saved) applyMode(saved);
+  } catch (e) {}
+})();
+</script>
+
+    </div>
+    
+    <footer id="footer">
+  <div class="footer-left">
+    Copyright &copy; 2026 Zan
+  </div>
+  <div class="footer-right">
+    <nav>
+      <ul>
+         
+          <li><a href="/">Home</a></li>
+         
+          <li><a href="/columns/">Columns</a></li>
+         
+          <li><a href="/ai-tutorials/">AI Tutorials</a></li>
+         
+          <li><a href="/agent-playbook/">Agent Tips</a></li>
+         
+          <li><a href="/ai-news/">AI News</a></li>
+         
+          <li><a href="/archives/">Writing</a></li>
+         
+          <li><a href="/about/">About</a></li>
+        
+      </ul>
+    </nav>
+  </div>
+</footer>
+
+</body>
+</html>
+<!-- styles -->
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css">
+<link rel="stylesheet" href="/lib/meslo-LG/styles.css">
+<link rel="stylesheet" href="/lib/justified-gallery/justifiedGallery.min.css">
+
+
+<!-- jquery -->
+<script src="/lib/jquery/jquery.min.js"></script>
+<script src="/lib/justified-gallery/jquery.justifiedGallery.min.js"></script>
+<script src="/js/main.js"></script>
+<!-- Google Analytics -->
+
+    <script type="text/javascript">
+        (function(i,s,o,g,r,a,m) {i['GoogleAnalyticsObject']=r;i[r]=i[r]||function() {
+        (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+        m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+        })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+        ga('create', 'UA-86660611-1', 'auto');
+        ga('send', 'pageview');
+    </script>
+
+<!-- Disqus Comments -->
+
+    <script type="text/javascript">
+        var disqus_shortname = 'huzan';
+
+        (function(){
+            var dsq = document.createElement('script');
+            dsq.type = 'text/javascript';
+            dsq.async = true;
+            dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+            (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+        }());
+    </script>
+
+

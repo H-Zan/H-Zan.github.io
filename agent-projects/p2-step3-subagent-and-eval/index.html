@@ -1,0 +1,289 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <!-- so meta -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="HandheldFriendly" content="True">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+    <meta name="description" content="📌双轨导航 / Dual-Track Navigation当前为 🧱 基础分步版（Project 2 · 第 3/3 步 完结） · ← 上一步 Step 2 · ⚡ 看本项目速通版  1. 把只读 Subagent 封装成主循环的一个工具 / Subagent as a Context-Isolating Tool中文记住 2026 黄金架构原则：不要让子代理接管用户主线程，而是把它做成主">
+<meta name="keywords" content="基础分步版,Project 2,Subagent隔离,Eval门禁">
+<meta property="og:type" content="website">
+<meta property="og:title" content="Project 2 · Step 3：按需子代理上下文隔离与 pytest Eval 回归门禁">
+<meta property="og:url" content="https://h-zan.github.io/agent-projects/p2-step3-subagent-and-eval/index.html">
+<meta property="og:site_name" content="HuZan">
+<meta property="og:description" content="📌双轨导航 / Dual-Track Navigation当前为 🧱 基础分步版（Project 2 · 第 3/3 步 完结） · ← 上一步 Step 2 · ⚡ 看本项目速通版  1. 把只读 Subagent 封装成主循环的一个工具 / Subagent as a Context-Isolating Tool中文记住 2026 黄金架构原则：不要让子代理接管用户主线程，而是把它做成主">
+<meta property="og:locale" content="default">
+<meta property="og:updated_time" content="2026-11-27T04:27:03.822Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Project 2 · Step 3：按需子代理上下文隔离与 pytest Eval 回归门禁">
+<meta name="twitter:description" content="📌双轨导航 / Dual-Track Navigation当前为 🧱 基础分步版（Project 2 · 第 3/3 步 完结） · ← 上一步 Step 2 · ⚡ 看本项目速通版  1. 把只读 Subagent 封装成主循环的一个工具 / Subagent as a Context-Isolating Tool中文记住 2026 黄金架构原则：不要让子代理接管用户主线程，而是把它做成主">
+    
+    
+        
+          
+              <link rel="shortcut icon" href="/images/favicon.ico">
+          
+        
+        
+          
+            <link rel="icon" type="image/png" href="/images/favicon-192x192.png" sizes="192x192">
+          
+        
+        
+          
+            <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png">
+          
+        
+    
+    <!-- title -->
+    <title>Project 2 · Step 3：按需子代理上下文隔离与 pytest Eval 回归门禁</title>
+    <!-- styles -->
+    <link rel="stylesheet" href="/css/style.css">
+    <!-- rss -->
+    
+    
+</head>
+
+<body>
+    
+    
+    <div class="content index column-wide mx-auto px2 my4">
+        
+          <header id="header">
+  <a href="/">
+  
+    
+      <div id="logo" style="background-image: url(/images/logo.png);"></div>
+    
+  
+    <div id="title">
+      <h1>HuZan</h1>
+    </div>
+  </a>
+  <div id="nav">
+    <ul>
+      <li class="icon">
+        <a href="#"><i class="fa fa-bars fa-2x"></i></a>
+      </li>
+       
+        <li><a href="/">Home</a></li>
+       
+        <li><a href="/columns/">Columns</a></li>
+       
+        <li><a href="/ai-tutorials/">AI Tutorials</a></li>
+       
+        <li><a href="/agent-playbook/">Agent Tips</a></li>
+       
+        <li><a href="/ai-news/">AI News</a></li>
+       
+        <li><a href="/archives/">Writing</a></li>
+       
+        <li><a href="/about/">About</a></li>
+      
+    </ul>
+  </div>
+</header>
+
+        
+        
+
+<article class="column-article lang-mode-both" id="column-article-root" itemscope itemtype="http://schema.org/TechArticle">
+  <nav class="col-breadcrumb" aria-label="Breadcrumb">
+    <a href="/">Home</a>
+    <span class="sep">/</span>
+    <a href="/columns/">Columns</a>
+    <span class="sep">/</span>
+    <a href="/agent-projects/">Agent 实战项目工坊</a>
+    
+  </nav>
+
+  <header class="col-article-header">
+    <div class="col-article-badges">
+      
+        <span class="level-badge level-rose">🛠️ AGENT PROJECTS</span>
+      
+      
+        <span class="col-code-pill">P2-03</span>
+      
+      
+        <span class="col-meta-item">⏱ 7 min</span>
+      
+      
+        <time class="col-meta-item" datetime="2026-11-27T16:30:00.000Z">📅 2026-11-27</time>
+      
+    </div>
+
+    <h1 class="col-article-title" itemprop="headline">Project 2 · Step 3：按需子代理上下文隔离与 pytest Eval 回归门禁</h1>
+    
+      <p class="col-article-title-en">Project 2 · Step 3: Context-Isolating Read-Only Subagent &amp; pytest Eval Gate</p>
+    
+
+    
+      <div class="col-article-tags">
+        
+          <span class="col-tag">#基础分步版</span>
+        
+          <span class="col-tag">#Project 2</span>
+        
+          <span class="col-tag">#Subagent隔离</span>
+        
+          <span class="col-tag">#Eval门禁</span>
+        
+      </div>
+    
+
+    <div class="lang-toolbar" role="group" aria-label="Language display mode">
+      <span class="lang-toolbar-label">🌐 阅读模式 / View Mode:</span>
+      <button type="button" class="lang-btn active" data-mode="both">中英对照 Bilingual</button>
+      <button type="button" class="lang-btn" data-mode="zh">仅中文 ZH</button>
+      <button type="button" class="lang-btn" data-mode="en">English Only</button>
+    </div>
+  </header>
+
+  
+    <details class="col-toc-box" open>
+      <summary>📑 目录 / Table of Contents</summary>
+      <div class="col-toc-inner">
+        <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#1-_把只读_Subagent_封装成主循环的一个工具_/_Subagent_as_a_Context-Isolating_Tool"><span class="toc-text">1. 把只读 Subagent 封装成主循环的一个工具 / Subagent as a Context-Isolating Tool</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#2-_给你的_Harness_装上_pytest_Eval_守门员_/_Automated_pytest_Eval_Gate"><span class="toc-text">2. 给你的 Harness 装上 pytest Eval 守门员 / Automated pytest Eval Gate</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#3-_通关恭喜_&_下一站_/_Project_2_Complete!"><span class="toc-text">3. 通关恭喜 &amp; 下一站 / Project 2 Complete!</span></a></li></ol>
+      </div>
+    </details>
+  
+
+  <div class="col-article-body" itemprop="articleBody">
+    <div class="col-callout col-callout-info"><div class="col-callout-title"><span class="col-callout-icon">📌</span>双轨导航 / Dual-Track Navigation</div><div class="col-callout-body"><p>当前为 <strong>🧱 基础分步版（Project 2 · 第 3/3 步 完结）</strong> · <a href="/agent-projects/p2-step2-progressive-skills/">← 上一步 Step 2</a> · <a href="/agent-projects/p2-express-mini-agent-harness/">⚡ 看本项目速通版</a></p>
+</div></div>
+<h2 id="1-_把只读_Subagent_封装成主循环的一个工具_/_Subagent_as_a_Context-Isolating_Tool">1. 把只读 Subagent 封装成主循环的一个工具 / Subagent as a Context-Isolating Tool</h2><div class="bi-block bi-zh" data-lang="zh"><span class="bi-badge">中文</span><div class="bi-body"><p>记住 2026 黄金架构原则：<strong>不要让子代理接管用户主线程，而是把它做成主 Agent 的一个普通工具！</strong> 当任务需要翻遍 50 个文件找某个配置来源时，主 Agent 调 <code>delegate_readonly_research(question)</code>，子代理在<strong>全新空上下文</strong>里用只读工具翻完，只把 200 字精炼事实 + 行号交回主窗口，主上下文始终干干净净！</p>
+</div></div>
+<div class="bi-block bi-en" data-lang="en"><span class="bi-badge">EN</span><div class="bi-body"><p>Expose your subagent as a plain tool owned by the main loop: it runs in a fresh, disposable context window with strictly read-only tools and hands back only a compact factual summary.</p>
+</div></div>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># harness/subagent.py</span></span><br><span class="line"><span class="keyword">from</span> pydantic <span class="keyword">import</span> BaseModel, Field</span><br><span class="line"><span class="keyword">from</span> harness.core <span class="keyword">import</span> Tool, run_loop</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">ResearchArgs</span><span class="params">(BaseModel)</span>:</span></span><br><span class="line">    question: str = Field(description=<span class="string">"Specific codebase or log question to investigate read-only"</span>)</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">make_research_subagent_tool</span><span class="params">(client, model: str, readonly_tools: dict[str, Tool])</span> -&gt; Tool:</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">_run</span><span class="params">(args: ResearchArgs)</span> -&gt; dict:</span></span><br><span class="line">        <span class="comment"># 独立全新消息列表：翻文件产生的海量输出用完即弃，绝不污染主循环！</span></span><br><span class="line">        sub_msgs = [</span><br><span class="line">            &#123;</span><br><span class="line">                <span class="string">"role"</span>: <span class="string">"system"</span>,</span><br><span class="line">                <span class="string">"content"</span>: <span class="string">"你是只读调研子代理。禁止修改任何文件；检索完毕后仅返回 &lt;=200 字事实结论与精确文件路径。"</span>,</span><br><span class="line">            &#125;,</span><br><span class="line">            &#123;<span class="string">"role"</span>: <span class="string">"user"</span>, <span class="string">"content"</span>: args.question&#125;,</span><br><span class="line">        ]</span><br><span class="line">        res = run_loop(client, model, sub_msgs, readonly_tools, max_steps=<span class="number">6</span>)</span><br><span class="line">        <span class="keyword">return</span> &#123;<span class="string">"findings"</span>: res[<span class="string">"answer"</span>], <span class="string">"sub_steps"</span>: res[<span class="string">"steps"</span>]&#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> Tool(</span><br><span class="line">        name=<span class="string">"delegate_readonly_research"</span>,</span><br><span class="line">        description=<span class="string">"当需要广泛检索多个文件或长日志时调用，隔离搜索噪声并只返回精炼结论"</span>,</span><br><span class="line">        args_model=ResearchArgs,</span><br><span class="line">        fn=_run,</span><br><span class="line">    )</span><br></pre></td></tr></table></figure>
+<h2 id="2-_给你的_Harness_装上_pytest_Eval_守门员_/_Automated_pytest_Eval_Gate">2. 给你的 Harness 装上 <code>pytest</code> Eval 守门员 / Automated <code>pytest</code> Eval Gate</h2><div class="bi-block bi-zh" data-lang="zh"><span class="bi-badge">中文</span><div class="bi-body"><p>以后每加一个新 Skill、或把某个子代理折叠回主循环，先跑一遍 <code>uv run pytest tests/test_evals.py</code>——用分数说话，不再凭感觉拍脑袋！</p>
+</div></div>
+<div class="bi-block bi-en" data-lang="en"><span class="bi-badge">EN</span><div class="bi-body"><p>Before adding a new skill or folding a subagent into the main loop, run <code>uv run pytest tests/test_evals.py</code> to prove quality didn’t regress:</p>
+</div></div>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># tests/test_evals.py</span></span><br><span class="line"><span class="keyword">import</span> pytest</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">test_skill_loaded_on_demand</span><span class="params">(harness_runner)</span> -&gt; <span class="keyword">None</span>:</span></span><br><span class="line">    res = harness_runner(<span class="string">"帮我检查 `CREATE INDEX idx_a ON orders(user_id);` 线上执行有没有风险"</span>)</span><br><span class="line">    tools_used = [t[<span class="string">"tool"</span>] <span class="keyword">for</span> t <span class="keyword">in</span> res[<span class="string">"trace"</span>]]</span><br><span class="line">    <span class="keyword">assert</span> <span class="string">"load_skill"</span> <span class="keyword">in</span> tools_used</span><br><span class="line">    <span class="keyword">assert</span> <span class="string">"CONCURRENTLY"</span> <span class="keyword">in</span> res[<span class="string">"answer"</span>]</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">test_subagent_never_has_write_tools</span><span class="params">(readonly_tools_dict)</span> -&gt; <span class="keyword">None</span>:</span></span><br><span class="line">    forbidden = &#123;<span class="string">"write_file"</span>, <span class="string">"delete_file"</span>, <span class="string">"run_shell"</span>&#125;</span><br><span class="line">    <span class="keyword">assert</span> forbidden.isdisjoint(readonly_tools_dict.keys())</span><br></pre></td></tr></table></figure>
+<h2 id="3-_通关恭喜_&amp;_下一站_/_Project_2_Complete!">3. 通关恭喜 &amp; 下一站 / Project 2 Complete!</h2><div class="bi-block bi-zh" data-lang="zh"><span class="bi-badge">中文</span><div class="bi-body"><p>你刚刚亲手从 0 造出了与 2026 顶级商用 Coding Agent 同宗同源的极简引擎！</p>
+<p><strong>进入最终实战</strong>：<a href="/agent-projects/p3-express-legacy-repo-refactor/">⚡ Project 3 速通版</a> 或 <a href="/agent-projects/p3-step1-audit-and-boundaries/">🧱 Project 3 · Step 1 存量复杂老仓库安全改造 →</a></p>
+</div></div>
+<div class="bi-block bi-en" data-lang="en"><span class="bi-badge">EN</span><div class="bi-body"><p>You now own a transparent, testable 2026-grade Agent Harness! Next up: <a href="/agent-projects/p3-step1-audit-and-boundaries/">Project 3 · Step 1 — Safe Legacy Repo Refactoring →</a></p>
+</div></div>
+
+  </div>
+
+  <footer class="col-article-footer">
+    <div class="col-nav-grid">
+      
+        <a class="col-nav-card col-nav-prev" href="/agent-projects/p2-step2-progressive-skills/index.html">
+          <span class="col-nav-dir">← 上一篇 / Previous</span>
+          <span class="col-nav-title">Project 2 · Step 2：渐进式 Skills 加载器——把 80% 提示词移出启动上下文</span>
+        </a>
+      
+
+      
+        <a class="col-nav-card col-nav-next" href="/agent-projects/p3-step1-audit-and-boundaries/index.html">
+          <span class="col-nav-dir">下一篇 / Next →</span>
+          <span class="col-nav-title">Project 3 · Step 1：只读 Subagent 隔离摸底——给老仓库划红线、建 AGENTS.md 与 work.md</span>
+        </a>
+      
+    </div>
+  </footer>
+</article>
+
+<script>
+(function() {
+  var root = document.getElementById('column-article-root');
+  if (!root) return;
+  var buttons = root.querySelectorAll('.lang-btn');
+  var storageKey = 'hzan_ai_lang_mode';
+
+  function applyMode(mode) {
+    if (mode !== 'both' && mode !== 'zh' && mode !== 'en') mode = 'both';
+    root.classList.remove('lang-mode-both', 'lang-mode-zh', 'lang-mode-en');
+    root.classList.add('lang-mode-' + mode);
+    buttons.forEach(function(btn) {
+      btn.classList.toggle('active', btn.getAttribute('data-mode') === mode);
+    });
+    try { localStorage.setItem(storageKey, mode); } catch (e) {}
+  }
+
+  buttons.forEach(function(btn) {
+    btn.addEventListener('click', function() {
+      applyMode(btn.getAttribute('data-mode'));
+    });
+  });
+
+  try {
+    var saved = localStorage.getItem(storageKey);
+    if (saved) applyMode(saved);
+  } catch (e) {}
+})();
+</script>
+
+    </div>
+    
+    <footer id="footer">
+  <div class="footer-left">
+    Copyright &copy; 2026 Zan
+  </div>
+  <div class="footer-right">
+    <nav>
+      <ul>
+         
+          <li><a href="/">Home</a></li>
+         
+          <li><a href="/columns/">Columns</a></li>
+         
+          <li><a href="/ai-tutorials/">AI Tutorials</a></li>
+         
+          <li><a href="/agent-playbook/">Agent Tips</a></li>
+         
+          <li><a href="/ai-news/">AI News</a></li>
+         
+          <li><a href="/archives/">Writing</a></li>
+         
+          <li><a href="/about/">About</a></li>
+        
+      </ul>
+    </nav>
+  </div>
+</footer>
+
+</body>
+</html>
+<!-- styles -->
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css">
+<link rel="stylesheet" href="/lib/meslo-LG/styles.css">
+<link rel="stylesheet" href="/lib/justified-gallery/justifiedGallery.min.css">
+
+
+<!-- jquery -->
+<script src="/lib/jquery/jquery.min.js"></script>
+<script src="/lib/justified-gallery/jquery.justifiedGallery.min.js"></script>
+<script src="/js/main.js"></script>
+<!-- Google Analytics -->
+
+    <script type="text/javascript">
+        (function(i,s,o,g,r,a,m) {i['GoogleAnalyticsObject']=r;i[r]=i[r]||function() {
+        (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+        m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+        })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+        ga('create', 'UA-86660611-1', 'auto');
+        ga('send', 'pageview');
+    </script>
+
+<!-- Disqus Comments -->
+
+    <script type="text/javascript">
+        var disqus_shortname = 'huzan';
+
+        (function(){
+            var dsq = document.createElement('script');
+            dsq.type = 'text/javascript';
+            dsq.async = true;
+            dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+            (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+        }());
+    </script>
+
+
