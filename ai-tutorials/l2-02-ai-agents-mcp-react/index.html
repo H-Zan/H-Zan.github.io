@@ -1,0 +1,379 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <!-- so meta -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="HandheldFriendly" content="True">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+    <meta name="description" content="🔑本课你将掌握 / What You Will Master Workflow（固定工作流）vs Agent（自主智能体）的精准边界——什么时候该用 Agent，什么时候千万别用。 Function Calling / Tool Use 的底层交互真相（大模型其实并不执行代码，它只输出结构化调用意图）。 MCP（Model Context Protocol） 如何像 USB-C 一样终结 M ×">
+<meta name="keywords" content="AI Agent,Tool Use,MCP,ReAct">
+<meta property="og:type" content="website">
+<meta property="og:title" content="AI Agent 智能体实战：Tool Use、MCP 协议与 ReAct 闭环架构">
+<meta property="og:url" content="https://h-zan.github.io/ai-tutorials/l2-02-ai-agents-mcp-react/index.html">
+<meta property="og:site_name" content="HuZan">
+<meta property="og:description" content="🔑本课你将掌握 / What You Will Master Workflow（固定工作流）vs Agent（自主智能体）的精准边界——什么时候该用 Agent，什么时候千万别用。 Function Calling / Tool Use 的底层交互真相（大模型其实并不执行代码，它只输出结构化调用意图）。 MCP（Model Context Protocol） 如何像 USB-C 一样终结 M ×">
+<meta property="og:locale" content="default">
+<meta property="og:image" content="https://h-zan.github.io/images/ai-tutorials/agent-react-mcp.svg">
+<meta property="og:updated_time" content="2026-11-27T03:04:24.334Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="AI Agent 智能体实战：Tool Use、MCP 协议与 ReAct 闭环架构">
+<meta name="twitter:description" content="🔑本课你将掌握 / What You Will Master Workflow（固定工作流）vs Agent（自主智能体）的精准边界——什么时候该用 Agent，什么时候千万别用。 Function Calling / Tool Use 的底层交互真相（大模型其实并不执行代码，它只输出结构化调用意图）。 MCP（Model Context Protocol） 如何像 USB-C 一样终结 M ×">
+<meta name="twitter:image" content="https://h-zan.github.io/images/ai-tutorials/agent-react-mcp.svg">
+    
+    
+        
+          
+              <link rel="shortcut icon" href="/images/favicon.ico">
+          
+        
+        
+          
+            <link rel="icon" type="image/png" href="/images/favicon-192x192.png" sizes="192x192">
+          
+        
+        
+          
+            <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png">
+          
+        
+    
+    <!-- title -->
+    <title>AI Agent 智能体实战：Tool Use、MCP 协议与 ReAct 闭环架构</title>
+    <!-- styles -->
+    <link rel="stylesheet" href="/css/style.css">
+    <!-- rss -->
+    
+    
+</head>
+
+<body>
+    
+    
+    <div class="content index column-wide mx-auto px2 my4">
+        
+          <header id="header">
+  <a href="/">
+  
+    
+      <div id="logo" style="background-image: url(/images/logo.png);"></div>
+    
+  
+    <div id="title">
+      <h1>HuZan</h1>
+    </div>
+  </a>
+  <div id="nav">
+    <ul>
+      <li class="icon">
+        <a href="#"><i class="fa fa-bars fa-2x"></i></a>
+      </li>
+       
+        <li><a href="/">Home</a></li>
+       
+        <li><a href="/about/">About</a></li>
+       
+        <li><a href="/archives/">Writing</a></li>
+       
+        <li><a href="/ai-tutorials/">AI Tutorials</a></li>
+       
+        <li><a href="/ai-news/">AI News</a></li>
+       
+        <li><a href="http://github.com/H-Zan">Projects</a></li>
+      
+    </ul>
+  </div>
+</header>
+
+        
+        
+
+<article class="column-article lang-mode-both" id="column-article-root" itemscope itemtype="http://schema.org/TechArticle">
+  <nav class="col-breadcrumb" aria-label="Breadcrumb">
+    <a href="/">Home</a>
+    <span class="sep">/</span>
+    <a href="/ai-tutorials/">AI 教程专栏</a>
+    
+      <span class="sep">/</span>
+      <a href="/ai-tutorials/#tier-intermediate">L2 · 中级 Intermediate</a>
+    
+  </nav>
+
+  <header class="col-article-header">
+    <div class="col-article-badges">
+      
+        <span class="level-badge level-intermediate">L2 · 中级 Intermediate</span>
+      
+      
+      
+        <span class="col-code-pill">L2-02</span>
+      
+      
+        <span class="col-meta-item">⏱ 13 min</span>
+      
+      
+        <time class="col-meta-item" datetime="2026-11-27T10:40:00.000Z">📅 2026-11-27</time>
+      
+    </div>
+
+    <h1 class="col-article-title" itemprop="headline">AI Agent 智能体实战：Tool Use、MCP 协议与 ReAct 闭环架构</h1>
+    
+      <p class="col-article-title-en">Building AI Agents in Practice: Tool Use, MCP Protocol &amp; the ReAct Loop</p>
+    
+
+    
+      <div class="col-article-tags">
+        
+          <span class="col-tag">#AI Agent</span>
+        
+          <span class="col-tag">#Tool Use</span>
+        
+          <span class="col-tag">#MCP</span>
+        
+          <span class="col-tag">#ReAct</span>
+        
+      </div>
+    
+
+    <div class="lang-toolbar" role="group" aria-label="Language display mode">
+      <span class="lang-toolbar-label">🌐 阅读模式 / View Mode:</span>
+      <button type="button" class="lang-btn active" data-mode="both">中英对照 Bilingual</button>
+      <button type="button" class="lang-btn" data-mode="zh">仅中文 ZH</button>
+      <button type="button" class="lang-btn" data-mode="en">English Only</button>
+    </div>
+  </header>
+
+  
+    <details class="col-toc-box" open>
+      <summary>📑 目录 / Table of Contents</summary>
+      <div class="col-toc-inner">
+        <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#1-_到底什么是_AI_Agent？一个公式看懂_/_What_Actually_Is_an_AI_Agent?"><span class="toc-text">1. 到底什么是 AI Agent？一个公式看懂 / What Actually Is an AI Agent?</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#2-_拆解底层：Function_Calling_/_Tool_Use_究竟怎么工作？_/_Under_the_Hood_of_Tool_Use"><span class="toc-text">2. 拆解底层：Function Calling / Tool Use 究竟怎么工作？ / Under the Hood of Tool Use</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#35_行_Python_看透_ReAct_Agent_核心循环_/_Minimal_35-Line_ReAct_Loop"><span class="toc-text">35 行 Python 看透 ReAct Agent 核心循环 / Minimal 35-Line ReAct Loop</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#3-_MCP（Model_Context_Protocol）：AI_世界的_USB-C_接口_/_MCP:_The_USB-C_Port_for_AI_Tools"><span class="toc-text">3. MCP（Model Context Protocol）：AI 世界的 USB-C 接口 / MCP: The USB-C Port for AI Tools</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#4-_生产级_Agent_五大保命护栏_/_Five_Production_Guardrails_You_Must_Build"><span class="toc-text">4. 生产级 Agent 五大保命护栏 / Five Production Guardrails You Must Build</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#5-_权威延伸阅读_/_Further_Reading"><span class="toc-text">5. 权威延伸阅读 / Further Reading</span></a></li></ol>
+      </div>
+    </details>
+  
+
+  <div class="col-article-body" itemprop="articleBody">
+    <div class="col-callout col-callout-key"><div class="col-callout-title"><span class="col-callout-icon">🔑</span>本课你将掌握 / What You Will Master</div><div class="col-callout-body"><ol>
+<li><strong>Workflow（固定工作流）vs Agent（自主智能体）</strong>的精准边界——什么时候该用 Agent，什么时候千万别用。</li>
+<li><strong>Function Calling / Tool Use</strong> 的底层交互真相（大模型其实<strong>并不执行代码</strong>，它只输出结构化调用意图）。</li>
+<li><strong>MCP（Model Context Protocol）</strong> 如何像 USB-C 一样终结 <code>M × N</code> 工具集成噩梦。</li>
+<li>生产级 Agent 必备的 <strong>5 条工程护栏</strong>（防死循环、防误删、防注入、上下文压缩、可观测追踪）。</li>
+</ol>
+</div></div>
+<p><img src="/images/ai-tutorials/agent-react-mcp.svg" alt="AI Agent ReAct Loop and MCP Architecture"></p>
+<h2 id="1-_到底什么是_AI_Agent？一个公式看懂_/_What_Actually_Is_an_AI_Agent?">1. 到底什么是 AI Agent？一个公式看懂 / What Actually Is an AI Agent?</h2><div class="bi-block bi-zh" data-lang="zh"><span class="bi-badge">中文</span><div class="bi-body"><p>市面上到处都在喊“Agent”，但把它扒开外壳，核心公式其实极其朴素：</p>
+<blockquote>
+<p><strong>核心公式</strong>：<code>Agent = LLM（大脑） + Tools（手和眼） + Memory（状态记忆） + Loop（自主闭环）</code></p>
+</blockquote>
+<ul>
+<li><strong>普通 Chatbot</strong>：你说一句 → 它答一句 → 结束。它看不到实时报错，也不能自己去查数据库或改文件。</li>
+<li><strong>Workflow（确定性工作流）</strong>：开发者把步骤写死（A → B → C），LLM 只负责其中一个节点的文本加工。特点是<strong>成本可控、极其稳定</strong>。</li>
+<li><strong>Agent（智能体）</strong>：你只给一个<strong>目标</strong>（例如 <em>“帮我排查今天线上订单接口 500 报错的原因并提一个修复 PR”</em>），模型在循环中<strong>自主决定</strong>先查日志、再读代码、再跑单元测试，根据每一步的真实反馈（Observation）动态调整下一步行动，直到目标达成！</li>
+</ul>
+</div></div>
+<div class="bi-block bi-en" data-lang="en"><span class="bi-badge">EN</span><div class="bi-body"><p>Strip away the hype, and every AI Agent reduces to one clean equation:</p>
+<blockquote>
+<p><strong>Core Formula</strong>: <code>Agent = LLM (Brain) + Tools (Hands &amp; Eyes) + Memory (State) + Loop (Autonomy)</code></p>
+</blockquote>
+<ul>
+<li><strong>Chatbot</strong>: Single turn in, single turn out. No interaction with the live world.</li>
+<li><strong>Deterministic Workflow</strong>: The engineer hardcodes the control flow (<code>A → B → C</code>), invoking an LLM inside specific nodes. Predictable and cheap.</li>
+<li><strong>Agent</strong>: You provide a <strong>goal</strong> (<em>“Diagnose today’s 500 errors on <code>/checkout</code>, fix the bug, and verify tests pass”</em>), and the LLM dynamically chooses tools, reads real observations, adapts its plan, and loops until the task succeeds.</li>
+</ul>
+</div></div>
+<h2 id="2-_拆解底层：Function_Calling_/_Tool_Use_究竟怎么工作？_/_Under_the_Hood_of_Tool_Use">2. 拆解底层：Function Calling / Tool Use 究竟怎么工作？ / Under the Hood of Tool Use</h2><div class="bi-block bi-zh" data-lang="zh"><span class="bi-badge">中文</span><div class="bi-body"><p>新手常误以为大模型内部能直接“上网”或“连数据库”。<strong>其实完全不是！</strong>模型依然只能接收文本、输出文本。整个 Tool Use 是一场<strong>模型与宿主程序（Runtime）之间的四步双簧</strong>：</p>
+<ol>
+<li><strong>声明工具清单</strong>：宿主程序把可用工具的名称、自然语言描述、参数 JSON Schema 放进请求发给 LLM。</li>
+<li><strong>模型输出调用请求</strong>：模型分析用户意图后，<strong>停止输出普通聊天文本</strong>，而是返回一个结构化指令：<code>{&quot;name&quot;: &quot;query_order_status&quot;, &quot;arguments&quot;: {&quot;order_id&quot;: &quot;ORD-9527&quot;} }</code>。</li>
+<li><strong>宿主程序真正执行</strong>：你的后端代码收到这个指令后，在沙箱/服务端执行真正的 SQL 或 API 查询，拿到真实结果 <code>{&quot;status&quot;: &quot;shipped&quot;, &quot;eta&quot;: &quot;2026-11-28&quot;}</code>。</li>
+<li><strong>回传结果继续推理</strong>：宿主程序把工具结果作为 <code>role: &quot;tool&quot;</code> 消息追加进上下文，再次发给 LLM，由模型决定是继续调下一个工具，还是整理自然语言回答用户。</li>
+</ol>
+</div></div>
+<div class="bi-block bi-en" data-lang="en"><span class="bi-badge">EN</span><div class="bi-body"><p>LLMs never execute code or call APIs directly—they still only read and emit tokens. <strong>Tool Use is a four-step handshake between the LLM and your Host Runtime:</strong></p>
+<ol>
+<li><strong>Tool Declaration</strong>: Your runtime sends tool names, descriptions, and JSON parameter schemas alongside the prompt.</li>
+<li><strong>Structured Tool Call</strong>: Instead of replying to the user, the LLM emits a structured request like <code>{&quot;name&quot;: &quot;query_order_status&quot;, &quot;arguments&quot;: {&quot;order_id&quot;: &quot;ORD-9527&quot;} }</code>.</li>
+<li><strong>Local / Sandbox Execution</strong>: Your host code validates arguments, executes the real function/API, and captures the return payload.</li>
+<li><strong>Observation Feedback</strong>: Your host appends the result as a <code>tool</code> message and invokes the LLM again to either call another tool or synthesize the final response.</li>
+</ol>
+</div></div>
+<h3 id="35_行_Python_看透_ReAct_Agent_核心循环_/_Minimal_35-Line_ReAct_Loop">35 行 Python 看透 ReAct Agent 核心循环 / Minimal 35-Line ReAct Loop</h3><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> json</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">run_agent</span><span class="params">(user_goal: str, tools: dict, max_steps: int = <span class="number">8</span>)</span> -&gt; str:</span></span><br><span class="line">    messages = [&#123;<span class="string">"role"</span>: <span class="string">"user"</span>, <span class="string">"content"</span>: user_goal&#125;]</span><br><span class="line"></span><br><span class="line">    <span class="keyword">for</span> step <span class="keyword">in</span> range(<span class="number">1</span>, max_steps + <span class="number">1</span>):</span><br><span class="line">        <span class="comment"># 1. Ask LLM for next thought + either final text or tool_calls</span></span><br><span class="line">        resp = call_llm(messages=messages, tool_schemas=get_schemas(tools))</span><br><span class="line">        messages.append(resp.assistant_message)</span><br><span class="line"></span><br><span class="line">        <span class="comment"># 2. Exit condition: no tool requested -&gt; task complete</span></span><br><span class="line">        <span class="keyword">if</span> <span class="keyword">not</span> resp.tool_calls:</span><br><span class="line">            <span class="keyword">return</span> resp.text</span><br><span class="line"></span><br><span class="line">        <span class="comment"># 3. Execute requested tools safely &amp; feed observations back</span></span><br><span class="line">        <span class="keyword">for</span> call <span class="keyword">in</span> resp.tool_calls:</span><br><span class="line">            fn = tools.get(call.name)</span><br><span class="line">            <span class="keyword">try</span>:</span><br><span class="line">                result = fn(**call.arguments) <span class="keyword">if</span> fn <span class="keyword">else</span> <span class="string">f"Error: unknown tool <span class="subst">&#123;call.name&#125;</span>"</span></span><br><span class="line">            <span class="keyword">except</span> Exception <span class="keyword">as</span> err:</span><br><span class="line">                result = <span class="string">f"Tool execution error: <span class="subst">&#123;err&#125;</span>"</span></span><br><span class="line"></span><br><span class="line">            messages.append(&#123;</span><br><span class="line">                <span class="string">"role"</span>: <span class="string">"tool"</span>,</span><br><span class="line">                <span class="string">"tool_call_id"</span>: call.id,</span><br><span class="line">                <span class="string">"content"</span>: json.dumps(result, ensure_ascii=<span class="keyword">False</span>)</span><br><span class="line">            &#125;)</span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> <span class="string">"Reached max_steps safety limit without final answer."</span></span><br></pre></td></tr></table></figure>
+<h2 id="3-_MCP（Model_Context_Protocol）：AI_世界的_USB-C_接口_/_MCP:_The_USB-C_Port_for_AI_Tools">3. MCP（Model Context Protocol）：AI 世界的 USB-C 接口 / MCP: The USB-C Port for AI Tools</h2><div class="bi-block bi-zh" data-lang="zh"><span class="bi-badge">中文</span><div class="bi-body"><p>过去给 AI 接工具是一场 <strong><code>M × N</code> 集成灾难</strong>：假设你有 <code>M</code> 个 AI 客户端（Claude Desktop、Cursor、自研 Web Agent）和 <code>N</code> 个外部系统（GitHub、Postgres、Slack、Notion），每对组合都要手写一遍专属胶水代码。</p>
+<p>由 Anthropic 发起并迅速成为全行业事实标准的 <strong>MCP（Model Context Protocol）</strong>，用一套基于 <strong>JSON-RPC 2.0</strong> 的开放协议把它简化成了 <strong><code>M + N</code></strong>：</p>
+<ul>
+<li><strong>MCP Server（工具提供方）</strong>：数据库、GitHub、文件系统只需按 MCP 标准暴露一次 <code>Tools</code>（可执行动作）、<code>Resources</code>（只读数据）和 <code>Prompts</code>（复用模板）。</li>
+<li><strong>MCP Client（AI 宿主应用）</strong>：任何兼容 MCP 的 Agent 框架或 IDE，插上就能自动发现并调用所有工具，像 USB-C 插头即插即用！</li>
+</ul>
+</div></div>
+<div class="bi-block bi-en" data-lang="en"><span class="bi-badge">EN</span><div class="bi-body"><p>Before MCP, connecting <code>M</code> AI apps (IDEs, chatbots, internal agents) to <code>N</code> data sources (GitHub, Postgres, Slack, Jira) meant writing <code>M × N</code> bespoke glue integrations.</p>
+<p><strong>MCP (Model Context Protocol)</strong>—an open standard built on JSON-RPC 2.0—collapses this into <code>M + N</code>:</p>
+<ul>
+<li><strong>MCP Servers</strong> expose <code>Tools</code> (actions), <code>Resources</code> (readable context), and <code>Prompts</code> once through a uniform schema.</li>
+<li><strong>MCP Clients</strong> (any compliant IDE, CLI, or custom Agent runtime) automatically discover and invoke any server plug-and-play—just like USB-C for hardware.</li>
+</ul>
+</div></div>
+<h2 id="4-_生产级_Agent_五大保命护栏_/_Five_Production_Guardrails_You_Must_Build">4. 生产级 Agent 五大保命护栏 / Five Production Guardrails You Must Build</h2><div class="bi-block bi-zh" data-lang="zh"><span class="bi-badge">中文</span><div class="bi-body"><p>Demo 里的 Agent 看起来酷炫，真放到生产环境若少了这五道护栏，轻则烧光 API 账单，重则删库跑路：</p>
+</div></div>
+<div class="bi-block bi-en" data-lang="en"><span class="bi-badge">EN</span><div class="bi-body"><p>Agent demos look magical, but deploying one to production without these five guardrails risks runaway bills or destructive side effects:</p>
+</div></div>
+<table>
+<thead>
+<tr>
+<th style="text-align:left">护栏 Guardrail</th>
+<th style="text-align:left">防什么风险 Prevents What?</th>
+<th style="text-align:left">落地做法 Concrete Implementation</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left"><strong>1. 最大步数与预算熔断</strong></td>
+<td style="text-align:left">工具报错导致模型无限重试死循环</td>
+<td style="text-align:left">硬编码 <code>max_steps</code>（如 10~20 步）与单次任务 Token/费用上限</td>
+</tr>
+<tr>
+<td style="text-align:left"><strong>2. 读写权限分级与人工审批 (HITL)</strong></td>
+<td style="text-align:left">误删生产数据、误发群发邮件、误转账</td>
+<td style="text-align:left">只读工具自动放行；写操作/支付/删除必须弹窗暂停等待 Human-in-the-Loop 确认</td>
+</tr>
+<tr>
+<td style="text-align:left"><strong>3. 极简且清晰的工具文档</strong></td>
+<td style="text-align:left">工具描述含糊导致模型频频传错参数</td>
+<td style="text-align:left">把工具描述当成写给初级工程师的 API 文档，给出明确参数例子与错误提示</td>
+</tr>
+<tr>
+<td style="text-align:left"><strong>4. 沙箱隔离执行</strong></td>
+<td style="text-align:left">Agent 生成的 Shell/Python 代码污染宿主机</td>
+<td style="text-align:left">代码执行一律放 Docker / MicroVM 隔离沙箱，严禁暴露生产私钥</td>
+</tr>
+<tr>
+<td style="text-align:left"><strong>5. 全链路 Trace 可观测</strong></td>
+<td style="text-align:left">出错后完全不知道模型在哪一步想歪了</td>
+<td style="text-align:left">记录每一步的 Prompt、Tool Input/Output、耗时与 Token（如 Langfuse / OpenTelemetry）</td>
+</tr>
+</tbody>
+</table>
+<div class="col-callout col-callout-tip"><div class="col-callout-title"><span class="col-callout-icon">💡</span>架构黄金忠告 / Anthropic's Golden Rule</div><div class="col-callout-body"><p><strong>永远从最简单的方案开始</strong>：如果一条确定性的代码流水线（Workflow）就能稳定解决 95% 的需求，就不要硬上高自由度的自主 Agent。<strong>把自主权留给真正需要动态探索、步骤不可预知的复杂任务</strong>（如代码调试、跨源深度调研）。</p>
+</div></div>
+<h2 id="5-_权威延伸阅读_/_Further_Reading">5. 权威延伸阅读 / Further Reading</h2><ul>
+<li>🏛️ <strong>Anthropic Engineering</strong>: <a href="https://www.anthropic.com/engineering/building-effective-agents" target="_blank" rel="noopener">Building Effective Agents</a> — 史上最接地气的 Agent 架构必读长文，清晰区分 Workflow 与 Agent 模式。</li>
+<li>🔌 <strong>Model Context Protocol</strong>: <a href="https://modelcontextprotocol.io/" target="_blank" rel="noopener">Official MCP Specification &amp; Docs</a> — 官方协议文档、SDK 与海量现成 MCP Server 清单。</li>
+<li>📄 <strong>ReAct Paper</strong>: <a href="https://arxiv.org/abs/2210.03629" target="_blank" rel="noopener">ReAct: Synergizing Reasoning and Acting in Language Models (Yao et al.)</a> — ReAct 范式开山之作。</li>
+<li>🧠 <strong>Lilian Weng (OpenAI)</strong>: <a href="https://lilianweng.github.io/posts/2023-06-23-agent/" target="_blank" rel="noopener">LLM Powered Autonomous Agents</a> — 系统梳理 Planning、Memory 与 Tool Use 的经典综述。</li>
+</ul>
+
+  </div>
+
+  <footer class="col-article-footer">
+    <div class="col-nav-grid">
+      
+        <a class="col-nav-card col-nav-prev" href="/ai-tutorials/l2-01-rag-production-guide/index.html">
+          <span class="col-nav-dir">← 上一篇 / Previous</span>
+          <span class="col-nav-title">RAG 检索增强生成完全指南：让大模型拥有准确、实时、可溯源的私域大脑</span>
+        </a>
+      
+
+      
+        <a class="col-nav-card col-nav-next" href="/ai-tutorials/l3-01-transformer-attention-deep-dive/index.html">
+          <span class="col-nav-dir">下一篇 / Next →</span>
+          <span class="col-nav-title">Transformer 与 Attention 机制深度图解：为什么它统治了整个 AI 时代？</span>
+        </a>
+      
+    </div>
+  </footer>
+</article>
+
+<script>
+(function() {
+  var root = document.getElementById('column-article-root');
+  if (!root) return;
+  var buttons = root.querySelectorAll('.lang-btn');
+  var storageKey = 'hzan_ai_lang_mode';
+
+  function applyMode(mode) {
+    if (mode !== 'both' && mode !== 'zh' && mode !== 'en') mode = 'both';
+    root.classList.remove('lang-mode-both', 'lang-mode-zh', 'lang-mode-en');
+    root.classList.add('lang-mode-' + mode);
+    buttons.forEach(function(btn) {
+      btn.classList.toggle('active', btn.getAttribute('data-mode') === mode);
+    });
+    try { localStorage.setItem(storageKey, mode); } catch (e) {}
+  }
+
+  buttons.forEach(function(btn) {
+    btn.addEventListener('click', function() {
+      applyMode(btn.getAttribute('data-mode'));
+    });
+  });
+
+  try {
+    var saved = localStorage.getItem(storageKey);
+    if (saved) applyMode(saved);
+  } catch (e) {}
+})();
+</script>
+
+    </div>
+    
+    <footer id="footer">
+  <div class="footer-left">
+    Copyright &copy; 2026 Zan
+  </div>
+  <div class="footer-right">
+    <nav>
+      <ul>
+         
+          <li><a href="/">Home</a></li>
+         
+          <li><a href="/about/">About</a></li>
+         
+          <li><a href="/archives/">Writing</a></li>
+         
+          <li><a href="/ai-tutorials/">AI Tutorials</a></li>
+         
+          <li><a href="/ai-news/">AI News</a></li>
+         
+          <li><a href="http://github.com/H-Zan">Projects</a></li>
+        
+      </ul>
+    </nav>
+  </div>
+</footer>
+
+</body>
+</html>
+<!-- styles -->
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css">
+<link rel="stylesheet" href="/lib/meslo-LG/styles.css">
+<link rel="stylesheet" href="/lib/justified-gallery/justifiedGallery.min.css">
+
+
+<!-- jquery -->
+<script src="/lib/jquery/jquery.min.js"></script>
+<script src="/lib/justified-gallery/jquery.justifiedGallery.min.js"></script>
+<script src="/js/main.js"></script>
+<!-- Google Analytics -->
+
+    <script type="text/javascript">
+        (function(i,s,o,g,r,a,m) {i['GoogleAnalyticsObject']=r;i[r]=i[r]||function() {
+        (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+        m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+        })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+        ga('create', 'UA-86660611-1', 'auto');
+        ga('send', 'pageview');
+    </script>
+
+<!-- Disqus Comments -->
+
+    <script type="text/javascript">
+        var disqus_shortname = 'huzan';
+
+        (function(){
+            var dsq = document.createElement('script');
+            dsq.type = 'text/javascript';
+            dsq.async = true;
+            dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+            (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+        }());
+    </script>
+
+

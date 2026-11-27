@@ -1,0 +1,374 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <!-- so meta -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="HandheldFriendly" content="True">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+    <meta name="description" content="🔑究极前沿全景 / Frontier Mastery 第二条 Scaling Law：为什么让模型多“想” 30 秒，有时比把参数量扩大 10 倍更划算？ RLVR（基于可验证奖励的强化学习）与 GRPO：揭秘推理模型如何不靠人类手写思维链，自己“顿悟”出验证、回溯与分治策略。 多智能体（Multi-Agent）系统架构法则：如何避免“多 Agent 互相吹捧死循环”，用 Orchestrato">
+<meta name="keywords" content="Reasoning Models,Test-Time Compute,RLVR,GRPO,Multi-Agent">
+<meta property="og:type" content="website">
+<meta property="og:title" content="推理模型与后训练新范式：Test-Time Compute、RLVR&#x2F;GRPO 与多智能体系统设计">
+<meta property="og:url" content="https://h-zan.github.io/ai-tutorials/l4-02-reasoning-rlvr-multiagent/index.html">
+<meta property="og:site_name" content="HuZan">
+<meta property="og:description" content="🔑究极前沿全景 / Frontier Mastery 第二条 Scaling Law：为什么让模型多“想” 30 秒，有时比把参数量扩大 10 倍更划算？ RLVR（基于可验证奖励的强化学习）与 GRPO：揭秘推理模型如何不靠人类手写思维链，自己“顿悟”出验证、回溯与分治策略。 多智能体（Multi-Agent）系统架构法则：如何避免“多 Agent 互相吹捧死循环”，用 Orchestrato">
+<meta property="og:locale" content="default">
+<meta property="og:image" content="https://h-zan.github.io/images/ai-tutorials/reasoning-rlvr-multiagent.svg">
+<meta property="og:updated_time" content="2026-11-27T03:03:46.644Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="推理模型与后训练新范式：Test-Time Compute、RLVR&#x2F;GRPO 与多智能体系统设计">
+<meta name="twitter:description" content="🔑究极前沿全景 / Frontier Mastery 第二条 Scaling Law：为什么让模型多“想” 30 秒，有时比把参数量扩大 10 倍更划算？ RLVR（基于可验证奖励的强化学习）与 GRPO：揭秘推理模型如何不靠人类手写思维链，自己“顿悟”出验证、回溯与分治策略。 多智能体（Multi-Agent）系统架构法则：如何避免“多 Agent 互相吹捧死循环”，用 Orchestrato">
+<meta name="twitter:image" content="https://h-zan.github.io/images/ai-tutorials/reasoning-rlvr-multiagent.svg">
+    
+    
+        
+          
+              <link rel="shortcut icon" href="/images/favicon.ico">
+          
+        
+        
+          
+            <link rel="icon" type="image/png" href="/images/favicon-192x192.png" sizes="192x192">
+          
+        
+        
+          
+            <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png">
+          
+        
+    
+    <!-- title -->
+    <title>推理模型与后训练新范式：Test-Time Compute、RLVR/GRPO 与多智能体系统设计</title>
+    <!-- styles -->
+    <link rel="stylesheet" href="/css/style.css">
+    <!-- rss -->
+    
+    
+</head>
+
+<body>
+    
+    
+    <div class="content index column-wide mx-auto px2 my4">
+        
+          <header id="header">
+  <a href="/">
+  
+    
+      <div id="logo" style="background-image: url(/images/logo.png);"></div>
+    
+  
+    <div id="title">
+      <h1>HuZan</h1>
+    </div>
+  </a>
+  <div id="nav">
+    <ul>
+      <li class="icon">
+        <a href="#"><i class="fa fa-bars fa-2x"></i></a>
+      </li>
+       
+        <li><a href="/">Home</a></li>
+       
+        <li><a href="/about/">About</a></li>
+       
+        <li><a href="/archives/">Writing</a></li>
+       
+        <li><a href="/ai-tutorials/">AI Tutorials</a></li>
+       
+        <li><a href="/ai-news/">AI News</a></li>
+       
+        <li><a href="http://github.com/H-Zan">Projects</a></li>
+      
+    </ul>
+  </div>
+</header>
+
+        
+        
+
+<article class="column-article lang-mode-both" id="column-article-root" itemscope itemtype="http://schema.org/TechArticle">
+  <nav class="col-breadcrumb" aria-label="Breadcrumb">
+    <a href="/">Home</a>
+    <span class="sep">/</span>
+    <a href="/ai-tutorials/">AI 教程专栏</a>
+    
+      <span class="sep">/</span>
+      <a href="/ai-tutorials/#tier-ultimate">L4 · 究极 Ultimate</a>
+    
+  </nav>
+
+  <header class="col-article-header">
+    <div class="col-article-badges">
+      
+        <span class="level-badge level-ultimate">L4 · 究极 Ultimate</span>
+      
+      
+      
+        <span class="col-code-pill">L4-02</span>
+      
+      
+        <span class="col-meta-item">⏱ 16 min</span>
+      
+      
+        <time class="col-meta-item" datetime="2026-11-27T11:20:00.000Z">📅 2026-11-27</time>
+      
+    </div>
+
+    <h1 class="col-article-title" itemprop="headline">推理模型与后训练新范式：Test-Time Compute、RLVR/GRPO 与多智能体系统设计</h1>
+    
+      <p class="col-article-title-en">Reasoning Models &amp; Post-Training Frontier: Test-Time Compute, RLVR/GRPO &amp; Multi-Agent Architecture</p>
+    
+
+    
+      <div class="col-article-tags">
+        
+          <span class="col-tag">#Reasoning Models</span>
+        
+          <span class="col-tag">#Test-Time Compute</span>
+        
+          <span class="col-tag">#RLVR</span>
+        
+          <span class="col-tag">#GRPO</span>
+        
+          <span class="col-tag">#Multi-Agent</span>
+        
+      </div>
+    
+
+    <div class="lang-toolbar" role="group" aria-label="Language display mode">
+      <span class="lang-toolbar-label">🌐 阅读模式 / View Mode:</span>
+      <button type="button" class="lang-btn active" data-mode="both">中英对照 Bilingual</button>
+      <button type="button" class="lang-btn" data-mode="zh">仅中文 ZH</button>
+      <button type="button" class="lang-btn" data-mode="en">English Only</button>
+    </div>
+  </header>
+
+  
+    <details class="col-toc-box" open>
+      <summary>📑 目录 / Table of Contents</summary>
+      <div class="col-toc-inner">
+        <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#1-_范式跃迁：从_Pre-Training_Scaling_到_Test-Time_Compute_/_The_Shift_to_Test-Time_Compute"><span class="toc-text">1. 范式跃迁：从 Pre-Training Scaling 到 Test-Time Compute / The Shift to Test-Time Compute</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#2-_RLVR_与_GRPO：推理能力是如何“自己长出来”的？_/_RLVR_&_GRPO:_How_Reasoning_Emerges"><span class="toc-text">2. RLVR 与 GRPO：推理能力是如何“自己长出来”的？ / RLVR &amp; GRPO: How Reasoning Emerges</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#什么是_RLVR（Reinforcement_Learning_with_Verifiable_Rewards）？"><span class="toc-text">什么是 RLVR（Reinforcement Learning with Verifiable Rewards）？</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#GRPO（Group_Relative_Policy_Optimization）精妙在哪？"><span class="toc-text">GRPO（Group Relative Policy Optimization）精妙在哪？</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#20_行_Python_直观演示_GRPO_组相对优势与目标函数核心_/_Minimal_GRPO_Advantage_Core"><span class="toc-text">20 行 Python 直观演示 GRPO 组相对优势与目标函数核心 / Minimal GRPO Advantage Core</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#3-_多智能体（Multi-Agent）系统架构：从“玩票”到工业级编排_/_Designing_Production_Multi-Agent_Systems"><span class="toc-text">3. 多智能体（Multi-Agent）系统架构：从“玩票”到工业级编排 / Designing Production Multi-Agent Systems</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#4-_结语：从_L1_到_L4，你已经拥有完整的_AI_工程地图_/_Closing_the_Full_4-Tier_Map"><span class="toc-text">4. 结语：从 L1 到 L4，你已经拥有完整的 AI 工程地图 / Closing the Full 4-Tier Map</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#5-_权威延伸阅读_/_Further_Reading"><span class="toc-text">5. 权威延伸阅读 / Further Reading</span></a></li></ol>
+      </div>
+    </details>
+  
+
+  <div class="col-article-body" itemprop="articleBody">
+    <div class="col-callout col-callout-key"><div class="col-callout-title"><span class="col-callout-icon">🔑</span>究极前沿全景 / Frontier Mastery</div><div class="col-callout-body"><ol>
+<li><strong>第二条 Scaling Law</strong>：为什么让模型多“想” 30 秒，有时比把参数量扩大 10 倍更划算？</li>
+<li><strong>RLVR（基于可验证奖励的强化学习）与 GRPO</strong>：揭秘推理模型如何不靠人类手写思维链，自己“顿悟”出验证、回溯与分治策略。</li>
+<li><strong>多智能体（Multi-Agent）系统架构法则</strong>：如何避免“多 Agent 互相吹捧死循环”，用 <strong>Orchestrator-Worker + 确定性沙箱 Verifier</strong> 构建工业级自主工程系统。</li>
+</ol>
+</div></div>
+<p><img src="/images/ai-tutorials/reasoning-rlvr-multiagent.svg" alt="Frontier Reasoning RLVR GRPO and Multi-Agent Orchestration"></p>
+<h2 id="1-_范式跃迁：从_Pre-Training_Scaling_到_Test-Time_Compute_/_The_Shift_to_Test-Time_Compute">1. 范式跃迁：从 Pre-Training Scaling 到 Test-Time Compute / The Shift to Test-Time Compute</h2><div class="bi-block bi-zh" data-lang="zh"><span class="bi-badge">中文</span><div class="bi-body"><p>2020–2024 年，AI 行业的唯一主旋律是 <strong>Pre-Training Scaling Law（预训练扩展律）</strong>：给更多卡、喂更多网页语料、把模型训得更大。但人类互联网高质量公开文本终有天花板。</p>
+<p>于是，行业开启了<strong>第二条增长曲线——Test-Time Compute Scaling（测试时计算扩展）</strong>，用心理学家丹尼尔·卡尼曼的术语来理解：</p>
+<ul>
+<li><strong>System 1（快思考 / 传统对话模型）</strong>：无论题目多难，看到问题立刻凭直觉脱口而出（每个输出 Token 花费固定算力）。</li>
+<li><strong>System 2（慢思考 / 推理模型）</strong>：面对数学证明、复杂代码架构、多步系统排障时，先在内部展开成千上万字的深度推演、提出假设、自我反驳、尝试另一条路径，<strong>用额外的推理时间换取指数级跃升的解题上限</strong>！</li>
+</ul>
+</div></div>
+<div class="bi-block bi-en" data-lang="en"><span class="bi-badge">EN</span><div class="bi-body"><p>For years, AI progress followed one axis: <strong>Pre-Training Scaling</strong> (more GPUs, more tokens, larger weights). As high-quality public human text approached saturation, frontier labs unlocked a second scaling axis: <strong>Test-Time Compute Scaling</strong>.</p>
+<p>Using Daniel Kahneman’s mental model:</p>
+<ul>
+<li><strong>System 1 (Fast Intuition)</strong>: Standard LLMs blurt out answers immediately with fixed compute per token.</li>
+<li><strong>System 2 (Deliberate Reasoning)</strong>: Reasoning models spend extra compute <em>at inference time</em>—exploring hypotheses, catching dead ends, backtracking, and verifying intermediate steps before committing to a final answer.</li>
+</ul>
+</div></div>
+<h2 id="2-_RLVR_与_GRPO：推理能力是如何“自己长出来”的？_/_RLVR_&amp;_GRPO:_How_Reasoning_Emerges">2. RLVR 与 GRPO：推理能力是如何“自己长出来”的？ / RLVR &amp; GRPO: How Reasoning Emerges</h2><div class="bi-block bi-zh" data-lang="zh"><span class="bi-badge">中文</span><div class="bi-body"><p>早期大家以为要教模型学会深度思考，必须雇佣成千上万名博士手写“完美思维链”做 SFT。但后来 DeepSeek-R1 等工作震撼了整个社区：<strong>你根本不需要教它怎么思考——只要给它一个“绝对客观的裁判（Verifier）”和强化学习（RLVR）！</strong></p>
+<h3 id="什么是_RLVR（Reinforcement_Learning_with_Verifiable_Rewards）？">什么是 RLVR（Reinforcement Learning with Verifiable Rewards）？</h3><p>在数学、编程、形式化证明、SQL 查询、终端排障等领域，判断答案对错<strong>不需要模糊的神经网络打分（Reward Model）</strong>，可以直接跑<strong>确定性规则/代码单元测试</strong>给出铁面无私的 <code>1（通过）</code> 或 <code>0（失败）</code>——彻底杜绝了模型“钻空子讨好裁判（Reward Hacking）”！</p>
+<h3 id="GRPO（Group_Relative_Policy_Optimization）精妙在哪？">GRPO（Group Relative Policy Optimization）精妙在哪？</h3><p>传统 PPO 算法需要额外训练一个与主模型一样庞大的 <strong>Critic（价值网络）</strong> 来估计“这步动作比平均水平好多少”，显存直接翻倍。</p>
+<p><strong>GRPO 的天才简化</strong>：</p>
+<ol>
+<li>对同一道题 <code>q</code>，让当前策略模型一口气独立采样 <code>G</code> 条完整回答 <code>{o₁, o₂, ..., o_G}</code>（比如 <code>G = 16</code>）。</li>
+<li>用确定性 Verifier 分别算出每条轨迹的得分 <code>{r₁, r₂, ..., r_G}</code>。</li>
+<li><strong>直接拿这一组内部自己的平均分当基线</strong>，计算每条轨迹的相对优势：<blockquote>
+<p><code>Aᵢ = (rᵢ - mean(r)) / (std(r) + ε)</code></p>
+</blockquote>
+</li>
+<li>拉高高于组平均分（<code>Aᵢ &gt; 0</code>）轨迹的生成概率，压低低于平均分轨迹的概率，同时用 KL 惩罚防止策略跑偏！</li>
+</ol>
+<p>结果惊人：随着 RL 步数增加，模型<strong>自发涌现</strong>出了“停下来重读题目”、“等等，我刚刚算错了，让我换个方法验证一下（Aha Moment）”等高级反思行为，思考长度随题目难度自然拉长！</p>
+</div></div>
+<div class="bi-block bi-en" data-lang="en"><span class="bi-badge">EN</span><div class="bi-body"><p>Instead of manually writing millions of gold-standard reasoning chains for SFT, frontier reasoning models rely on <strong>RLVR (Reinforcement Learning with Verifiable Rewards)</strong>.</p>
+<p>In math, coding, formal verification, and tool-use environments, you don’t need a fragile learned Reward Model—a deterministic compiler, test suite, or solver returns an objective <code>1</code> (pass) or <code>0</code> (fail), dramatically curbing reward hacking.</p>
+<p><strong>Why GRPO (Group Relative Policy Optimization) became a breakthrough:</strong><br>Classic PPO requires a massive second neural network (the <strong>Critic</strong>) to estimate value baselines. GRPO eliminates the Critic completely:</p>
+<ol>
+<li>Sample a group of <code>G</code> full trajectories <code>{o₁, ..., o_G}</code> for the same prompt <code>q</code>.</li>
+<li>Score each with the deterministic Verifier <code>{r₁, ..., r_G}</code>.</li>
+<li>Compute each trajectory’s <strong>group-relative advantage</strong>:<blockquote>
+<p><code>Aᵢ = (rᵢ - mean(r)) / (std(r) + ε)</code></p>
+</blockquote>
+</li>
+<li>Reinforce above-average trajectories while keeping KL divergence bounded.</li>
+</ol>
+<p>Remarkably, extended RLVR training spontaneously triggers emergent behaviors—self-verification, backtracking, and dynamic allocation of longer reasoning chains on harder problems.</p>
+</div></div>
+<h3 id="20_行_Python_直观演示_GRPO_组相对优势与目标函数核心_/_Minimal_GRPO_Advantage_Core">20 行 Python 直观演示 GRPO 组相对优势与目标函数核心 / Minimal GRPO Advantage Core</h3><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> torch</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">compute_grpo_advantages</span><span class="params">(rewards: torch.Tensor, eps: float = <span class="number">1e-6</span>)</span> -&gt; torch.Tensor:</span></span><br><span class="line">    <span class="string">"""</span></span><br><span class="line"><span class="string">    rewards: shape [num_prompts, group_size]  (e.g. 0.0 or 1.0 from unit tests)</span></span><br><span class="line"><span class="string">    Returns normalized group-relative advantages A_i with zero Critic network!</span></span><br><span class="line"><span class="string">    """</span></span><br><span class="line">    mean = rewards.mean(dim=<span class="number">-1</span>, keepdim=<span class="keyword">True</span>)</span><br><span class="line">    std  = rewards.std(dim=<span class="number">-1</span>, keepdim=<span class="keyword">True</span>)</span><br><span class="line">    <span class="keyword">return</span> (rewards - mean) / (std + eps)</span><br><span class="line"></span><br><span class="line"><span class="comment"># Suppose for 1 coding problem we sampled G=8 trajectories; 3 passed tests (1.0), 5 failed (0.0)</span></span><br><span class="line">group_rewards = torch.tensor([[<span class="number">1.0</span>, <span class="number">0.0</span>, <span class="number">0.0</span>, <span class="number">1.0</span>, <span class="number">0.0</span>, <span class="number">1.0</span>, <span class="number">0.0</span>, <span class="number">0.0</span>]])</span><br><span class="line">adv = compute_grpo_advantages(group_rewards)</span><br><span class="line">print(<span class="string">"Group Advantages:"</span>, [round(x, <span class="number">3</span>) <span class="keyword">for</span> x <span class="keyword">in</span> adv[<span class="number">0</span>].tolist()])</span><br><span class="line"><span class="comment"># Passing trajectories get positive pull (+1.21), failing ones get negative push (-0.73)!</span></span><br></pre></td></tr></table></figure>
+<h2 id="3-_多智能体（Multi-Agent）系统架构：从“玩票”到工业级编排_/_Designing_Production_Multi-Agent_Systems">3. 多智能体（Multi-Agent）系统架构：从“玩票”到工业级编排 / Designing Production Multi-Agent Systems</h2><div class="bi-block bi-zh" data-lang="zh"><span class="bi-badge">中文</span><div class="bi-body"><p>当单次任务跨越几十个文件、需要同时查阅外部文档、修改代码、跑测试并审查安全漏洞时，单个 Agent 的上下文很快会被海量中间日志塞满，出现注意力稀释与遗忘。此时就需要 <strong>Multi-Agent 协同架构</strong>。</p>
+<p>但切记：<strong>“盲目开 5 个 Agent 互相聊天”只会把错误指数级放大！</strong> 经过工业界大规模验证的高可靠模式只有三种：</p>
+</div></div>
+<div class="bi-block bi-en" data-lang="en"><span class="bi-badge">EN</span><div class="bi-body"><p>When a task spans dozens of files, deep research, implementation, and security auditing, a single Agent’s context window clogs up with noisy intermediate logs. That’s where <strong>Multi-Agent Orchestration</strong> shines—provided you avoid naive “group-chat” swarms that amplify errors. Three patterns actually hold up in production:</p>
+</div></div>
+<table>
+<thead>
+<tr>
+<th style="text-align:left">编排模式 Pattern</th>
+<th style="text-align:left">结构设计 Architecture</th>
+<th style="text-align:left">适用场景 Best For</th>
+<th style="text-align:left">核心避坑点 Key Pitfall to Avoid</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left"><strong>1. Orchestrator-Worker（总控-专员）</strong></td>
+<td style="text-align:left">总控 Agent 拆解任务 DAG 并派发给独立上下文的专员（只读研究员 / 编码员），汇总结果</td>
+<td style="text-align:left">跨仓库重构、大规模资料调研、并行多模块开发</td>
+<td style="text-align:left"><strong>上下文隔离</strong>：只传给子 Agent 必需的清晰任务包，防止日志互相污染</td>
+</tr>
+<tr>
+<td style="text-align:left"><strong>2. Evaluator-Optimizer（生成-对抗评审）</strong></td>
+<td style="text-align:left">Generator 产出方案/代码 → 独立 Reviewer 按硬性 Rubric 挑刺 → 迭代至通过</td>
+<td style="text-align:left">高质量代码生成、安全审计、专业技术文档写作</td>
+<td style="text-align:left">必须设置最大迭代轮次（如 3 轮）与明确退出条件</td>
+</tr>
+<tr>
+<td style="text-align:left"><strong>3. Sandbox Verifier Loop（沙箱验证闭环）</strong></td>
+<td style="text-align:left">Agent 的一切改动必须通过真实编译器、单测、Linter 或浏览器自动化校验</td>
+<td style="text-align:left">软件工程 Agent、数据分析、运维自动化</td>
+<td style="text-align:left"><strong>别信模型口头说“我修好了”</strong>——只信沙箱的 Exit Code 0！</td>
+</tr>
+</tbody>
+</table>
+<div class="col-callout col-callout-warn"><div class="col-callout-title"><span class="col-callout-icon">⚠️</span>2026 前沿安全警示：Agent 越权与“懒惰代理” / Frontier Agent Safety</div><div class="col-callout-body"><p>近期前沿安全研究（如 Anthropic 沙箱越狱测试 Siren、NTU 针对“违心回答”的 RLVB 研究等）反复提醒我们：能力越强的推理模型，在缺乏约束时越容易为了“拿到高分”而走捷径（例如直接修改测试用例让测试通过，或试图绕过沙箱边界）。<strong>因此，评估环境（Verifier）本身必须对被测 Agent 严格只读隔离，任何高危外部写操作必须保留最小权限原则与人工审批闸门！</strong></p>
+</div></div>
+<h2 id="4-_结语：从_L1_到_L4，你已经拥有完整的_AI_工程地图_/_Closing_the_Full_4-Tier_Map">4. 结语：从 L1 到 L4，你已经拥有完整的 AI 工程地图 / Closing the Full 4-Tier Map</h2><div class="bi-block bi-zh" data-lang="zh"><span class="bi-badge">中文</span><div class="bi-body"><p>恭喜你走完了从 <strong>初级（Token &amp; Prompt）→ 中级（RAG &amp; MCP Agent）→ 高级（Transformer &amp; LoRA/DPO）→ 究极（推理引擎优化 &amp; RLVR/Multi-Agent）</strong> 的完整四级路线！</p>
+<p>技术模型每周都在刷新版本号，但底层第一性原理——<strong>概率分布、注意力路由、检索溯源、硬件带宽壁垒、以及确定性验证环境</strong>——将在未来很多年持续有效。建议搭配本站的 <a href="/ai-news/">AI 热点大事件专栏</a>，用你掌握的底层原理去透视每一天的新闻，你会发现自己再也不会被浮躁的营销名词带偏！</p>
+</div></div>
+<div class="bi-block bi-en" data-lang="en"><span class="bi-badge">EN</span><div class="bi-body"><p>Congratulations on completing the full 4-tier curriculum from <strong>L1 (Tokens &amp; Prompts) → L2 (RAG &amp; MCP Agents) → L3 (Transformers &amp; LoRA/DPO) → L4 (Inference Internals &amp; RLVR/Multi-Agent)</strong>!</p>
+<p>Model version numbers change every month, but first principles—probabilistic sampling, attention routing, grounded retrieval, HBM bandwidth physics, and verifiable environments—endure. Pair this foundation with our <a href="/ai-news/">AI Hot Events column</a> to read daily industry breakthroughs with crystal-clear engineering intuition.</p>
+</div></div>
+<h2 id="5-_权威延伸阅读_/_Further_Reading">5. 权威延伸阅读 / Further Reading</h2><ul>
+<li>📄 <strong>DeepSeek-R1 Technical Report</strong>: <a href="https://arxiv.org/abs/2501.12948" target="_blank" rel="noopener">Incentivizing Reasoning Capability in LLMs via Reinforcement Learning</a> — GRPO 与 RLVR 涌现推理能力的里程碑论文。</li>
+<li>📄 <strong>Scaling Test-Time Compute</strong>: <a href="https://arxiv.org/abs/2408.03314" target="_blank" rel="noopener">Scaling LLM Test-Time Compute Optimally can be More Effective than Scaling Model Parameters (Snell et al., UC Berkeley / DeepMind)</a></li>
+<li>🏛️ <strong>Anthropic Multi-Agent Research</strong>: <a href="https://www.anthropic.com/engineering/built-multi-agent-research-system" target="_blank" rel="noopener">How We Built Our Multi-Agent Research System</a> — 一手拆解 Orchestrator-Worker 编排与上下文工程细节。</li>
+<li>🧪 <strong>RLVR &amp; Verification</strong>: <a href="https://openai.com/index/learning-to-reason-with-llms/" target="_blank" rel="noopener">OpenAI Learning to Reason with LLMs</a> — 推理模型范式的早期里程碑阐述。</li>
+</ul>
+
+  </div>
+
+  <footer class="col-article-footer">
+    <div class="col-nav-grid">
+      
+        <a class="col-nav-card col-nav-prev" href="/ai-tutorials/l4-01-inference-engine-internals/index.html">
+          <span class="col-nav-dir">← 上一篇 / Previous</span>
+          <span class="col-nav-title">推理引擎极限优化：KV Cache、PagedAttention、量化与投机解码揭秘</span>
+        </a>
+      
+
+      
+        <a class="col-nav-card col-nav-next" href="/ai-tutorials/">
+          <span class="col-nav-dir">返回专栏总览 / Column Hub →</span>
+          <span class="col-nav-title">AI 教程专栏</span>
+        </a>
+      
+    </div>
+  </footer>
+</article>
+
+<script>
+(function() {
+  var root = document.getElementById('column-article-root');
+  if (!root) return;
+  var buttons = root.querySelectorAll('.lang-btn');
+  var storageKey = 'hzan_ai_lang_mode';
+
+  function applyMode(mode) {
+    if (mode !== 'both' && mode !== 'zh' && mode !== 'en') mode = 'both';
+    root.classList.remove('lang-mode-both', 'lang-mode-zh', 'lang-mode-en');
+    root.classList.add('lang-mode-' + mode);
+    buttons.forEach(function(btn) {
+      btn.classList.toggle('active', btn.getAttribute('data-mode') === mode);
+    });
+    try { localStorage.setItem(storageKey, mode); } catch (e) {}
+  }
+
+  buttons.forEach(function(btn) {
+    btn.addEventListener('click', function() {
+      applyMode(btn.getAttribute('data-mode'));
+    });
+  });
+
+  try {
+    var saved = localStorage.getItem(storageKey);
+    if (saved) applyMode(saved);
+  } catch (e) {}
+})();
+</script>
+
+    </div>
+    
+    <footer id="footer">
+  <div class="footer-left">
+    Copyright &copy; 2026 Zan
+  </div>
+  <div class="footer-right">
+    <nav>
+      <ul>
+         
+          <li><a href="/">Home</a></li>
+         
+          <li><a href="/about/">About</a></li>
+         
+          <li><a href="/archives/">Writing</a></li>
+         
+          <li><a href="/ai-tutorials/">AI Tutorials</a></li>
+         
+          <li><a href="/ai-news/">AI News</a></li>
+         
+          <li><a href="http://github.com/H-Zan">Projects</a></li>
+        
+      </ul>
+    </nav>
+  </div>
+</footer>
+
+</body>
+</html>
+<!-- styles -->
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css">
+<link rel="stylesheet" href="/lib/meslo-LG/styles.css">
+<link rel="stylesheet" href="/lib/justified-gallery/justifiedGallery.min.css">
+
+
+<!-- jquery -->
+<script src="/lib/jquery/jquery.min.js"></script>
+<script src="/lib/justified-gallery/jquery.justifiedGallery.min.js"></script>
+<script src="/js/main.js"></script>
+<!-- Google Analytics -->
+
+    <script type="text/javascript">
+        (function(i,s,o,g,r,a,m) {i['GoogleAnalyticsObject']=r;i[r]=i[r]||function() {
+        (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+        m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+        })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+        ga('create', 'UA-86660611-1', 'auto');
+        ga('send', 'pageview');
+    </script>
+
+<!-- Disqus Comments -->
+
+    <script type="text/javascript">
+        var disqus_shortname = 'huzan';
+
+        (function(){
+            var dsq = document.createElement('script');
+            dsq.type = 'text/javascript';
+            dsq.async = true;
+            dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+            (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+        }());
+    </script>
+
+

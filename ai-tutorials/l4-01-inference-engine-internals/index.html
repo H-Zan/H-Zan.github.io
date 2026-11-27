@@ -1,0 +1,366 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <!-- so meta -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="HandheldFriendly" content="True">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+    <meta name="description" content="🔑究极硬核收获 / Ultimate Takeaways 硬件第一性原理：为什么 Decode 阶段一块价值数万美元的顶级 GPU 算力利用率不到 5%？理解 Memory-Bandwidth-Bound（显存带宽墙）。 亲手算出 KV Cache 显存账本，秒懂 GQA 与 DeepSeek MLA 为何能把长上下文成本打下来一个数量级。 四大推理引擎杀手锏：PagedAttention、Co">
+<meta name="keywords" content="推理优化,KV Cache,PagedAttention,量化,Speculative Decoding">
+<meta property="og:type" content="website">
+<meta property="og:title" content="推理引擎极限优化：KV Cache、PagedAttention、量化与投机解码揭秘">
+<meta property="og:url" content="https://h-zan.github.io/ai-tutorials/l4-01-inference-engine-internals/index.html">
+<meta property="og:site_name" content="HuZan">
+<meta property="og:description" content="🔑究极硬核收获 / Ultimate Takeaways 硬件第一性原理：为什么 Decode 阶段一块价值数万美元的顶级 GPU 算力利用率不到 5%？理解 Memory-Bandwidth-Bound（显存带宽墙）。 亲手算出 KV Cache 显存账本，秒懂 GQA 与 DeepSeek MLA 为何能把长上下文成本打下来一个数量级。 四大推理引擎杀手锏：PagedAttention、Co">
+<meta property="og:locale" content="default">
+<meta property="og:image" content="https://h-zan.github.io/images/ai-tutorials/inference-optimization-stack.svg">
+<meta property="og:updated_time" content="2026-11-27T03:02:56.974Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="推理引擎极限优化：KV Cache、PagedAttention、量化与投机解码揭秘">
+<meta name="twitter:description" content="🔑究极硬核收获 / Ultimate Takeaways 硬件第一性原理：为什么 Decode 阶段一块价值数万美元的顶级 GPU 算力利用率不到 5%？理解 Memory-Bandwidth-Bound（显存带宽墙）。 亲手算出 KV Cache 显存账本，秒懂 GQA 与 DeepSeek MLA 为何能把长上下文成本打下来一个数量级。 四大推理引擎杀手锏：PagedAttention、Co">
+<meta name="twitter:image" content="https://h-zan.github.io/images/ai-tutorials/inference-optimization-stack.svg">
+    
+    
+        
+          
+              <link rel="shortcut icon" href="/images/favicon.ico">
+          
+        
+        
+          
+            <link rel="icon" type="image/png" href="/images/favicon-192x192.png" sizes="192x192">
+          
+        
+        
+          
+            <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png">
+          
+        
+    
+    <!-- title -->
+    <title>推理引擎极限优化：KV Cache、PagedAttention、量化与投机解码揭秘</title>
+    <!-- styles -->
+    <link rel="stylesheet" href="/css/style.css">
+    <!-- rss -->
+    
+    
+</head>
+
+<body>
+    
+    
+    <div class="content index column-wide mx-auto px2 my4">
+        
+          <header id="header">
+  <a href="/">
+  
+    
+      <div id="logo" style="background-image: url(/images/logo.png);"></div>
+    
+  
+    <div id="title">
+      <h1>HuZan</h1>
+    </div>
+  </a>
+  <div id="nav">
+    <ul>
+      <li class="icon">
+        <a href="#"><i class="fa fa-bars fa-2x"></i></a>
+      </li>
+       
+        <li><a href="/">Home</a></li>
+       
+        <li><a href="/about/">About</a></li>
+       
+        <li><a href="/archives/">Writing</a></li>
+       
+        <li><a href="/ai-tutorials/">AI Tutorials</a></li>
+       
+        <li><a href="/ai-news/">AI News</a></li>
+       
+        <li><a href="http://github.com/H-Zan">Projects</a></li>
+      
+    </ul>
+  </div>
+</header>
+
+        
+        
+
+<article class="column-article lang-mode-both" id="column-article-root" itemscope itemtype="http://schema.org/TechArticle">
+  <nav class="col-breadcrumb" aria-label="Breadcrumb">
+    <a href="/">Home</a>
+    <span class="sep">/</span>
+    <a href="/ai-tutorials/">AI 教程专栏</a>
+    
+      <span class="sep">/</span>
+      <a href="/ai-tutorials/#tier-ultimate">L4 · 究极 Ultimate</a>
+    
+  </nav>
+
+  <header class="col-article-header">
+    <div class="col-article-badges">
+      
+        <span class="level-badge level-ultimate">L4 · 究极 Ultimate</span>
+      
+      
+      
+        <span class="col-code-pill">L4-01</span>
+      
+      
+        <span class="col-meta-item">⏱ 16 min</span>
+      
+      
+        <time class="col-meta-item" datetime="2026-11-27T11:10:00.000Z">📅 2026-11-27</time>
+      
+    </div>
+
+    <h1 class="col-article-title" itemprop="headline">推理引擎极限优化：KV Cache、PagedAttention、量化与投机解码揭秘</h1>
+    
+      <p class="col-article-title-en">LLM Inference Engine Internals: KV Cache, PagedAttention, Quantization &amp; Speculative Decoding</p>
+    
+
+    
+      <div class="col-article-tags">
+        
+          <span class="col-tag">#推理优化</span>
+        
+          <span class="col-tag">#KV Cache</span>
+        
+          <span class="col-tag">#PagedAttention</span>
+        
+          <span class="col-tag">#量化</span>
+        
+          <span class="col-tag">#Speculative Decoding</span>
+        
+      </div>
+    
+
+    <div class="lang-toolbar" role="group" aria-label="Language display mode">
+      <span class="lang-toolbar-label">🌐 阅读模式 / View Mode:</span>
+      <button type="button" class="lang-btn active" data-mode="both">中英对照 Bilingual</button>
+      <button type="button" class="lang-btn" data-mode="zh">仅中文 ZH</button>
+      <button type="button" class="lang-btn" data-mode="en">English Only</button>
+    </div>
+  </header>
+
+  
+    <details class="col-toc-box" open>
+      <summary>📑 目录 / Table of Contents</summary>
+      <div class="col-toc-inner">
+        <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#1-_硬件真相：Prefill_与_Decode_是两种截然不同的“物种”_/_The_Hardware_Truth:_Prefill_vs-_Decode"><span class="toc-text">1. 硬件真相：Prefill 与 Decode 是两种截然不同的“物种” / The Hardware Truth: Prefill vs. Decode</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#2-_KV_Cache_与显存账本：GQA_和_MLA_如何救命？_/_KV_Cache_Math:_GQA_&_MLA"><span class="toc-text">2. KV Cache 与显存账本：GQA 和 MLA 如何救命？ / KV Cache Math: GQA &amp; MLA</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#3-_PagedAttention_与_Continuous_Batching：vLLM_的核心秘密_/_PagedAttention_&_Continuous_Batching"><span class="toc-text">3. PagedAttention 与 Continuous Batching：vLLM 的核心秘密 / PagedAttention &amp; Continuous Batching</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#4-_量化（Quantization）与投机解码（Speculative_Decoding）_/_Quantization_&_Speculative_Decoding"><span class="toc-text">4. 量化（Quantization）与投机解码（Speculative Decoding） / Quantization &amp; Speculative Decoding</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#量化：把“砖头”变轻，直接突破显存带宽墙"><span class="toc-text">量化：把“砖头”变轻，直接突破显存带宽墙</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#投机解码（Speculative_Decoding）：免费把闲置算力变成_2~3×_速度"><span class="toc-text">投机解码（Speculative Decoding）：免费把闲置算力变成 2~3× 速度</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Quantization:_Moving_Fewer_Bytes_Across_HBM"><span class="toc-text">Quantization: Moving Fewer Bytes Across HBM</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Speculative_Decoding:_2–3×_Lossless_Speedup"><span class="toc-text">Speculative Decoding: 2–3× Lossless Speedup</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#动手精算：Python_快速估算任意模型的权重与_KV_Cache_显存_/_Quick_Python_VRAM_Estimator"><span class="toc-text">动手精算：Python 快速估算任意模型的权重与 KV Cache 显存 / Quick Python VRAM Estimator</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#5-_权威延伸阅读_/_Further_Reading"><span class="toc-text">5. 权威延伸阅读 / Further Reading</span></a></li></ol>
+      </div>
+    </details>
+  
+
+  <div class="col-article-body" itemprop="articleBody">
+    <div class="col-callout col-callout-key"><div class="col-callout-title"><span class="col-callout-icon">🔑</span>究极硬核收获 / Ultimate Takeaways</div><div class="col-callout-body"><ol>
+<li><strong>硬件第一性原理</strong>：为什么 Decode 阶段一块价值数万美元的顶级 GPU 算力利用率不到 5%？理解 <strong>Memory-Bandwidth-Bound（显存带宽墙）</strong>。</li>
+<li><strong>亲手算出 KV Cache 显存账本</strong>，秒懂 GQA 与 DeepSeek MLA 为何能把长上下文成本打下来一个数量级。</li>
+<li><strong>四大推理引擎杀手锏</strong>：PagedAttention、Continuous Batching、AWQ/FP8 量化、以及严格数学无损的 <strong>Speculative Decoding（投机解码）</strong>。</li>
+</ol>
+</div></div>
+<p><img src="/images/ai-tutorials/inference-optimization-stack.svg" alt="LLM Inference Optimization Stack"></p>
+<h2 id="1-_硬件真相：Prefill_与_Decode_是两种截然不同的“物种”_/_The_Hardware_Truth:_Prefill_vs-_Decode">1. 硬件真相：Prefill 与 Decode 是两种截然不同的“物种” / The Hardware Truth: Prefill vs. Decode</h2><div class="bi-block bi-zh" data-lang="zh"><span class="bi-badge">中文</span><div class="bi-body"><p>当你向大模型发出一个请求，GPU 内部其实经历了两个物理特性<strong>完全相反</strong>的阶段：</p>
+<ol>
+<li><strong>Prefill（预填充阶段，决定首字延迟 TTFT）</strong>：<br>模型一次性并行读取你输入的全部 Prompt（例如 4,096 个 Token），做大规模的矩阵 × 矩阵乘法（GEMM）。此时 GPU 的 Tensor Core 满负荷运转，属于 <strong>Compute-Bound（计算受限）</strong>。</li>
+<li><strong>Decode（解码生成阶段，决定吐字速度 TPOT）</strong>：<br>模型一个字一个字地自回归吐出回答。每吐 1 个 Token，GPU 都要把<strong>整整几十 GB 的模型权重从 HBM 显存搬进片上缓存算一次矩阵 × 向量乘法（GEMV）</strong>，算完只产出区区 1 个新词！<ul>
+<li>算力（FLOPs）闲得发慌，<strong>90%+ 的时间全花在等 HBM 显存搬运数据上</strong>！这就是大名鼎鼎的 <strong>Memory-Bandwidth-Bound（显存带宽墙）</strong>。</li>
+</ul>
+</li>
+</ol>
+<blockquote>
+<p><strong>一个算术秒懂极限速度</strong>：假设 70B FP16 模型重 <code>140 GB</code>，单卡 HBM 带宽 <code>3.35 TB/s</code>。哪怕计算耗时为 0，单请求理论吐字上限也只有 <code>3350 / 140 ≈ 24 tokens/s</code>！因此，一切推理优化的本质只有两条路：<strong>① 减少每次搬运的字节数（量化/剪枝/MoE）</strong>；<strong>② 一次搬运多算几个 Token（Continuous Batching / 投机解码）</strong>。</p>
+</blockquote>
+</div></div>
+<div class="bi-block bi-en" data-lang="en"><span class="bi-badge">EN</span><div class="bi-body"><p>Every LLM request goes through two physically opposite regimes on a GPU:</p>
+<ol>
+<li><strong>Prefill (governs TTFT — Time To First Token)</strong>: Processes all prompt tokens in parallel via dense matrix-matrix multiplications (GEMM). Tensor Cores stay saturated → <strong>Compute-Bound</strong>.</li>
+<li><strong>Decode (governs TPOT — Time Per Output Token)</strong>: Generates one token at a time via matrix-vector multiplications (GEMV). For <em>every single token</em>, the GPU must stream tens of gigabytes of weights from HBM—leaving compute units &gt;90% idle → <strong>Memory-Bandwidth-Bound</strong>.</li>
+</ol>
+<blockquote>
+<p><strong>Back-of-the-envelope physics</strong>: A 70B FP16 model weighs <code>140 GB</code>. On a <code>3.35 TB/s</code> HBM GPU, even with zero compute time, single-stream speed caps out at <code>3350 / 140 ≈ 24 tokens/s</code>. Every optimization therefore either <strong>shrinks bytes moved</strong> (quantization, MoE) or <strong>amortizes weight reads over more tokens</strong> (batching, speculative decoding).</p>
+</blockquote>
+</div></div>
+<h2 id="2-_KV_Cache_与显存账本：GQA_和_MLA_如何救命？_/_KV_Cache_Math:_GQA_&amp;_MLA">2. KV Cache 与显存账本：GQA 和 MLA 如何救命？ / KV Cache Math: GQA &amp; MLA</h2><div class="bi-block bi-zh" data-lang="zh"><span class="bi-badge">中文</span><div class="bi-body"><p>生成第 <code>t</code> 个 Token 时，Attention 需要用到前面 <code>1 ~ t-1</code> 所有 Token 的 Key 和 Value 向量。如果不缓存，每吐一个词都要把前文重算一遍（复杂度 <code>O(T²)</code>）。因此推理引擎会把历史 <code>K, V</code> 缓存在显存里——这就是 <strong>KV Cache</strong>。</p>
+<p><strong>KV Cache 到底有多吃显存？直接套公式算：</strong></p>
+<blockquote>
+<p><code>KV Cache 字节数 = 2 (K和V) × 层数 L × KV头数 n_kv × 单头维度 d_h × 序列长度 S × 并发数 B × 精度字节数 (FP16=2)</code></p>
+</blockquote>
+<p>以经典 70B 模型（80 层、隐藏维 8192）为例，如果用传统 MHA（64 个独立 KV 头），<strong>单条 32K 上下文请求的 KV Cache 就要吃掉惊人的 <code>80 GB</code></strong>——连一张 A100 都塞不下 1 个用户！</p>
+<p>现代架构的三大破局方案：</p>
+<ul>
+<li><strong>GQA（Grouped-Query Attention，分组查询注意力）</strong>：让每 8 个 Query 头共享 1 组 KV 头（Llama-3 / Qwen 标配），KV 显存直接暴降 <strong>8 倍</strong>！</li>
+<li><strong>MLA（Multi-Head Latent Attention，多头潜在注意力）</strong>：DeepSeek-V2/V3 提出的神来之笔——不直接缓存庞大的 K 和 V，而是把它们低秩压缩成一个极小的<strong>联合潜向量 <code>c_KV</code></strong> 存入显存，计算时再通过矩阵吸收技巧动态还原，<strong>将 KV Cache 压缩 90% ~ 93%</strong> 且不掉点！</li>
+<li><strong>Prefix Caching（前缀缓存 / RadixAttention）</strong>：相同 System Prompt 或同一份长文档的多轮对话直接复用已算好的 KV Cache，首字延迟直降 5~10 倍。</li>
+</ul>
+</div></div>
+<div class="bi-block bi-en" data-lang="en"><span class="bi-badge">EN</span><div class="bi-body"><p>To avoid recomputing historical Keys and Values at every decode step, inference engines cache them in VRAM (<strong>KV Cache</strong>):</p>
+<blockquote>
+<p><code>KV Bytes = 2 × n_layers × n_kv_heads × d_head × seq_len × batch_size × bytes_per_elem</code></p>
+</blockquote>
+<p>With classic Multi-Head Attention (MHA), a single 32K-token session on a 70B model would consume <strong>~80 GB of KV Cache alone</strong>. Modern architectures slash this via:</p>
+<ul>
+<li><strong>GQA (Grouped-Query Attention)</strong>: Multiple query heads share one KV head → <strong>4×–8× smaller KV Cache</strong>.</li>
+<li><strong>MLA (Multi-Head Latent Attention, DeepSeek)</strong>: Projects K and V into a compact low-rank latent vector <code>c_KV</code> cached in VRAM → <strong>90%+ KV Cache reduction</strong> with minimal quality loss.</li>
+<li><strong>Prefix Caching / RadixAttention</strong>: Reuses precomputed KV blocks for shared system prompts or multi-turn histories across requests.</li>
+</ul>
+</div></div>
+<h2 id="3-_PagedAttention_与_Continuous_Batching：vLLM_的核心秘密_/_PagedAttention_&amp;_Continuous_Batching">3. PagedAttention 与 Continuous Batching：vLLM 的核心秘密 / PagedAttention &amp; Continuous Batching</h2><div class="bi-block bi-zh" data-lang="zh"><span class="bi-badge">中文</span><div class="bi-body"><p>即便压缩了 KV Cache，早期推理框架仍会浪费 <strong>60% ~ 80% 的显存</strong>——因为你不知道用户最终会生成 50 字还是 4,096 字，只能提前按最大长度预留一大块<strong>连续显存</strong>，导致严重的内/外部内存碎片。</p>
+<p>UC Berkeley 团队在 <strong>vLLM</strong> 中借用了操作系统 50 年前的经典智慧——<strong>虚拟内存分页（Virtual Memory Paging）</strong>，提出 <strong>PagedAttention</strong>：</p>
+<ul>
+<li>把每个请求的 KV Cache 切分成固定大小的小页块（例如每 Block 存 16 个 Token），<strong>物理上可以离散地塞在显存任意空位里</strong>，用一张极小的 Block Table 维护逻辑顺序。</li>
+<li>显存利用率瞬间从 <strong>~30% 飙升至 &gt;96%</strong>，还天然支持 Copy-on-Write（多路采样共享同一个 Prompt 块）！</li>
+</ul>
+<p>再配合 <strong>Continuous Batching（迭代级连续批处理）</strong>：不用傻等整个 Batch 里最慢的那个长回复结束，只要 Batch 里任意一个请求吐出 <code>&lt;EOS&gt;</code> 结束符，下一个迭代（几十毫秒后）立刻把排队的新请求插进去，系统总吞吐量直接翻 <strong>2× ~ 4×</strong>！</p>
+</div></div>
+<div class="bi-block bi-en" data-lang="en"><span class="bi-badge">EN</span><div class="bi-body"><p>Early serving engines pre-allocated contiguous VRAM up to <code>max_seq_len</code> per request, wasting <strong>60%–80% of memory</strong> to fragmentation.</p>
+<p><strong>vLLM’s PagedAttention</strong> borrows OS virtual memory paging: it splits each request’s KV Cache into fixed-size blocks (e.g., 16 tokens/block) stored non-contiguously in VRAM and tracked via a lightweight block table—pushing memory utilization above <strong>96%</strong> and enabling Copy-on-Write prefix sharing.</p>
+<p>Paired with <strong>Continuous (Iteration-Level) Batching</strong>—injecting new waiting requests the very instant any active sequence emits <code>&lt;EOS&gt;</code>—serving throughput jumps <strong>2×–4×</strong>.</p>
+</div></div>
+<h2 id="4-_量化（Quantization）与投机解码（Speculative_Decoding）_/_Quantization_&amp;_Speculative_Decoding">4. 量化（Quantization）与投机解码（Speculative Decoding） / Quantization &amp; Speculative Decoding</h2><div class="bi-block bi-zh" data-lang="zh"><span class="bi-badge">中文</span><div class="bi-body"><h3 id="量化：把“砖头”变轻，直接突破显存带宽墙">量化：把“砖头”变轻，直接突破显存带宽墙</h3><p>Decode 阶段既然卡在搬运权重，把权重从 <strong>FP16（16-bit）</strong> 压到 <strong>FP8（8-bit）</strong> 甚至 <strong>INT4（4-bit）</strong>，显存占用和搬运时间就分别减半、四分！</p>
+<ul>
+<li><strong>FP8（W8A8）</strong>：Hopper / Blackwell 架构原生硬件指令支持，几乎<strong>零精度损失</strong>，当前云端生产集群首选。</li>
+<li><strong>AWQ（Activation-Aware Weight Quantization, W4A16）</strong>：核心洞见是权重里只有 <strong>~1% 的关键通道（Salient Weights）</strong> 对激活值影响巨大——只要根据校准激活分布对这 1% 通道做缩放保护，就能在 4-bit 下几乎无损运行，让 70B 模型塞进单张 48GB 显卡！</li>
+</ul>
+<h3 id="投机解码（Speculative_Decoding）：免费把闲置算力变成_2~3×_速度">投机解码（Speculative Decoding）：免费把闲置算力变成 2~3× 速度</h3><p>Decode 时 GPU 算 1 个 Token 和并行校验 5 个 Token 花的时间几乎一模一样（都是搬一次权重）！<strong>投机解码</strong>巧妙利用了这一反直觉物理特性：</p>
+<ol>
+<li><strong>起草（Draft）</strong>：用一个极小极快的草稿模型（或 EAGLE 轻量预测头）一口气连猜 <code>K = 5</code> 个草稿 Token。</li>
+<li><strong>并行验收（Verify）</strong>：把这 5 个草稿一次性打包交给大模型，<strong>仅用 1 次前向推理</strong>同时算出大模型在每个位置的真实概率。</li>
+<li><strong>拒绝采样（Rejection Sampling）</strong>：逐一核对草稿，蒙对的全部直接采纳（一次吐出 3~5 个字！），第一个没蒙对的位置按残差分布重新采样修正。</li>
+</ol>
+<p>最惊艳的是：<strong>数学上严格证明，投机解码输出的概率分布与纯大模型逐字生成 100% 等价——真正做到“零智商折损、速度翻倍”！</strong></p>
+</div></div>
+<div class="bi-block bi-en" data-lang="en"><span class="bi-badge">EN</span><div class="bi-body"><h3 id="Quantization:_Moving_Fewer_Bytes_Across_HBM">Quantization: Moving Fewer Bytes Across HBM</h3><p>Shrinking weights from FP16 to <strong>FP8</strong> (native on Hopper/Blackwell GPUs, virtually lossless) or <strong>4-bit AWQ</strong> (which identifies and protects the ~1% most activation-salient weight channels) directly multiplies memory-bound decode speed while cutting GPU count in half or quarters.</p>
+<h3 id="Speculative_Decoding:_2–3×_Lossless_Speedup">Speculative Decoding: 2–3× Lossless Speedup</h3><p>Because verifying <code>K</code> candidate tokens in parallel costs almost the same HBM read as generating 1 token:</p>
+<ol>
+<li>A tiny <strong>Draft model</strong> (or lightweight EAGLE head) rapidly proposes <code>K</code> next tokens.</li>
+<li>The large <strong>Target model</strong> scores all <code>K</code> tokens in <strong>one parallel forward pass</strong>.</li>
+<li><strong>Modified rejection sampling</strong> accepts the longest matching prefix and corrects the first mismatch—mathematically guaranteed to preserve the <strong>exact output distribution</strong> of the target model with zero quality degradation!</li>
+</ol>
+</div></div>
+<h3 id="动手精算：Python_快速估算任意模型的权重与_KV_Cache_显存_/_Quick_Python_VRAM_Estimator">动手精算：Python 快速估算任意模型的权重与 KV Cache 显存 / Quick Python VRAM Estimator</h3><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">estimate_llm_vram_gb</span><span class="params">(</span></span></span><br><span class="line"><span class="function"><span class="params">    params_b: float,</span></span></span><br><span class="line"><span class="function"><span class="params">    weight_bytes: float,       # FP16=<span class="number">2.0</span>, FP8=<span class="number">1.0</span>, INT4=<span class="number">0.5</span></span></span></span><br><span class="line"><span class="function"><span class="params">    n_layers: int,</span></span></span><br><span class="line"><span class="function"><span class="params">    n_kv_heads: int,</span></span></span><br><span class="line"><span class="function"><span class="params">    d_head: int,</span></span></span><br><span class="line"><span class="function"><span class="params">    seq_len: int,</span></span></span><br><span class="line"><span class="function"><span class="params">    batch_size: int,</span></span></span><br><span class="line"><span class="function"><span class="params">    kv_bytes: float = <span class="number">2.0</span>,     # FP16=<span class="number">2.0</span>, FP8=<span class="number">1.0</span></span></span></span><br><span class="line"><span class="function"><span class="params">)</span> -&gt; dict:</span></span><br><span class="line">    weights_gb = params_b * weight_bytes</span><br><span class="line">    kv_gb = (<span class="number">2</span> * n_layers * n_kv_heads * d_head * seq_len * batch_size * kv_bytes) / (<span class="number">1024</span>**<span class="number">3</span>)</span><br><span class="line">    <span class="keyword">return</span> &#123;</span><br><span class="line">        <span class="string">"weights_gb"</span>: round(weights_gb, <span class="number">2</span>),</span><br><span class="line">        <span class="string">"kv_cache_gb"</span>: round(kv_gb, <span class="number">2</span>),</span><br><span class="line">        <span class="string">"total_gb"</span>: round(weights_gb + kv_gb, <span class="number">2</span>),</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line"><span class="comment"># Example: Llama-3-70B (80 layers, 8 GQA KV heads, d_head=128) at FP8, 16K ctx, batch=16</span></span><br><span class="line">print(estimate_llm_vram_gb(<span class="number">70</span>, <span class="number">1.0</span>, <span class="number">80</span>, <span class="number">8</span>, <span class="number">128</span>, seq_len=<span class="number">16384</span>, batch_size=<span class="number">16</span>, kv_bytes=<span class="number">1.0</span>))</span><br></pre></td></tr></table></figure>
+<h2 id="5-_权威延伸阅读_/_Further_Reading">5. 权威延伸阅读 / Further Reading</h2><ul>
+<li>📄 <strong>vLLM / PagedAttention</strong>: <a href="https://arxiv.org/abs/2309.06180" target="_blank" rel="noopener">Efficient Memory Management for Large Language Model Serving (Kwon et al.)</a></li>
+<li>📄 <strong>Speculative Decoding</strong>: <a href="https://arxiv.org/abs/2211.17192" target="_blank" rel="noopener">Fast Inference from Transformers via Speculative Decoding (Leviathan et al., Google)</a></li>
+<li>📄 <strong>DeepSeek MLA</strong>: <a href="https://arxiv.org/abs/2405.04434" target="_blank" rel="noopener">DeepSeek-V2: A Strong, Economical, and Efficient Mixture-of-Experts Language Model</a></li>
+<li>🛠️ <strong>Serving Engines</strong>: <a href="https://github.com/vllm-project/vllm" target="_blank" rel="noopener">vLLM</a> · <a href="https://github.com/sgl-project/sglang" target="_blank" rel="noopener">SGLang</a> — 当今最核心的两大开源推理引擎。</li>
+</ul>
+
+  </div>
+
+  <footer class="col-article-footer">
+    <div class="col-nav-grid">
+      
+        <a class="col-nav-card col-nav-prev" href="/ai-tutorials/l3-02-finetuning-lora-dpo-eval/index.html">
+          <span class="col-nav-dir">← 上一篇 / Previous</span>
+          <span class="col-nav-title">微调（Fine-Tuning）与对齐工程：SFT、LoRA/QLoRA 到 DPO 与评估闭环</span>
+        </a>
+      
+
+      
+        <a class="col-nav-card col-nav-next" href="/ai-tutorials/l4-02-reasoning-rlvr-multiagent/index.html">
+          <span class="col-nav-dir">下一篇 / Next →</span>
+          <span class="col-nav-title">推理模型与后训练新范式：Test-Time Compute、RLVR/GRPO 与多智能体系统设计</span>
+        </a>
+      
+    </div>
+  </footer>
+</article>
+
+<script>
+(function() {
+  var root = document.getElementById('column-article-root');
+  if (!root) return;
+  var buttons = root.querySelectorAll('.lang-btn');
+  var storageKey = 'hzan_ai_lang_mode';
+
+  function applyMode(mode) {
+    if (mode !== 'both' && mode !== 'zh' && mode !== 'en') mode = 'both';
+    root.classList.remove('lang-mode-both', 'lang-mode-zh', 'lang-mode-en');
+    root.classList.add('lang-mode-' + mode);
+    buttons.forEach(function(btn) {
+      btn.classList.toggle('active', btn.getAttribute('data-mode') === mode);
+    });
+    try { localStorage.setItem(storageKey, mode); } catch (e) {}
+  }
+
+  buttons.forEach(function(btn) {
+    btn.addEventListener('click', function() {
+      applyMode(btn.getAttribute('data-mode'));
+    });
+  });
+
+  try {
+    var saved = localStorage.getItem(storageKey);
+    if (saved) applyMode(saved);
+  } catch (e) {}
+})();
+</script>
+
+    </div>
+    
+    <footer id="footer">
+  <div class="footer-left">
+    Copyright &copy; 2026 Zan
+  </div>
+  <div class="footer-right">
+    <nav>
+      <ul>
+         
+          <li><a href="/">Home</a></li>
+         
+          <li><a href="/about/">About</a></li>
+         
+          <li><a href="/archives/">Writing</a></li>
+         
+          <li><a href="/ai-tutorials/">AI Tutorials</a></li>
+         
+          <li><a href="/ai-news/">AI News</a></li>
+         
+          <li><a href="http://github.com/H-Zan">Projects</a></li>
+        
+      </ul>
+    </nav>
+  </div>
+</footer>
+
+</body>
+</html>
+<!-- styles -->
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css">
+<link rel="stylesheet" href="/lib/meslo-LG/styles.css">
+<link rel="stylesheet" href="/lib/justified-gallery/justifiedGallery.min.css">
+
+
+<!-- jquery -->
+<script src="/lib/jquery/jquery.min.js"></script>
+<script src="/lib/justified-gallery/jquery.justifiedGallery.min.js"></script>
+<script src="/js/main.js"></script>
+<!-- Google Analytics -->
+
+    <script type="text/javascript">
+        (function(i,s,o,g,r,a,m) {i['GoogleAnalyticsObject']=r;i[r]=i[r]||function() {
+        (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+        m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+        })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+        ga('create', 'UA-86660611-1', 'auto');
+        ga('send', 'pageview');
+    </script>
+
+<!-- Disqus Comments -->
+
+    <script type="text/javascript">
+        var disqus_shortname = 'huzan';
+
+        (function(){
+            var dsq = document.createElement('script');
+            dsq.type = 'text/javascript';
+            dsq.async = true;
+            dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+            (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+        }());
+    </script>
+
+

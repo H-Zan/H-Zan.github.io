@@ -1,0 +1,71 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 880 340" width="880" height="340">
+  <defs>
+    <marker id="arr6" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M 0 1 L 10 5 L 0 9 z" fill="#2bbc8a"/>
+    </marker>
+    <linearGradient id="bg6" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#181a1d"/>
+      <stop offset="100%" stop-color="#22262b"/>
+    </linearGradient>
+  </defs>
+  <rect width="880" height="340" rx="12" fill="url(#bg6)" stroke="#363b42" stroke-width="1.5"/>
+  <text x="440" y="32" text-anchor="middle" fill="#eeeeee" font-family="sans-serif" font-size="16" font-weight="700">LoRA 低秩微调原理与大模型后训练对齐闭环 · LoRA &amp; Alignment Pipeline</text>
+
+  <!-- Left: LoRA Mechanism Box -->
+  <rect x="24" y="56" width="334" height="256" rx="10" fill="#1e2227" stroke="#f0a500" stroke-width="1.5"/>
+  <text x="191" y="80" text-anchor="middle" fill="#f0a500" font-family="monospace" font-size="12" font-weight="700">LoRA: h = W₀·x + (B·A)·x</text>
+
+  <rect x="131" y="256" width="120" height="36" rx="6" fill="#24272b" stroke="#4ea8de"/>
+  <text x="191" y="279" text-anchor="middle" fill="#4ea8de" font-family="monospace" font-size="12" font-weight="700">输入 Input x</text>
+
+  <!-- Frozen W0 -->
+  <rect x="44" y="138" width="122" height="86" rx="6" fill="#24272b" stroke="#6c757d" stroke-dasharray="4,3"/>
+  <text x="105" y="166" text-anchor="middle" fill="#9aa0a6" font-family="monospace" font-size="12" font-weight="700">W₀ (d × d)</text>
+  <text x="105" y="186" text-anchor="middle" fill="#9aa0a6" font-family="sans-serif" font-size="11">❄️ 冻结主权重</text>
+  <text x="105" y="205" text-anchor="middle" fill="#6c757d" font-family="monospace" font-size="10">4-bit NF4 (QLoRA)</text>
+
+  <!-- Trainable A & B -->
+  <rect x="206" y="192" width="132" height="36" rx="6" fill="#1c2b26" stroke="#2bbc8a"/>
+  <text x="272" y="214" text-anchor="middle" fill="#2bbc8a" font-family="monospace" font-size="11" font-weight="700">A (r × d) 可训练</text>
+
+  <rect x="206" y="132" width="132" height="36" rx="6" fill="#1c2b26" stroke="#2bbc8a"/>
+  <text x="272" y="154" text-anchor="middle" fill="#2bbc8a" font-family="monospace" font-size="11" font-weight="700">B (d × r) 零初始化</text>
+
+  <line x1="166" y1="256" x2="115" y2="228" stroke="#9aa0a6" stroke-width="1.5"/>
+  <line x1="216" y1="256" x2="262" y2="232" stroke="#2bbc8a" stroke-width="1.6" marker-end="url(#arr6)"/>
+  <line x1="272" y1="192" x2="272" y2="172" stroke="#2bbc8a" stroke-width="1.6" marker-end="url(#arr6)"/>
+
+  <rect x="131" y="92" width="120" height="28" rx="14" fill="#24272b" stroke="#d5ff80"/>
+  <text x="191" y="110" text-anchor="middle" fill="#d5ff80" font-family="monospace" font-size="11.5" font-weight="700">⊕ 相加输出 h</text>
+  <line x1="105" y1="138" x2="155" y2="122" stroke="#9aa0a6" stroke-width="1.4"/>
+  <line x1="272" y1="132" x2="227" y2="122" stroke="#2bbc8a" stroke-width="1.6" marker-end="url(#arr6)"/>
+
+  <!-- Right: Post-training Pipeline -->
+  <rect x="382" y="56" width="474" height="256" rx="10" fill="#1e2422" stroke="#2bbc8a" stroke-width="1.5"/>
+  <text x="619" y="80" text-anchor="middle" fill="#2bbc8a" font-family="monospace" font-size="12" font-weight="700">POST-TRAINING &amp; EVAL LOOP · 后训练四阶段</text>
+
+  <rect x="404" y="96" width="198" height="62" rx="6" fill="#24272b" stroke="#4ea8de"/>
+  <text x="503" y="118" text-anchor="middle" fill="#4ea8de" font-family="sans-serif" font-size="12.5" font-weight="700">1. Base 预训练底座</text>
+  <text x="503" y="138" text-anchor="middle" fill="#9aa0a6" font-family="sans-serif" font-size="10.5">海量文本续写，懂知识但不听指令</text>
+
+  <line x1="602" y1="127" x2="634" y2="127" stroke="#2bbc8a" stroke-width="1.8" marker-end="url(#arr6)"/>
+
+  <rect x="638" y="96" width="198" height="62" rx="6" fill="#24272b" stroke="#2bbc8a"/>
+  <text x="737" y="118" text-anchor="middle" fill="#2bbc8a" font-family="sans-serif" font-size="12.5" font-weight="700">2. SFT 监督微调</text>
+  <text x="737" y="138" text-anchor="middle" fill="#9aa0a6" font-family="sans-serif" font-size="10.5">高质量问答示范（激活对话与格式）</text>
+
+  <line x1="737" y1="158" x2="737" y2="188" stroke="#2bbc8a" stroke-width="1.8" marker-end="url(#arr6)"/>
+
+  <rect x="638" y="192" width="198" height="64" rx="6" fill="#24272b" stroke="#c678dd"/>
+  <text x="737" y="214" text-anchor="middle" fill="#c678dd" font-family="sans-serif" font-size="12.5" font-weight="700">3. DPO / RL 对齐</text>
+  <text x="737" y="234" text-anchor="middle" fill="#9aa0a6" font-family="sans-serif" font-size="10.5">偏好对 (Chosen &gt; Rejected) 塑形</text>
+
+  <line x1="638" y1="224" x2="606" y2="224" stroke="#2bbc8a" stroke-width="1.8" marker-end="url(#arr6)"/>
+
+  <rect x="404" y="192" width="198" height="64" rx="6" fill="#2a1f22" stroke="#e06c75"/>
+  <text x="503" y="214" text-anchor="middle" fill="#e06c75" font-family="sans-serif" font-size="12.5" font-weight="700">4. 自动化 Eval 评测</text>
+  <text x="503" y="234" text-anchor="middle" fill="#9aa0a6" font-family="sans-serif" font-size="10.5">Bad Case 回流 → 迭代数据飞轮</text>
+
+  <path d="M 503 256 L 503 284 L 737 284 L 737 262" fill="none" stroke="#f0a500" stroke-width="1.4" stroke-dasharray="4,3"/>
+  <text x="620" y="299" text-anchor="middle" fill="#f0a500" font-family="sans-serif" font-size="10.5">铁律：没有评测集就不要微调 · 1000 条精选数据 &gt; 10 万条噪声数据</text>
+</svg>

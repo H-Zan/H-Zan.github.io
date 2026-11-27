@@ -1,0 +1,399 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <!-- so meta -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="HandheldFriendly" content="True">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+    <meta name="description" content="🔑本课核心收获 / What You Will Master 微调决策树：避开 80% 团队踩过的“盲目微调”深坑。 LoRA / QLoRA 数学直觉与显存账本：为什么一块 24GB 消费级显卡也能微调 14B~32B 模型？ SFT → DPO 偏好对齐：从“学会听话”到“学会审美品位与安全克制”。 Eval-Driven Development（评测驱动开发）：没有黄金评测集，微调就是盲人">
+<meta name="keywords" content="Fine-Tuning,LoRA,QLoRA,DPO,Eval">
+<meta property="og:type" content="website">
+<meta property="og:title" content="微调（Fine-Tuning）与对齐工程：SFT、LoRA&#x2F;QLoRA 到 DPO 与评估闭环">
+<meta property="og:url" content="https://h-zan.github.io/ai-tutorials/l3-02-finetuning-lora-dpo-eval/index.html">
+<meta property="og:site_name" content="HuZan">
+<meta property="og:description" content="🔑本课核心收获 / What You Will Master 微调决策树：避开 80% 团队踩过的“盲目微调”深坑。 LoRA / QLoRA 数学直觉与显存账本：为什么一块 24GB 消费级显卡也能微调 14B~32B 模型？ SFT → DPO 偏好对齐：从“学会听话”到“学会审美品位与安全克制”。 Eval-Driven Development（评测驱动开发）：没有黄金评测集，微调就是盲人">
+<meta property="og:locale" content="default">
+<meta property="og:image" content="https://h-zan.github.io/images/ai-tutorials/lora-alignment-pipeline.svg">
+<meta property="og:updated_time" content="2026-11-27T03:01:44.615Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="微调（Fine-Tuning）与对齐工程：SFT、LoRA&#x2F;QLoRA 到 DPO 与评估闭环">
+<meta name="twitter:description" content="🔑本课核心收获 / What You Will Master 微调决策树：避开 80% 团队踩过的“盲目微调”深坑。 LoRA / QLoRA 数学直觉与显存账本：为什么一块 24GB 消费级显卡也能微调 14B~32B 模型？ SFT → DPO 偏好对齐：从“学会听话”到“学会审美品位与安全克制”。 Eval-Driven Development（评测驱动开发）：没有黄金评测集，微调就是盲人">
+<meta name="twitter:image" content="https://h-zan.github.io/images/ai-tutorials/lora-alignment-pipeline.svg">
+    
+    
+        
+          
+              <link rel="shortcut icon" href="/images/favicon.ico">
+          
+        
+        
+          
+            <link rel="icon" type="image/png" href="/images/favicon-192x192.png" sizes="192x192">
+          
+        
+        
+          
+            <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png">
+          
+        
+    
+    <!-- title -->
+    <title>微调（Fine-Tuning）与对齐工程：SFT、LoRA/QLoRA 到 DPO 与评估闭环</title>
+    <!-- styles -->
+    <link rel="stylesheet" href="/css/style.css">
+    <!-- rss -->
+    
+    
+</head>
+
+<body>
+    
+    
+    <div class="content index column-wide mx-auto px2 my4">
+        
+          <header id="header">
+  <a href="/">
+  
+    
+      <div id="logo" style="background-image: url(/images/logo.png);"></div>
+    
+  
+    <div id="title">
+      <h1>HuZan</h1>
+    </div>
+  </a>
+  <div id="nav">
+    <ul>
+      <li class="icon">
+        <a href="#"><i class="fa fa-bars fa-2x"></i></a>
+      </li>
+       
+        <li><a href="/">Home</a></li>
+       
+        <li><a href="/about/">About</a></li>
+       
+        <li><a href="/archives/">Writing</a></li>
+       
+        <li><a href="/ai-tutorials/">AI Tutorials</a></li>
+       
+        <li><a href="/ai-news/">AI News</a></li>
+       
+        <li><a href="http://github.com/H-Zan">Projects</a></li>
+      
+    </ul>
+  </div>
+</header>
+
+        
+        
+
+<article class="column-article lang-mode-both" id="column-article-root" itemscope itemtype="http://schema.org/TechArticle">
+  <nav class="col-breadcrumb" aria-label="Breadcrumb">
+    <a href="/">Home</a>
+    <span class="sep">/</span>
+    <a href="/ai-tutorials/">AI 教程专栏</a>
+    
+      <span class="sep">/</span>
+      <a href="/ai-tutorials/#tier-advanced">L3 · 高级 Advanced</a>
+    
+  </nav>
+
+  <header class="col-article-header">
+    <div class="col-article-badges">
+      
+        <span class="level-badge level-advanced">L3 · 高级 Advanced</span>
+      
+      
+      
+        <span class="col-code-pill">L3-02</span>
+      
+      
+        <span class="col-meta-item">⏱ 14 min</span>
+      
+      
+        <time class="col-meta-item" datetime="2026-11-27T11:00:00.000Z">📅 2026-11-27</time>
+      
+    </div>
+
+    <h1 class="col-article-title" itemprop="headline">微调（Fine-Tuning）与对齐工程：SFT、LoRA/QLoRA 到 DPO 与评估闭环</h1>
+    
+      <p class="col-article-title-en">Fine-Tuning &amp; Alignment Engineering: From SFT &amp; LoRA/QLoRA to DPO and Eval Loops</p>
+    
+
+    
+      <div class="col-article-tags">
+        
+          <span class="col-tag">#Fine-Tuning</span>
+        
+          <span class="col-tag">#LoRA</span>
+        
+          <span class="col-tag">#QLoRA</span>
+        
+          <span class="col-tag">#DPO</span>
+        
+          <span class="col-tag">#Eval</span>
+        
+      </div>
+    
+
+    <div class="lang-toolbar" role="group" aria-label="Language display mode">
+      <span class="lang-toolbar-label">🌐 阅读模式 / View Mode:</span>
+      <button type="button" class="lang-btn active" data-mode="both">中英对照 Bilingual</button>
+      <button type="button" class="lang-btn" data-mode="zh">仅中文 ZH</button>
+      <button type="button" class="lang-btn" data-mode="en">English Only</button>
+    </div>
+  </header>
+
+  
+    <details class="col-toc-box" open>
+      <summary>📑 目录 / Table of Contents</summary>
+      <div class="col-toc-inner">
+        <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#1-_先踩刹车：什么时候才真的需要微调？_/_Stop_First:_When_Should_You_Actually_Fine-Tune?"><span class="toc-text">1. 先踩刹车：什么时候才真的需要微调？ / Stop First: When Should You Actually Fine-Tune?</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#2-_LoRA_与_QLoRA：用_1%_的参数撬动百亿模型_/_LoRA_&_QLoRA:_Moving_Mountains_with_1%_Parameters"><span class="toc-text">2. LoRA 与 QLoRA：用 1% 的参数撬动百亿模型 / LoRA &amp; QLoRA: Moving Mountains with 1% Parameters</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#3-_数据黄金法则与_DPO_偏好对齐_/_Data_Quality_&_DPO_Alignment"><span class="toc-text">3. 数据黄金法则与 DPO 偏好对齐 / Data Quality &amp; DPO Alignment</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#数据质量_>_数据数量（LIMA_启示）"><span class="toc-text">数据质量 &gt; 数据数量（LIMA 启示）</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#SFT_之后为什么还要对齐（RLHF_vs_DPO）？"><span class="toc-text">SFT 之后为什么还要对齐（RLHF vs DPO）？</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Data_Quality_Beats_Volume_(The_LIMA_Principle)"><span class="toc-text">Data Quality Beats Volume (The LIMA Principle)</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Why_Alignment_(DPO)_After_SFT?"><span class="toc-text">Why Alignment (DPO) After SFT?</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#使用_peft_+_trl_启动_QLoRA_微调的核心配置片段_/_Practical_QLoRA_Setup_(peft)"><span class="toc-text">使用 peft + trl 启动 QLoRA 微调的核心配置片段 / Practical QLoRA Setup (peft)</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#4-_评测闭环：没有_Eval，千万别上线_/_Eval-Driven_Fine-Tuning"><span class="toc-text">4. 评测闭环：没有 Eval，千万别上线 / Eval-Driven Fine-Tuning</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#5-_权威延伸阅读_/_Further_Reading"><span class="toc-text">5. 权威延伸阅读 / Further Reading</span></a></li></ol>
+      </div>
+    </details>
+  
+
+  <div class="col-article-body" itemprop="articleBody">
+    <div class="col-callout col-callout-key"><div class="col-callout-title"><span class="col-callout-icon">🔑</span>本课核心收获 / What You Will Master</div><div class="col-callout-body"><ol>
+<li><strong>微调决策树</strong>：避开 80% 团队踩过的“盲目微调”深坑。</li>
+<li><strong>LoRA / QLoRA 数学直觉与显存账本</strong>：为什么一块 24GB 消费级显卡也能微调 14B~32B 模型？</li>
+<li><strong>SFT → DPO 偏好对齐</strong>：从“学会听话”到“学会审美品位与安全克制”。</li>
+<li><strong>Eval-Driven Development（评测驱动开发）</strong>：没有黄金评测集，微调就是盲人摸象。</li>
+</ol>
+</div></div>
+<p><img src="/images/ai-tutorials/lora-alignment-pipeline.svg" alt="LoRA and Post-Training Alignment Pipeline"></p>
+<h2 id="1-_先踩刹车：什么时候才真的需要微调？_/_Stop_First:_When_Should_You_Actually_Fine-Tune?">1. 先踩刹车：什么时候才真的需要微调？ / Stop First: When Should You Actually Fine-Tune?</h2><div class="bi-block bi-zh" data-lang="zh"><span class="bi-badge">中文</span><div class="bi-body"><p>微调（Fine-Tuning）意味着你要承担<strong>数据清洗、训练基础设施、版本回滚、底座模型升级后重训</strong>的长期运维债。在启动训练之前，请严格按顺序过一遍这三道漏斗：</p>
+<ol>
+<li><strong>Prompt + Few-Shot 试过没有？</strong> 很多时候换一个更强的模型 + 写清 XML 规范 + 给 3 个例子，半小时就搞定了。</li>
+<li><strong>如果是缺“业务事实知识”，上 RAG！</strong>（见 <a href="/ai-tutorials/l2-01-rag-production-guide/">L2-01</a>）微调记不住实时更新的数据。</li>
+<li><strong>真正适合微调的 4 个黄金场景</strong>：<ul>
+<li><strong>极致的延迟与成本压缩（蒸馏）</strong>：用旗舰大模型生成 10,000 条高质量样本，微调一个 7B/8B 小模型，在特定垂直任务（如意图路由、SQL 生成、信息抽取）上达到旗舰 95% 效果，成本直降 <strong>20 倍</strong>、延迟降 <strong>5 倍</strong>。</li>
+<li><strong>高度专有的输出格式或行业黑话</strong>：如特定医疗编码规范、金融合规报文、小众领域 DSL 代码。</li>
+<li><strong>严苛隐私 / 离线内网部署</strong>：数据不可出网，必须在私有化开源小模型上压榨极致性能。</li>
+<li><strong>定制人设与行为对齐</strong>：改变拒答边界、对话语气或特定交互协议。</li>
+</ul>
+</li>
+</ol>
+</div></div>
+<div class="bi-block bi-en" data-lang="en"><span class="bi-badge">EN</span><div class="bi-body"><p>Fine-tuning creates ongoing engineering debt (data curation, GPU runs, regression testing, re-training whenever a better base model drops). Follow this ladder first:</p>
+<ol>
+<li><strong>Exhaust Prompting + Few-Shot</strong> before touching weights.</li>
+<li><strong>Use RAG for facts</strong> (<a href="/ai-tutorials/l2-01-rag-production-guide/">L2-01</a>)—never fine-tune to memorize volatile knowledge.</li>
+<li><strong>Fine-tune when you have one of these 4 high-ROI goals</strong>:<ul>
+<li><strong>Distillation for speed &amp; cost</strong>: Distill a frontier model’s outputs into a 7B/8B specialist—often matching ~95% task quality at <strong>10–20× lower cost</strong> and much lower latency.</li>
+<li><strong>Strict domain syntax / proprietary DSLs</strong> that few-shot prompting still fumbles.</li>
+<li><strong>Air-gapped / privacy-critical deployments</strong> running open-weight models on-prem.</li>
+<li><strong>Custom behavioral alignment</strong>: Specific tone, persona, or refusal boundaries.</li>
+</ul>
+</li>
+</ol>
+</div></div>
+<h2 id="2-_LoRA_与_QLoRA：用_1%_的参数撬动百亿模型_/_LoRA_&amp;_QLoRA:_Moving_Mountains_with_1%_Parameters">2. LoRA 与 QLoRA：用 1% 的参数撬动百亿模型 / LoRA &amp; QLoRA: Moving Mountains with 1% Parameters</h2><div class="bi-block bi-zh" data-lang="zh"><span class="bi-badge">中文</span><div class="bi-body"><p>传统<strong>全量微调（Full Fine-Tuning）</strong>要更新模型全部权重。一个 7B 模型光权重（FP16）占 14GB，加上梯度（14GB）和 AdamW 优化器状态（FP32 主权重 + 一阶/二阶动量 ≈ 84GB），训练就需要 <strong>~112GB+ 显存</strong>！</p>
+<p>微软提出的 <strong>LoRA（Low-Rank Adaptation，低秩适配）</strong> 带来了一个优雅洞察：<strong>微调过程中权重的变化量 <code>ΔW</code> 其实具有极低的“内在秩（Intrinsic Rank）”</strong>——不需要改写整张 <code>4096 × 4096</code>（1677 万参数）的大矩阵，只需<strong>冻结原权重 <code>W₀</code></strong>，在旁边并联两个极瘦的小矩阵 <code>A (r × d)</code> 和 <code>B (d × r)</code>（例如秩 <code>r = 16</code>）：</p>
+<blockquote>
+<p><strong>LoRA 前向公式</strong>：<code>h = W₀·x + (α / r) · (B · A) · x</code></p>
+</blockquote>
+<ul>
+<li>参数量从 <code>4096 × 4096 = 16.7M</code> 暴降到 <code>2 × 4096 × 16 = 0.13M</code>（<strong>不到 0.8%！</strong>）</li>
+<li>矩阵 <code>B</code> 用 <strong>全 0 初始化</strong>，确保训练第 0 步时 <code>B·A = 0</code>，完全不破坏预训练底座的原有能力。</li>
+<li>推理部署时可以把 <code>W_merged = W₀ + (α/r)·B·A</code> 直接合并回原权重，<strong>实现零额外推理延迟</strong>！</li>
+</ul>
+<p>而 <strong>QLoRA</strong> 更进一步：把冻结的底座 <code>W₀</code> 用 <strong>4-bit NormalFloat (NF4)</strong> 量化塞进显存，反量化计算时只更新 BF16 的 LoRA 旁路，再配合 Paged Optimizers，单卡 24GB 就能轻松微调 14B+ 模型！</p>
+</div></div>
+<div class="bi-block bi-en" data-lang="en"><span class="bi-badge">EN</span><div class="bi-body"><p><strong>Full Fine-Tuning</strong> updates every weight—meaning a 7B model needs ~14GB for FP16 weights, ~14GB for gradients, and ~84GB for AdamW optimizer states (<strong>&gt;112GB VRAM</strong> before activations!).</p>
+<p><strong>LoRA (Low-Rank Adaptation)</strong> exploits the fact that weight updates <code>ΔW</code> during adaptation live in a low-rank subspace. Freeze <code>W₀</code> and attach two skinny trainable matrices <code>A (r × d)</code> and <code>B (d × r)</code> (e.g., <code>r = 16</code>):</p>
+<blockquote>
+<p><strong>LoRA Formula</strong>: <code>h = W₀·x + (α / r) · (B · A) · x</code></p>
+</blockquote>
+<ul>
+<li>Trainable parameters drop by <strong>&gt;99%</strong>, drastically cutting optimizer VRAM.</li>
+<li><code>B</code> is initialized to zeros so step 0 starts identically to the pretrained model.</li>
+<li>At inference time, merge <code>B·A</code> directly into <code>W₀</code> for <strong>zero added latency</strong>.</li>
+</ul>
+<p><strong>QLoRA</strong> pushes this further by quantizing the frozen base weights <code>W₀</code> to <strong>4-bit NF4</strong> while training LoRA adapters in BF16—unlocking 14B–32B fine-tuning on a single 24GB–48GB GPU.</p>
+</div></div>
+<table>
+<thead>
+<tr>
+<th style="text-align:left">训练方式 Method</th>
+<th style="text-align:left">7B 模型显存需求 Est. VRAM</th>
+<th style="text-align:left">70B 模型显存需求 Est. VRAM</th>
+<th style="text-align:left">适用定位 Positioning</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left"><strong>Full Fine-Tuning (BF16 + AdamW)</strong></td>
+<td style="text-align:left">~112 GB（2×80G A100）</td>
+<td style="text-align:left">~1.1 TB（多机 16×80G）</td>
+<td style="text-align:left">注入海量新领域语料 / 持续预训练</td>
+</tr>
+<tr>
+<td style="text-align:left"><strong>LoRA (BF16 Base, r=16)</strong></td>
+<td style="text-align:left">~18 ~ 24 GB（单卡 3090/4090）</td>
+<td style="text-align:left">~160 GB（2~4×80G）</td>
+<td style="text-align:left"><strong>90% 工程场景首选</strong>，效果接近全量</td>
+</tr>
+<tr>
+<td style="text-align:left"><strong>QLoRA (4-bit NF4 Base, r=16)</strong></td>
+<td style="text-align:left">~8 ~ 12 GB（笔记本/单卡 T4）</td>
+<td style="text-align:left">~46 GB（单卡 A6000 / A100）</td>
+<td style="text-align:left">预算受限快速验证与个人开发者微调</td>
+</tr>
+</tbody>
+</table>
+<h2 id="3-_数据黄金法则与_DPO_偏好对齐_/_Data_Quality_&amp;_DPO_Alignment">3. 数据黄金法则与 DPO 偏好对齐 / Data Quality &amp; DPO Alignment</h2><div class="bi-block bi-zh" data-lang="zh"><span class="bi-badge">中文</span><div class="bi-body"><h3 id="数据质量_&gt;_数据数量（LIMA_启示）">数据质量 &gt; 数据数量（LIMA 启示）</h3><p>Meta 的经典论文 <em>LIMA</em> 证明：<strong>1,000 条人工精挑细选、逻辑严谨、覆盖多样的 SFT 数据，效果吊打 10 万条爬虫拼凑的脏数据</strong>。微调数据里的每一条幻觉、错误格式、啰嗦客套话，都会被模型忠实地放大并固化进权重里。</p>
+<h3 id="SFT_之后为什么还要对齐（RLHF_vs_DPO）？">SFT 之后为什么还要对齐（RLHF vs DPO）？</h3><p>SFT 教模型“模仿好答案”，但它<strong>没教模型“避开差答案”</strong>——模型可能会把好答案和似是而非的幻觉赋予相近的概率。</p>
+<ul>
+<li><strong>传统 PPO RLHF</strong>：需要同时维护 <strong>4 个大模型</strong>（Actor、Reference、Reward Model、Critic），显存爆炸且超参极难调稳。</li>
+<li><strong>DPO（Direct Preference Optimization，直接偏好优化）</strong>：用精妙的数学推导把 Reward Model 消掉了！只需要准备三元组数据集 <code>(Prompt, Chosen 优质回答, Rejected 劣质回答)</code>，直接用一个简洁的分类交叉熵损失，<strong>拉高 Chosen 概率、压低 Rejected 概率</strong>，同时用 Reference 模型约束 KL 散度防止模型“学崩”！</li>
+</ul>
+</div></div>
+<div class="bi-block bi-en" data-lang="en"><span class="bi-badge">EN</span><div class="bi-body"><h3 id="Data_Quality_Beats_Volume_(The_LIMA_Principle)">Data Quality Beats Volume (The LIMA Principle)</h3><p>As demonstrated by Meta’s <em>LIMA</em> study, <strong>1,000 meticulously curated, diverse SFT examples consistently outperform 100,000 noisy scraped examples.</strong> Every flaw in your training set gets baked permanently into the model’s weights.</p>
+<h3 id="Why_Alignment_(DPO)_After_SFT?">Why Alignment (DPO) After SFT?</h3><p>SFT teaches the model what <em>good</em> answers look like, but not how to actively suppress <em>plausible-looking bad</em> answers.</p>
+<ul>
+<li><strong>Classic PPO RLHF</strong> requires juggling 4 models simultaneously (Actor, Reference, Reward, Critic)—fragile and VRAM-hungry.</li>
+<li><strong>DPO (Direct Preference Optimization)</strong> algebraically eliminates the separate Reward Model: given <code>(prompt, chosen, rejected)</code> triplets, a clean closed-form loss directly boosts the log-probability margin of <code>chosen</code> over <code>rejected</code> relative to a frozen reference model.</li>
+</ul>
+</div></div>
+<h3 id="使用_peft_+_trl_启动_QLoRA_微调的核心配置片段_/_Practical_QLoRA_Setup_(peft)">使用 <code>peft</code> + <code>trl</code> 启动 QLoRA 微调的核心配置片段 / Practical QLoRA Setup (<code>peft</code>)</h3><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> peft <span class="keyword">import</span> LoraConfig, get_peft_model</span><br><span class="line"></span><br><span class="line"><span class="comment"># Apply LoRA to ALL linear layers (attention + MLP), not just Q/V!</span></span><br><span class="line"><span class="comment"># Empirical finding (QLoRA paper): targeting all linear projections matches full FT.</span></span><br><span class="line">lora_config = LoraConfig(</span><br><span class="line">    r=<span class="number">16</span>,</span><br><span class="line">    lora_alpha=<span class="number">32</span>,               <span class="comment"># Scaling factor alpha/r = 2.0</span></span><br><span class="line">    lora_dropout=<span class="number">0.05</span>,</span><br><span class="line">    bias=<span class="string">"none"</span>,</span><br><span class="line">    task_type=<span class="string">"CAUSAL_LM"</span>,</span><br><span class="line">    target_modules=[</span><br><span class="line">        <span class="string">"q_proj"</span>, <span class="string">"k_proj"</span>, <span class="string">"v_proj"</span>, <span class="string">"o_proj"</span>,</span><br><span class="line">        <span class="string">"gate_proj"</span>, <span class="string">"up_proj"</span>, <span class="string">"down_proj"</span>,</span><br><span class="line">    ],</span><br><span class="line">)</span><br><span class="line"><span class="comment"># model = get_peft_model(quantized_base_model, lora_config)</span></span><br><span class="line"><span class="comment"># model.print_trainable_parameters()  -&gt; ~0.8% trainable!</span></span><br></pre></td></tr></table></figure>
+<h2 id="4-_评测闭环：没有_Eval，千万别上线_/_Eval-Driven_Fine-Tuning">4. 评测闭环：没有 Eval，千万别上线 / Eval-Driven Fine-Tuning</h2><div class="bi-block bi-zh" data-lang="zh"><span class="bi-badge">中文</span><div class="bi-body"><p>微调最怕一种隐形灾难——<strong>灾难性遗忘（Catastrophic Forgetting）</strong>：你在客服话术上把模型训得很乖，结果它原本的代码、逻辑和指令遵循能力退化了一半！</p>
+<p><strong>上线前必须跑通的三层 Eval 护城河</strong>：</p>
+<ol>
+<li><strong>确定性单测（Deterministic Checks）</strong>：JSON 合法率、SQL 语法可执行率、代码单元测试通过率（客观 0/1）。</li>
+<li><strong>LLM-as-a-Judge（成对盲测）</strong>：用更强旗舰模型对“微调前 vs 微调后”的输出做 <strong>A/B 盲评（注意交换顺序消除位置偏置）</strong>，给出明确 Rubric 细则打分。</li>
+<li><strong>通用能力回归集</strong>：保留 100~200 条通用推理、安全拒答与边界样本，确认新模型在专精的同时没有变“偏科傻瓜”。</li>
+</ol>
+</div></div>
+<div class="bi-block bi-en" data-lang="en"><span class="bi-badge">EN</span><div class="bi-body"><p>The silent killer of fine-tuning is <strong>Catastrophic Forgetting</strong>: your model masters your target format while silently losing general reasoning or instruction following.</p>
+<p>Always guard releases with a <strong>3-tier Eval Suite</strong>:</p>
+<ol>
+<li><strong>Deterministic Verifiers</strong>: Schema validation, regex/JSON parse rate, SQL execution, and unit tests.</li>
+<li><strong>Pairwise LLM-as-a-Judge</strong>: Blind A/B scoring of base vs. fine-tuned outputs using a stronger judge model and explicit rubrics (swap A/B order to cancel position bias).</li>
+<li><strong>General Regression Canary</strong>: 100–200 held-out general reasoning and safety prompts to catch capability regressions early.</li>
+</ol>
+</div></div>
+<h2 id="5-_权威延伸阅读_/_Further_Reading">5. 权威延伸阅读 / Further Reading</h2><ul>
+<li>📄 <strong>LoRA Paper</strong>: <a href="https://arxiv.org/abs/2106.09685" target="_blank" rel="noopener">LoRA: Low-Rank Adaptation of Large Language Models (Hu et al.)</a></li>
+<li>📄 <strong>QLoRA Paper</strong>: <a href="https://arxiv.org/abs/2305.14314" target="_blank" rel="noopener">QLoRA: Efficient Finetuning of Quantized LLMs (Dettmers et al.)</a></li>
+<li>📄 <strong>DPO Paper</strong>: <a href="https://arxiv.org/abs/2305.18290" target="_blank" rel="noopener">Direct Preference Optimization: Your Language Model is Secretly a Reward Model (Rafailov et al.)</a></li>
+<li>🛠️ <strong>Open-Source Toolchain</strong>: <a href="https://github.com/hiyouga/LLaMA-Factory" target="_blank" rel="noopener">LLaMA-Factory</a> &amp; <a href="https://github.com/unslothai/unsloth" target="_blank" rel="noopener">Unsloth</a> — 业界最受欢迎的开源高效微调框架。</li>
+</ul>
+
+  </div>
+
+  <footer class="col-article-footer">
+    <div class="col-nav-grid">
+      
+        <a class="col-nav-card col-nav-prev" href="/ai-tutorials/l3-01-transformer-attention-deep-dive/index.html">
+          <span class="col-nav-dir">← 上一篇 / Previous</span>
+          <span class="col-nav-title">Transformer 与 Attention 机制深度图解：为什么它统治了整个 AI 时代？</span>
+        </a>
+      
+
+      
+        <a class="col-nav-card col-nav-next" href="/ai-tutorials/l4-01-inference-engine-internals/index.html">
+          <span class="col-nav-dir">下一篇 / Next →</span>
+          <span class="col-nav-title">推理引擎极限优化：KV Cache、PagedAttention、量化与投机解码揭秘</span>
+        </a>
+      
+    </div>
+  </footer>
+</article>
+
+<script>
+(function() {
+  var root = document.getElementById('column-article-root');
+  if (!root) return;
+  var buttons = root.querySelectorAll('.lang-btn');
+  var storageKey = 'hzan_ai_lang_mode';
+
+  function applyMode(mode) {
+    if (mode !== 'both' && mode !== 'zh' && mode !== 'en') mode = 'both';
+    root.classList.remove('lang-mode-both', 'lang-mode-zh', 'lang-mode-en');
+    root.classList.add('lang-mode-' + mode);
+    buttons.forEach(function(btn) {
+      btn.classList.toggle('active', btn.getAttribute('data-mode') === mode);
+    });
+    try { localStorage.setItem(storageKey, mode); } catch (e) {}
+  }
+
+  buttons.forEach(function(btn) {
+    btn.addEventListener('click', function() {
+      applyMode(btn.getAttribute('data-mode'));
+    });
+  });
+
+  try {
+    var saved = localStorage.getItem(storageKey);
+    if (saved) applyMode(saved);
+  } catch (e) {}
+})();
+</script>
+
+    </div>
+    
+    <footer id="footer">
+  <div class="footer-left">
+    Copyright &copy; 2026 Zan
+  </div>
+  <div class="footer-right">
+    <nav>
+      <ul>
+         
+          <li><a href="/">Home</a></li>
+         
+          <li><a href="/about/">About</a></li>
+         
+          <li><a href="/archives/">Writing</a></li>
+         
+          <li><a href="/ai-tutorials/">AI Tutorials</a></li>
+         
+          <li><a href="/ai-news/">AI News</a></li>
+         
+          <li><a href="http://github.com/H-Zan">Projects</a></li>
+        
+      </ul>
+    </nav>
+  </div>
+</footer>
+
+</body>
+</html>
+<!-- styles -->
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css">
+<link rel="stylesheet" href="/lib/meslo-LG/styles.css">
+<link rel="stylesheet" href="/lib/justified-gallery/justifiedGallery.min.css">
+
+
+<!-- jquery -->
+<script src="/lib/jquery/jquery.min.js"></script>
+<script src="/lib/justified-gallery/jquery.justifiedGallery.min.js"></script>
+<script src="/js/main.js"></script>
+<!-- Google Analytics -->
+
+    <script type="text/javascript">
+        (function(i,s,o,g,r,a,m) {i['GoogleAnalyticsObject']=r;i[r]=i[r]||function() {
+        (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+        m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+        })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+        ga('create', 'UA-86660611-1', 'auto');
+        ga('send', 'pageview');
+    </script>
+
+<!-- Disqus Comments -->
+
+    <script type="text/javascript">
+        var disqus_shortname = 'huzan';
+
+        (function(){
+            var dsq = document.createElement('script');
+            dsq.type = 'text/javascript';
+            dsq.async = true;
+            dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+            (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+        }());
+    </script>
+
+

@@ -1,0 +1,438 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <!-- so meta -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="HandheldFriendly" content="True">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+    <meta name="description" content="🔑本课你将彻底搞懂 / What You Will Master 为什么大模型不认识“汉字”和“单词”，只认识 Token ID 整数序列。 Embedding（词向量）如何把文字映射到几千维的“语义地图”。 Next-Token Prediction（下一个词预测）为何既能诞生惊人推理能力，又必然伴随幻觉（Hallucination）。 Temperature / Top-p 两个核心参数在实">
+<meta name="keywords" content="LLM基础,Tokenization,Embedding,采样原理">
+<meta property="og:type" content="website">
+<meta property="og:title" content="大模型到底怎么“思考”？从 Token、Embedding 到下一个词预测">
+<meta property="og:url" content="https://h-zan.github.io/ai-tutorials/l1-01-how-llms-think/index.html">
+<meta property="og:site_name" content="HuZan">
+<meta property="og:description" content="🔑本课你将彻底搞懂 / What You Will Master 为什么大模型不认识“汉字”和“单词”，只认识 Token ID 整数序列。 Embedding（词向量）如何把文字映射到几千维的“语义地图”。 Next-Token Prediction（下一个词预测）为何既能诞生惊人推理能力，又必然伴随幻觉（Hallucination）。 Temperature / Top-p 两个核心参数在实">
+<meta property="og:locale" content="default">
+<meta property="og:image" content="https://h-zan.github.io/images/ai-tutorials/llm-next-token-pipeline.svg">
+<meta property="og:updated_time" content="2026-11-27T02:59:21.839Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="大模型到底怎么“思考”？从 Token、Embedding 到下一个词预测">
+<meta name="twitter:description" content="🔑本课你将彻底搞懂 / What You Will Master 为什么大模型不认识“汉字”和“单词”，只认识 Token ID 整数序列。 Embedding（词向量）如何把文字映射到几千维的“语义地图”。 Next-Token Prediction（下一个词预测）为何既能诞生惊人推理能力，又必然伴随幻觉（Hallucination）。 Temperature / Top-p 两个核心参数在实">
+<meta name="twitter:image" content="https://h-zan.github.io/images/ai-tutorials/llm-next-token-pipeline.svg">
+    
+    
+        
+          
+              <link rel="shortcut icon" href="/images/favicon.ico">
+          
+        
+        
+          
+            <link rel="icon" type="image/png" href="/images/favicon-192x192.png" sizes="192x192">
+          
+        
+        
+          
+            <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png">
+          
+        
+    
+    <!-- title -->
+    <title>大模型到底怎么“思考”？从 Token、Embedding 到下一个词预测</title>
+    <!-- styles -->
+    <link rel="stylesheet" href="/css/style.css">
+    <!-- rss -->
+    
+    
+</head>
+
+<body>
+    
+    
+    <div class="content index column-wide mx-auto px2 my4">
+        
+          <header id="header">
+  <a href="/">
+  
+    
+      <div id="logo" style="background-image: url(/images/logo.png);"></div>
+    
+  
+    <div id="title">
+      <h1>HuZan</h1>
+    </div>
+  </a>
+  <div id="nav">
+    <ul>
+      <li class="icon">
+        <a href="#"><i class="fa fa-bars fa-2x"></i></a>
+      </li>
+       
+        <li><a href="/">Home</a></li>
+       
+        <li><a href="/about/">About</a></li>
+       
+        <li><a href="/archives/">Writing</a></li>
+       
+        <li><a href="/ai-tutorials/">AI Tutorials</a></li>
+       
+        <li><a href="/ai-news/">AI News</a></li>
+       
+        <li><a href="http://github.com/H-Zan">Projects</a></li>
+      
+    </ul>
+  </div>
+</header>
+
+        
+        
+
+<article class="column-article lang-mode-both" id="column-article-root" itemscope itemtype="http://schema.org/TechArticle">
+  <nav class="col-breadcrumb" aria-label="Breadcrumb">
+    <a href="/">Home</a>
+    <span class="sep">/</span>
+    <a href="/ai-tutorials/">AI 教程专栏</a>
+    
+      <span class="sep">/</span>
+      <a href="/ai-tutorials/#tier-beginner">L1 · 初级 Beginner</a>
+    
+  </nav>
+
+  <header class="col-article-header">
+    <div class="col-article-badges">
+      
+        <span class="level-badge level-beginner">L1 · 初级 Beginner</span>
+      
+      
+      
+        <span class="col-code-pill">L1-01</span>
+      
+      
+        <span class="col-meta-item">⏱ 10 min</span>
+      
+      
+        <time class="col-meta-item" datetime="2026-11-27T10:10:00.000Z">📅 2026-11-27</time>
+      
+    </div>
+
+    <h1 class="col-article-title" itemprop="headline">大模型到底怎么“思考”？从 Token、Embedding 到下一个词预测</h1>
+    
+      <p class="col-article-title-en">How Do LLMs Actually Think? From Tokens &amp; Embeddings to Next-Token Prediction</p>
+    
+
+    
+      <div class="col-article-tags">
+        
+          <span class="col-tag">#LLM基础</span>
+        
+          <span class="col-tag">#Tokenization</span>
+        
+          <span class="col-tag">#Embedding</span>
+        
+          <span class="col-tag">#采样原理</span>
+        
+      </div>
+    
+
+    <div class="lang-toolbar" role="group" aria-label="Language display mode">
+      <span class="lang-toolbar-label">🌐 阅读模式 / View Mode:</span>
+      <button type="button" class="lang-btn active" data-mode="both">中英对照 Bilingual</button>
+      <button type="button" class="lang-btn" data-mode="zh">仅中文 ZH</button>
+      <button type="button" class="lang-btn" data-mode="en">English Only</button>
+    </div>
+  </header>
+
+  
+    <details class="col-toc-box" open>
+      <summary>📑 目录 / Table of Contents</summary>
+      <div class="col-toc-inner">
+        <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#1-_先破除一个误区：大模型不是“搜索引擎”_/_First_Myth-Bust:_LLMs_Are_Not_Search_Engines"><span class="toc-text">1. 先破除一个误区：大模型不是“搜索引擎” / First Myth-Bust: LLMs Are Not Search Engines</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#2-_第一关：分词器（Tokenizer）——模型眼里的文字长什么样？_/_Step_1:_Tokenization"><span class="toc-text">2. 第一关：分词器（Tokenizer）——模型眼里的文字长什么样？ / Step 1: Tokenization</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#动手试试：用_Python_查看真实_Token_切分_/_Hands-On:_Inspect_Real_Tokens_in_Python"><span class="toc-text">动手试试：用 Python 查看真实 Token 切分 / Hands-On: Inspect Real Tokens in Python</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#3-_第二关：Embedding_词向量——把“含义”变成坐标_/_Step_2:_Embeddings_—_Turning_Meaning_into_Geometry"><span class="toc-text">3. 第二关：Embedding 词向量——把“含义”变成坐标 / Step 2: Embeddings — Turning Meaning into Geometry</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#4-_第三关：概率分布与采样——Temperature_到底在调什么？_/_Step_3:_Probabilities_&_Sampling"><span class="toc-text">4. 第三关：概率分布与采样——Temperature 到底在调什么？ / Step 3: Probabilities &amp; Sampling</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#5-_两个核心局限：上下文窗口与幻觉_/_Two_Core_Constraints:_Context_Window_&_Hallucination"><span class="toc-text">5. 两个核心局限：上下文窗口与幻觉 / Two Core Constraints: Context Window &amp; Hallucination</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#6-_核心术语中英对照表_/_Bilingual_Glossary"><span class="toc-text">6. 核心术语中英对照表 / Bilingual Glossary</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#7-_权威延伸阅读_/_Further_Reading"><span class="toc-text">7. 权威延伸阅读 / Further Reading</span></a></li></ol>
+      </div>
+    </details>
+  
+
+  <div class="col-article-body" itemprop="articleBody">
+    <div class="col-callout col-callout-key"><div class="col-callout-title"><span class="col-callout-icon">🔑</span>本课你将彻底搞懂 / What You Will Master</div><div class="col-callout-body"><ol>
+<li><strong>为什么大模型不认识“汉字”和“单词”</strong>，只认识 Token ID 整数序列。</li>
+<li><strong>Embedding（词向量）</strong>如何把文字映射到几千维的“语义地图”。</li>
+<li><strong>Next-Token Prediction（下一个词预测）</strong>为何既能诞生惊人推理能力，又必然伴随<strong>幻觉（Hallucination）</strong>。</li>
+<li><strong>Temperature / Top-p</strong> 两个核心参数在实际工程中的黄金调节法则。</li>
+</ol>
+</div></div>
+<p><img src="/images/ai-tutorials/llm-next-token-pipeline.svg" alt="LLM Next-Token Prediction Pipeline"></p>
+<h2 id="1-_先破除一个误区：大模型不是“搜索引擎”_/_First_Myth-Bust:_LLMs_Are_Not_Search_Engines">1. 先破除一个误区：大模型不是“搜索引擎” / First Myth-Bust: LLMs Are Not Search Engines</h2><div class="bi-block bi-zh" data-lang="zh"><span class="bi-badge">中文</span><div class="bi-body"><p>很多人第一次用 ChatGPT、Claude 或 Gemini 时，会下意识以为它背后连着一个巨大的“百度百科 + 数据库”，你问一个问题，它就去数据库里把标准答案查出来念给你听。</p>
+<p><strong>事实完全相反。</strong>大语言模型（Large Language Model, LLM）在没有任何外部工具时，本质上是一个<strong>在海量人类文本上训练出来的“超级文字接龙引擎”</strong>。它内部没有存着一篇篇完整的网页原文，而是把几万亿字的语言规律、逻辑关系与世界知识，压缩成了几百亿甚至上万亿个浮点数权重（Weights）。</p>
+<p>当你输入一句提示词时，它做的唯一一件事就是反复回答这个问题：</p>
+<blockquote>
+<p><strong>“根据前面已经出现的所有文字，下一个最合理的片段（Token）应该是什么？”</strong></p>
+</blockquote>
+</div></div>
+<div class="bi-block bi-en" data-lang="en"><span class="bi-badge">EN</span><div class="bi-body"><p>When most people try ChatGPT, Claude, or Gemini for the first time, they instinctively imagine a giant encyclopedia database sitting behind the scenes that looks up the right answer and reads it back.</p>
+<p><strong>The reality is fundamentally different.</strong> Without external tools, a Large Language Model (LLM) is essentially a <strong>supercharged text-completion engine</strong> trained on trillions of words of human writing. It does not store verbatim copies of web pages; instead, it compresses linguistic patterns, reasoning structures, and world knowledge into billions (or trillions) of floating-point weights.</p>
+<p>Every time you send a prompt, the model repeatedly solves one single mathematical problem:</p>
+<blockquote>
+<p><strong>“Given all the text that has appeared so far, what is the most probable next piece of text (Token)?”</strong></p>
+</blockquote>
+</div></div>
+<h2 id="2-_第一关：分词器（Tokenizer）——模型眼里的文字长什么样？_/_Step_1:_Tokenization">2. 第一关：分词器（Tokenizer）——模型眼里的文字长什么样？ / Step 1: Tokenization</h2><div class="bi-block bi-zh" data-lang="zh"><span class="bi-badge">中文</span><div class="bi-body"><p>计算机无法直接做“文字乘法”，因此进入神经网络的第一步，是把文本切成最小积木块——<strong>Token</strong>，再把每个积木块查表变成整数 ID。</p>
+<p>现代主流模型几乎都使用 <strong>BPE（Byte Pair Encoding，字节对编码）</strong> 及其变体。它的核心直觉非常简单：<strong>高频出现的字词组合成一个完整 Token，生僻词则拆成更小的词根或字节</strong>。</p>
+<p>这直接解释了三个你在日常使用中一定会遇到的“神奇现象”：</p>
+<ul>
+<li><strong>中英文计费差异</strong>：常见英文单词（如 <code>apple</code>、<code>hello</code>）通常是 <strong>1 个 Token</strong>；而常见中文字符往往占 <strong>1 ~ 2 个 Token</strong>（早期词表对中文不友好时甚至 1 个汉字占 2~3 个 Token）。</li>
+<li><strong>数不清单词里有几个字母</strong>：比如经典考题 <code>strawberry</code> 里有几个 <code>r</code>？因为模型看到的往往不是 10 个独立字母，而是 <code>[&quot;str&quot;, &quot;aw&quot;, &quot;berry&quot;]</code> 这几个整块 ID，就像让你不看拼写直接背诵偏旁笔画数一样容易出错。</li>
+<li><strong>算不好多位数乘法</strong>：<code>1234567</code> 可能被切成 <code>[&quot;123&quot;, &quot;456&quot;, &quot;7&quot;]</code>，破坏了十进制的对齐规律。</li>
+</ul>
+</div></div>
+<div class="bi-block bi-en" data-lang="en"><span class="bi-badge">EN</span><div class="bi-body"><p>Neural networks operate on numbers, not raw characters. The very first stage splits your text into atomic chunks called <strong>Tokens</strong> and maps each token to an integer ID in a vocabulary table (typically 50k–200k entries).</p>
+<p>Most frontier models use <strong>BPE (Byte Pair Encoding)</strong> or its variants. The intuition is simple: <strong>frequent words stay intact as a single token, while rare words are broken down into subwords or raw bytes.</strong></p>
+<p>This single design detail explains three famous LLM quirks:</p>
+<ul>
+<li><strong>Chinese vs. English cost</strong>: Common English words (<code>apple</code>, <code>hello</code>) usually take <strong>1 token</strong>, whereas Chinese characters often take <strong>1–2 tokens</strong> depending on vocabulary coverage.</li>
+<li><strong>Struggling to count letters</strong>: Asking <em>“How many r’s are in strawberry?”</em> trips up base models because they see chunk IDs like <code>[&quot;str&quot;, &quot;aw&quot;, &quot;berry&quot;]</code>, not individual characters.</li>
+<li><strong>Weak mental arithmetic on large numbers</strong>: A number like <code>1234567</code> may be sliced arbitrarily into <code>[&quot;123&quot;, &quot;456&quot;, &quot;7&quot;]</code>, breaking decimal place alignment.</li>
+</ul>
+</div></div>
+<h3 id="动手试试：用_Python_查看真实_Token_切分_/_Hands-On:_Inspect_Real_Tokens_in_Python">动手试试：用 Python 查看真实 Token 切分 / Hands-On: Inspect Real Tokens in Python</h3><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># pip install tiktoken</span></span><br><span class="line"><span class="keyword">import</span> tiktoken</span><br><span class="line"></span><br><span class="line">enc = tiktoken.get_encoding(<span class="string">"o200k_base"</span>)  <span class="comment"># Modern OpenAI tokenizer</span></span><br><span class="line"></span><br><span class="line">samples = [</span><br><span class="line">    <span class="string">"Artificial Intelligence changes everything."</span>,</span><br><span class="line">    <span class="string">"人工智能正在重塑软件工程。"</span>,</span><br><span class="line">    <span class="string">"strawberry"</span></span><br><span class="line">]</span><br><span class="line"></span><br><span class="line"><span class="keyword">for</span> text <span class="keyword">in</span> samples:</span><br><span class="line">    ids = enc.encode(text)</span><br><span class="line">    pieces = [enc.decode([i]) <span class="keyword">for</span> i <span class="keyword">in</span> ids]</span><br><span class="line">    print(<span class="string">f"Text:   <span class="subst">&#123;text&#125;</span>"</span>)</span><br><span class="line">    print(<span class="string">f"Count:  <span class="subst">&#123;len(ids)&#125;</span> tokens -&gt; <span class="subst">&#123;pieces&#125;</span>\n"</span>)</span><br></pre></td></tr></table></figure>
+<div class="col-callout col-callout-tip"><div class="col-callout-title"><span class="col-callout-icon">💡</span>在线交互工具 / Interactive Tool</div><div class="col-callout-body"><p>强烈推荐访问 <a href="https://tiktokenizer.vercel.app/" target="_blank" rel="noopener">Tiktokenizer</a>，直接粘贴你的中英文 Prompt，用彩色高亮实时观察不同模型是如何切分 Token 并估算 API 费用的。</p>
+</div></div>
+<h2 id="3-_第二关：Embedding_词向量——把“含义”变成坐标_/_Step_2:_Embeddings_—_Turning_Meaning_into_Geometry">3. 第二关：Embedding 词向量——把“含义”变成坐标 / Step 2: Embeddings — Turning Meaning into Geometry</h2><div class="bi-block bi-zh" data-lang="zh"><span class="bi-badge">中文</span><div class="bi-body"><p>拿到整数 ID（比如 <code>猫 = 8421</code>、<code>狗 = 9102</code>、<code>微波炉 = 5301</code>）还不够——整数本身没有语义远近之分（8421 和 9102 在数轴上并不比 5301 更像宠物）。</p>
+<p>于是模型通过一张巨大的查询表，把每个 Token ID 映射成一个几千维的向量（例如 4096 维浮点数数组），称为 <strong>Embedding（嵌入向量）</strong>。你可以把它想象成一座<strong>高维语义图书馆</strong>：</p>
+<ul>
+<li>每一个维度都隐含某种抽象特征（是否有生命、是否属于科技、情绪是正面还是负面、语法词性等）。</li>
+<li>语义越相近的词，在这座空间里的<strong>夹角越小（余弦相似度越高）</strong>。</li>
+<li>最著名的几何奇迹是向量加减法：<code>Vector(&quot;国王&quot;) - Vector(&quot;男性&quot;) + Vector(&quot;女性&quot;) ≈ Vector(&quot;王后&quot;)</code>。</li>
+</ul>
+<p>进入 <strong>Transformer</strong> 几十层网络后，原本静态的词向量还会根据上下文动态更新——比如“<strong>苹果</strong>真好吃”和“<strong>苹果</strong>发布了新芯片”里的两个“苹果”，经过自注意力层（Self-Attention）后会移动向完全不同的语义区域。</p>
+</div></div>
+<div class="bi-block bi-en" data-lang="en"><span class="bi-badge">EN</span><div class="bi-body"><p>An integer ID alone carries no semantic relationship (<code>cat = 8421</code> is not mathematically “closer” to <code>dog = 9102</code> than to <code>microwave = 5301</code>).</p>
+<p>To fix this, the model maps every token ID to a high-dimensional vector of thousands of numbers (e.g., 4,096 dimensions) called an <strong>Embedding</strong>. Imagine a <strong>multi-dimensional semantic map</strong>:</p>
+<ul>
+<li>Each axis captures latent semantic features (living vs. non-living, technical vs. casual, sentiment, syntax, etc.).</li>
+<li>Words with similar meanings point in similar directions (high <strong>cosine similarity</strong>).</li>
+<li>Famously, semantic relationships behave like geometry: <code>Vector(&quot;King&quot;) - Vector(&quot;Man&quot;) + Vector(&quot;Woman&quot;) ≈ Vector(&quot;Queen&quot;)</code>.</li>
+</ul>
+<p>As these vectors pass through dozens of <strong>Transformer</strong> layers, they become <strong>contextualized</strong>: the word <code>&quot;Apple&quot;</code> in <em>“I ate an apple”</em> and <em>“Apple launched a new chip”</em> gets pulled toward completely different regions of meaning space.</p>
+</div></div>
+<h2 id="4-_第三关：概率分布与采样——Temperature_到底在调什么？_/_Step_3:_Probabilities_&amp;_Sampling">4. 第三关：概率分布与采样——Temperature 到底在调什么？ / Step 3: Probabilities &amp; Sampling</h2><div class="bi-block bi-zh" data-lang="zh"><span class="bi-badge">中文</span><div class="bi-body"><p>经过 Transformer 最后一层计算后，模型并不会“铁口直断”只输出一个词，而是给词表里的全部 10 万+ 个候选 Token 各自打分（Logits），再通过 <strong>Softmax</strong> 变成相加为 100% 的概率分布。例如输入“床前明月光，疑是地上”，模型可能算出：<code>霜 (96%)</code>、<code>雪 (2.5%)</code>、<code>水 (0.4%)</code>……</p>
+<p>接下来怎么从这张概率表里挑出真正输出的那个词？这就是 <strong>Sampling（采样策略）</strong> 的舞台：</p>
+</div></div>
+<div class="bi-block bi-en" data-lang="en"><span class="bi-badge">EN</span><div class="bi-body"><p>At the final layer, the model does not simply pick one word. It outputs a score (<strong>logit</strong>) for every token in its vocabulary, which <strong>Softmax</strong> turns into a probability distribution summing to 100%.</p>
+<p>How the system picks the next token from this distribution is controlled by <strong>sampling parameters</strong>:</p>
+</div></div>
+<table>
+<thead>
+<tr>
+<th style="text-align:left">参数 Parameter</th>
+<th style="text-align:left">作用原理 Mechanism</th>
+<th style="text-align:left">推荐取值 Recommended Values</th>
+<th style="text-align:left">适用场景 Best Use Cases</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left"><strong><code>temperature</code></strong></td>
+<td style="text-align:left">缩放概率分布的“尖锐度”：<code>0</code> 几乎总是选最高概率词；越高则小概率词机会越大</td>
+<td style="text-align:left"><code>0.0 ~ 0.2</code>（严谨）<br><code>0.6 ~ 0.8</code>（均衡）<br><code>1.0+</code>（发散）</td>
+<td style="text-align:left">代码生成、JSON 提取、事实问答用低温；头脑风暴、小说创意用中高温</td>
+</tr>
+<tr>
+<td style="text-align:left"><strong><code>top_p</code> (Nucleus)</strong></td>
+<td style="text-align:left">只保留概率从高到低累计达到 <code>p</code> 的最小候选池，截断离谱长尾词</td>
+<td style="text-align:left"><code>0.9 ~ 0.95</code>（通用）</td>
+<td style="text-align:left">防止高温时抽中毫无逻辑的乱码词，通常与 <code>temperature</code> 二选一微调</td>
+</tr>
+<tr>
+<td style="text-align:left"><strong><code>max_tokens</code></strong></td>
+<td style="text-align:left">限制单次回复生成的最大 Token 上限</td>
+<td style="text-align:left">按业务设定</td>
+<td style="text-align:left">防止模型啰嗦或死循环烧光账单</td>
+</tr>
+</tbody>
+</table>
+<h2 id="5-_两个核心局限：上下文窗口与幻觉_/_Two_Core_Constraints:_Context_Window_&amp;_Hallucination">5. 两个核心局限：上下文窗口与幻觉 / Two Core Constraints: Context Window &amp; Hallucination</h2><div class="bi-block bi-zh" data-lang="zh"><span class="bi-badge">中文</span><div class="bi-body"><p>理解了上面的机制，你就能一眼看透大模型的两大“天生基因”：</p>
+<ol>
+<li><p><strong>上下文窗口（Context Window）= 模型的“短期工作记忆”</strong><br>模型本身是<strong>无状态（Stateless）</strong>的！所谓“多轮对话”，其实是客户端每次都把<strong>从第一句话到当前这句话的全部聊天记录</strong>重新拼接发给模型。一旦总长度超过 Context Window（如 128K 或 1M Tokens），最早的信息就会被裁掉，模型就会“失忆”。而且信息塞得太满时，还会出现 <strong>Lost in the Middle（中间遗忘效应）</strong>——开头和结尾记得最牢，中间容易漏看。</p>
+</li>
+<li><p><strong>幻觉（Hallucination）= 概率续写的必然副作用</strong><br>模型的训练目标是“生成看起来最连贯、最像人类专家口吻的下一个词”，而不是“逐条去事实数据库交叉核验”。当你问它一个它没见过、训练数据里很稀疏的问题（例如某冷门 API 的内部参数、或今天刚发生的新闻）时，它依然会顺滑地拼出一段<strong>语法完美、语气笃定、但完全编造的答案</strong>。</p>
+</li>
+</ol>
+<blockquote>
+<p><strong>治本之道</strong>：绝不要让纯 LLM 凭空背诵实时事实或精确数据——给它接上 <strong>RAG 检索</strong>（中级 L2-01）或 <strong>实时搜索/工具调用</strong>（中级 L2-02），让它“开卷考试”！</p>
+</blockquote>
+</div></div>
+<div class="bi-block bi-en" data-lang="en"><span class="bi-badge">EN</span><div class="bi-body"><p>Once you understand next-token prediction, two fundamental properties of LLMs immediately make sense:</p>
+<ol>
+<li><p><strong>Context Window = Working Memory</strong><br>LLMs are <strong>stateless</strong>. A “multi-turn conversation” only works because the application resends the entire chat history on every turn. Once the history exceeds the Context Window (e.g., 128K or 1M tokens), older messages are truncated. Even within limits, models suffer from <strong>Lost in the Middle</strong>—paying strongest attention to the beginning and end of long inputs.</p>
+</li>
+<li><p><strong>Hallucination = A Natural Side Effect of Probabilistic Fluency</strong><br>Because the model is optimized to produce fluent, plausible continuations rather than verify facts against a ground-truth database, asking it about obscure facts or today’s breaking news causes it to smoothly fabricate confident-sounding falsehoods.</p>
+</li>
+</ol>
+<blockquote>
+<p><strong>The real cure</strong>: Never rely on an ungrounded LLM as a factual database. Connect it to <strong>RAG</strong> (L2-01) and <strong>Tool Use / Search</strong> (L2-02) so it takes an <em>open-book exam</em>.</p>
+</blockquote>
+</div></div>
+<h2 id="6-_核心术语中英对照表_/_Bilingual_Glossary">6. 核心术语中英对照表 / Bilingual Glossary</h2><table>
+<thead>
+<tr>
+<th style="text-align:left">英文术语 Term</th>
+<th style="text-align:left">中文译名</th>
+<th style="text-align:left">一句话通俗解释 Plain-English / Chinese Meaning</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left"><strong>Token</strong></td>
+<td style="text-align:left">词元</td>
+<td style="text-align:left">模型读写与计费的最小文本切块单位</td>
+</tr>
+<tr>
+<td style="text-align:left"><strong>Embedding</strong></td>
+<td style="text-align:left">词向量 / 嵌入</td>
+<td style="text-align:left">将文本语义编码为高维浮点数坐标向量</td>
+</tr>
+<tr>
+<td style="text-align:left"><strong>Autoregressive</strong></td>
+<td style="text-align:left">自回归</td>
+<td style="text-align:left">每次预测 1 个新 Token 并拼回输入，循环往复直到结束</td>
+</tr>
+<tr>
+<td style="text-align:left"><strong>Context Window</strong></td>
+<td style="text-align:left">上下文窗口</td>
+<td style="text-align:left">模型单次前向推理最多能同时“看见”的总 Token 数</td>
+</tr>
+<tr>
+<td style="text-align:left"><strong>Hallucination</strong></td>
+<td style="text-align:left">幻觉</td>
+<td style="text-align:left">模型编造看似合理却不符合客观事实的内容</td>
+</tr>
+<tr>
+<td style="text-align:left"><strong>Temperature</strong></td>
+<td style="text-align:left">温度参数</td>
+<td style="text-align:left">控制采样随机性的旋钮，越低越确定、越高越发散</td>
+</tr>
+</tbody>
+</table>
+<h2 id="7-_权威延伸阅读_/_Further_Reading">7. 权威延伸阅读 / Further Reading</h2><ul>
+<li>🎬 <strong>Andrej Karpathy</strong>: <a href="https://www.youtube.com/watch?v=zjkBMFhNj_g" target="_blank" rel="noopener">Intro to Large Language Models (1-hour masterpiece)</a> — 全球公认最佳 LLM 入门公开课。</li>
+<li>🎨 <strong>Jay Alammar</strong>: <a href="https://jalammar.github.io/illustrated-gpt2/" target="_blank" rel="noopener">The Illustrated GPT-2</a> — 视觉化拆解自回归生成的经典图解文章。</li>
+<li>🧪 <strong>OpenAI / Interactive</strong>: <a href="https://tiktokenizer.vercel.app/" target="_blank" rel="noopener">Tiktokenizer Online</a> — 亲手实验不同语言与代码的 Token 切分效果。</li>
+<li>📄 <strong>Stanford Research</strong>: <a href="https://arxiv.org/abs/2307.03172" target="_blank" rel="noopener">Lost in the Middle: How Language Models Use Long Contexts</a> — 揭示长上下文注意力衰减规律的必读论文。</li>
+</ul>
+
+  </div>
+
+  <footer class="col-article-footer">
+    <div class="col-nav-grid">
+      
+        <a class="col-nav-card col-nav-prev" href="/ai-tutorials/">
+          <span class="col-nav-dir">← 返回专栏目录 / Back to Index</span>
+          <span class="col-nav-title">AI 教程专栏</span>
+        </a>
+      
+
+      
+        <a class="col-nav-card col-nav-next" href="/ai-tutorials/l1-02-prompt-engineering-mastery/index.html">
+          <span class="col-nav-dir">下一篇 / Next →</span>
+          <span class="col-nav-title">Prompt Engineering 实战心法：从“随便问问”到结构化可控输出</span>
+        </a>
+      
+    </div>
+  </footer>
+</article>
+
+<script>
+(function() {
+  var root = document.getElementById('column-article-root');
+  if (!root) return;
+  var buttons = root.querySelectorAll('.lang-btn');
+  var storageKey = 'hzan_ai_lang_mode';
+
+  function applyMode(mode) {
+    if (mode !== 'both' && mode !== 'zh' && mode !== 'en') mode = 'both';
+    root.classList.remove('lang-mode-both', 'lang-mode-zh', 'lang-mode-en');
+    root.classList.add('lang-mode-' + mode);
+    buttons.forEach(function(btn) {
+      btn.classList.toggle('active', btn.getAttribute('data-mode') === mode);
+    });
+    try { localStorage.setItem(storageKey, mode); } catch (e) {}
+  }
+
+  buttons.forEach(function(btn) {
+    btn.addEventListener('click', function() {
+      applyMode(btn.getAttribute('data-mode'));
+    });
+  });
+
+  try {
+    var saved = localStorage.getItem(storageKey);
+    if (saved) applyMode(saved);
+  } catch (e) {}
+})();
+</script>
+
+    </div>
+    
+    <footer id="footer">
+  <div class="footer-left">
+    Copyright &copy; 2026 Zan
+  </div>
+  <div class="footer-right">
+    <nav>
+      <ul>
+         
+          <li><a href="/">Home</a></li>
+         
+          <li><a href="/about/">About</a></li>
+         
+          <li><a href="/archives/">Writing</a></li>
+         
+          <li><a href="/ai-tutorials/">AI Tutorials</a></li>
+         
+          <li><a href="/ai-news/">AI News</a></li>
+         
+          <li><a href="http://github.com/H-Zan">Projects</a></li>
+        
+      </ul>
+    </nav>
+  </div>
+</footer>
+
+</body>
+</html>
+<!-- styles -->
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css">
+<link rel="stylesheet" href="/lib/meslo-LG/styles.css">
+<link rel="stylesheet" href="/lib/justified-gallery/justifiedGallery.min.css">
+
+
+<!-- jquery -->
+<script src="/lib/jquery/jquery.min.js"></script>
+<script src="/lib/justified-gallery/jquery.justifiedGallery.min.js"></script>
+<script src="/js/main.js"></script>
+<!-- Google Analytics -->
+
+    <script type="text/javascript">
+        (function(i,s,o,g,r,a,m) {i['GoogleAnalyticsObject']=r;i[r]=i[r]||function() {
+        (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+        m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+        })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+        ga('create', 'UA-86660611-1', 'auto');
+        ga('send', 'pageview');
+    </script>
+
+<!-- Disqus Comments -->
+
+    <script type="text/javascript">
+        var disqus_shortname = 'huzan';
+
+        (function(){
+            var dsq = document.createElement('script');
+            dsq.type = 'text/javascript';
+            dsq.async = true;
+            dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+            (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+        }());
+    </script>
+
+

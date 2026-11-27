@@ -1,0 +1,368 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <!-- so meta -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="HandheldFriendly" content="True">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+    <meta name="description" content="🔑本课你将彻底打通 / What You Will Master 为什么 RNN 被彻底淘汰？ 理解并行计算与长距离依赖的根本瓶颈。 Q / K / V（Query, Key, Value）的直觉本质，以及 ÷ √d_k 与因果掩码（Causal Mask）的数学意义。 现代 LLM 对 2017 原版 Transformer 的 4 大进化：Pre-RMSNorm、RoPE 旋转位置编码、Sw">
+<meta name="keywords" content="Transformer,Self-Attention,RoPE,MoE,PyTorch">
+<meta property="og:type" content="website">
+<meta property="og:title" content="Transformer 与 Attention 机制深度图解：为什么它统治了整个 AI 时代？">
+<meta property="og:url" content="https://h-zan.github.io/ai-tutorials/l3-01-transformer-attention-deep-dive/index.html">
+<meta property="og:site_name" content="HuZan">
+<meta property="og:description" content="🔑本课你将彻底打通 / What You Will Master 为什么 RNN 被彻底淘汰？ 理解并行计算与长距离依赖的根本瓶颈。 Q / K / V（Query, Key, Value）的直觉本质，以及 ÷ √d_k 与因果掩码（Causal Mask）的数学意义。 现代 LLM 对 2017 原版 Transformer 的 4 大进化：Pre-RMSNorm、RoPE 旋转位置编码、Sw">
+<meta property="og:locale" content="default">
+<meta property="og:image" content="https://h-zan.github.io/images/ai-tutorials/transformer-attention-flow.svg">
+<meta property="og:updated_time" content="2026-11-27T03:01:43.907Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Transformer 与 Attention 机制深度图解：为什么它统治了整个 AI 时代？">
+<meta name="twitter:description" content="🔑本课你将彻底打通 / What You Will Master 为什么 RNN 被彻底淘汰？ 理解并行计算与长距离依赖的根本瓶颈。 Q / K / V（Query, Key, Value）的直觉本质，以及 ÷ √d_k 与因果掩码（Causal Mask）的数学意义。 现代 LLM 对 2017 原版 Transformer 的 4 大进化：Pre-RMSNorm、RoPE 旋转位置编码、Sw">
+<meta name="twitter:image" content="https://h-zan.github.io/images/ai-tutorials/transformer-attention-flow.svg">
+    
+    
+        
+          
+              <link rel="shortcut icon" href="/images/favicon.ico">
+          
+        
+        
+          
+            <link rel="icon" type="image/png" href="/images/favicon-192x192.png" sizes="192x192">
+          
+        
+        
+          
+            <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png">
+          
+        
+    
+    <!-- title -->
+    <title>Transformer 与 Attention 机制深度图解：为什么它统治了整个 AI 时代？</title>
+    <!-- styles -->
+    <link rel="stylesheet" href="/css/style.css">
+    <!-- rss -->
+    
+    
+</head>
+
+<body>
+    
+    
+    <div class="content index column-wide mx-auto px2 my4">
+        
+          <header id="header">
+  <a href="/">
+  
+    
+      <div id="logo" style="background-image: url(/images/logo.png);"></div>
+    
+  
+    <div id="title">
+      <h1>HuZan</h1>
+    </div>
+  </a>
+  <div id="nav">
+    <ul>
+      <li class="icon">
+        <a href="#"><i class="fa fa-bars fa-2x"></i></a>
+      </li>
+       
+        <li><a href="/">Home</a></li>
+       
+        <li><a href="/about/">About</a></li>
+       
+        <li><a href="/archives/">Writing</a></li>
+       
+        <li><a href="/ai-tutorials/">AI Tutorials</a></li>
+       
+        <li><a href="/ai-news/">AI News</a></li>
+       
+        <li><a href="http://github.com/H-Zan">Projects</a></li>
+      
+    </ul>
+  </div>
+</header>
+
+        
+        
+
+<article class="column-article lang-mode-both" id="column-article-root" itemscope itemtype="http://schema.org/TechArticle">
+  <nav class="col-breadcrumb" aria-label="Breadcrumb">
+    <a href="/">Home</a>
+    <span class="sep">/</span>
+    <a href="/ai-tutorials/">AI 教程专栏</a>
+    
+      <span class="sep">/</span>
+      <a href="/ai-tutorials/#tier-advanced">L3 · 高级 Advanced</a>
+    
+  </nav>
+
+  <header class="col-article-header">
+    <div class="col-article-badges">
+      
+        <span class="level-badge level-advanced">L3 · 高级 Advanced</span>
+      
+      
+      
+        <span class="col-code-pill">L3-01</span>
+      
+      
+        <span class="col-meta-item">⏱ 15 min</span>
+      
+      
+        <time class="col-meta-item" datetime="2026-11-27T10:50:00.000Z">📅 2026-11-27</time>
+      
+    </div>
+
+    <h1 class="col-article-title" itemprop="headline">Transformer 与 Attention 机制深度图解：为什么它统治了整个 AI 时代？</h1>
+    
+      <p class="col-article-title-en">Deep Visual Guide to Transformers &amp; Attention: Why One Architecture Rules Modern AI</p>
+    
+
+    
+      <div class="col-article-tags">
+        
+          <span class="col-tag">#Transformer</span>
+        
+          <span class="col-tag">#Self-Attention</span>
+        
+          <span class="col-tag">#RoPE</span>
+        
+          <span class="col-tag">#MoE</span>
+        
+          <span class="col-tag">#PyTorch</span>
+        
+      </div>
+    
+
+    <div class="lang-toolbar" role="group" aria-label="Language display mode">
+      <span class="lang-toolbar-label">🌐 阅读模式 / View Mode:</span>
+      <button type="button" class="lang-btn active" data-mode="both">中英对照 Bilingual</button>
+      <button type="button" class="lang-btn" data-mode="zh">仅中文 ZH</button>
+      <button type="button" class="lang-btn" data-mode="en">English Only</button>
+    </div>
+  </header>
+
+  
+    <details class="col-toc-box" open>
+      <summary>📑 目录 / Table of Contents</summary>
+      <div class="col-toc-inner">
+        <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#1-_为什么_Transformer_横扫了_RNN？_/_Why_Transformers_Replaced_RNNs"><span class="toc-text">1. 为什么 Transformer 横扫了 RNN？ / Why Transformers Replaced RNNs</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#2-_Q、K、V_到底是什么？用“图书馆检索”一秒讲透_/_Intuition_Behind_Q,_K,_and_V"><span class="toc-text">2. Q、K、V 到底是什么？用“图书馆检索”一秒讲透 / Intuition Behind Q, K, and V</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#3-_45_行纯_PyTorch_手写_Multi-Head_Causal_Self-Attention_/_Minimal_PyTorch_Implementation"><span class="toc-text">3. 45 行纯 PyTorch 手写 Multi-Head Causal Self-Attention / Minimal PyTorch Implementation</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#4-_2017_原版_vs_2026_现代前沿_LLM_架构演进_/_How_Modern_LLMs_Evolved_Beyond_2017"><span class="toc-text">4. 2017 原版 vs 2026 现代前沿 LLM 架构演进 / How Modern LLMs Evolved Beyond 2017</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#5-_权威延伸阅读_/_Further_Reading"><span class="toc-text">5. 权威延伸阅读 / Further Reading</span></a></li></ol>
+      </div>
+    </details>
+  
+
+  <div class="col-article-body" itemprop="articleBody">
+    <div class="col-callout col-callout-key"><div class="col-callout-title"><span class="col-callout-icon">🔑</span>本课你将彻底打通 / What You Will Master</div><div class="col-callout-body"><ol>
+<li><strong>为什么 RNN 被彻底淘汰？</strong> 理解并行计算与长距离依赖的根本瓶颈。</li>
+<li><strong>Q / K / V（Query, Key, Value）的直觉本质</strong>，以及 <code>÷ √d_k</code> 与因果掩码（Causal Mask）的数学意义。</li>
+<li><strong>现代 LLM 对 2017 原版 Transformer 的 4 大进化</strong>：Pre-RMSNorm、RoPE 旋转位置编码、SwiGLU、以及 <strong>MoE（混合专家）</strong>。</li>
+<li>逐行读懂 45 行纯 PyTorch 实现的 <strong>Multi-Head Causal Self-Attention</strong>。</li>
+</ol>
+</div></div>
+<p><img src="/images/ai-tutorials/transformer-attention-flow.svg" alt="Transformer Block and Self-Attention Dataflow"></p>
+<h2 id="1-_为什么_Transformer_横扫了_RNN？_/_Why_Transformers_Replaced_RNNs">1. 为什么 Transformer 横扫了 RNN？ / Why Transformers Replaced RNNs</h2><div class="bi-block bi-zh" data-lang="zh"><span class="bi-badge">中文</span><div class="bi-body"><p>2017 年之前，处理序列文本的主流架构是 <strong>RNN / LSTM</strong>。它的工作方式像一条单行传送带：读完第 1 个词更新隐藏状态 <code>h₁</code>，再读第 2 个词更新 <code>h₂</code>……一直传到第 10,000 个词。</p>
+<p>这带来两个致命硬伤：</p>
+<ol>
+<li><strong>无法并行训练</strong>：算 <code>h₁₀₀</code> 必须死等 <code>h₉₉</code> 算完，上万张 GPU 并行算力根本吃不满。</li>
+<li><strong>信息压缩瓶颈</strong>：前面几千字的历史全被塞进一个固定维度的向量里，越远的信息忘得越惨。</li>
+</ol>
+<p>Google 2017 年的传奇论文 <em>《Attention Is All You Need》</em> 彻底抛弃了循环传递，提出 <strong>Self-Attention（自注意力）</strong>：让序列里的<strong>任意两个 Token 直接握手通信（路径长度为 1）</strong>，并且整句所有位置可以做成一次大矩阵乘法，把 GPU 算力瞬间拉满！</p>
+</div></div>
+<div class="bi-block bi-en" data-lang="en"><span class="bi-badge">EN</span><div class="bi-body"><p>Before 2017, sequence modeling relied on <strong>RNNs / LSTMs</strong>, which processed tokens strictly one-by-one (<code>h₁ → h₂ → ... → h_T</code>). This caused two fatal bottlenecks:</p>
+<ol>
+<li><strong>Sequential training bottleneck</strong>: Computing step <code>t</code> had to wait for <code>t-1</code>, starving massively parallel GPUs.</li>
+<li><strong>Information compression decay</strong>: Thousands of prior tokens had to squeeze through a single fixed-size hidden state.</li>
+</ol>
+<p><em>Attention Is All You Need</em> (Vaswani et al., 2017) eliminated recurrence altogether. <strong>Self-Attention</strong> connects every pair of tokens directly in <code>O(1)</code> path length using dense matrix multiplications that saturate modern GPU Tensor Cores.</p>
+</div></div>
+<h2 id="2-_Q、K、V_到底是什么？用“图书馆检索”一秒讲透_/_Intuition_Behind_Q,_K,_and_V">2. Q、K、V 到底是什么？用“图书馆检索”一秒讲透 / Intuition Behind Q, K, and V</h2><div class="bi-block bi-zh" data-lang="zh"><span class="bi-badge">中文</span><div class="bi-body"><p>看到公式 <code>Attention(Q, K, V) = softmax((Q · Kᵀ) / √d_k) · V</code> 时，初学者总被 <code>Q / K / V</code> 三个字母唬住。其实它就是一个<strong>可微分的软哈希表（Soft Dictionary Lookup）</strong>：</p>
+<p>假设句子是：<em>“那只猫没有过马路，因为<strong>它</strong>太累了。”</em> 当模型处理到“<strong>它</strong>”这个词时：</p>
+<ul>
+<li><strong>Query (<code>Q</code>，查询向量)</strong> = “<strong>它</strong>”发出的提问：<em>“我是一个代词，前面哪个名词是我的主语？”</em></li>
+<li><strong>Key (<code>K</code>，索引标签)</strong> = 句子里每个词亮出的名片：“猫”的名片写着 <em>“我是动物、主语、单数”</em>，“马路”的名片写着 <em>“我是地点名词”</em>。</li>
+<li><strong>点积匹配 (<code>Q · Kᵀ</code>)</strong> = 计算“它”的提问和每个词名片的契合度——于是“它”和“猫”的点积得分飙升，和“马路”的得分很低。</li>
+<li><strong>缩放 (<code>÷ √d_k</code>)</strong> = 如果向量维度 <code>d_k</code> 很大（如 128），点积方差会变大导致 Softmax 输出极端趋近 <code>0</code> 或 <code>1</code>，反向传播梯度消失；除以 <code>√d_k</code> 正好把方差拉回 <code>1</code>！</li>
+<li><strong>Value (<code>V</code>，实际内容)</strong> = 每个词携带的真正语义载荷。最后按 Softmax 权重把各词的 <code>V</code> 加权求和，“<strong>它</strong>”的新向量就自然融合了“猫”的语义！</li>
+</ul>
+<p><strong>什么是 Multi-Head（多头注意力）？</strong><br>就是同时开 32 个或 64 个独立的“注意力小分队”：1 号头专门追踪代词指代，2 号头专门匹配左右括号，3 号头专门关注主谓宾语法，最后把所有头的结果拼起来投影合并！</p>
+</div></div>
+<div class="bi-block bi-en" data-lang="en"><span class="bi-badge">EN</span><div class="bi-body"><p>The formula <code>Attention(Q, K, V) = softmax((Q · Kᵀ) / √d_k) · V</code> looks intimidating, yet it is simply a <strong>differentiable soft dictionary lookup</strong>.</p>
+<p>Consider: <em>“The cat didn’t cross the street because <strong>it</strong> was too tired.”</em> When processing <strong>“it”</strong>:</p>
+<ul>
+<li><strong>Query (<code>Q</code>)</strong>: What <strong>“it”</strong> is looking for (<em>“Which prior noun am I referring to?”</em>).</li>
+<li><strong>Key (<code>K</code>)</strong>: Each token’s searchable label (<em>“cat” = animate noun/subject</em>; <em>“street” = location</em>).</li>
+<li><strong>Dot Product (<code>Q · Kᵀ</code>)</strong>: Measures compatibility—<strong>“it”</strong> scores high with <strong>“cat”</strong> and low with <strong>“street”</strong>.</li>
+<li><strong>Scaling (<code>÷ √d_k</code>)</strong>: Prevents large dot-product magnitudes from pushing <code>softmax</code> into flat, vanishing-gradient regions by normalizing variance back to <code>~1</code>.</li>
+<li><strong>Value (<code>V</code>)</strong>: The actual semantic payload retrieved via weighted average, enriching <strong>“it”</strong> with <strong>“cat”</strong>‘s meaning.</li>
+</ul>
+<p><strong>Multi-Head Attention</strong> runs <code>H</code> attention heads in parallel—one head tracks coreference, another matches code brackets, another tracks syntax—and concatenates their insights.</p>
+</div></div>
+<h2 id="3-_45_行纯_PyTorch_手写_Multi-Head_Causal_Self-Attention_/_Minimal_PyTorch_Implementation">3. 45 行纯 PyTorch 手写 Multi-Head Causal Self-Attention / Minimal PyTorch Implementation</h2><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> math</span><br><span class="line"><span class="keyword">import</span> torch</span><br><span class="line"><span class="keyword">import</span> torch.nn <span class="keyword">as</span> nn</span><br><span class="line"><span class="keyword">import</span> torch.nn.functional <span class="keyword">as</span> F</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">CausalSelfAttention</span><span class="params">(nn.Module)</span>:</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__init__</span><span class="params">(self, d_model: int = <span class="number">512</span>, n_heads: int = <span class="number">8</span>, max_len: int = <span class="number">2048</span>)</span>:</span></span><br><span class="line">        super().__init__()</span><br><span class="line">        <span class="keyword">assert</span> d_model % n_heads == <span class="number">0</span></span><br><span class="line">        self.n_heads = n_heads</span><br><span class="line">        self.d_head = d_model // n_heads</span><br><span class="line">        <span class="comment"># Project input x into Q, K, V in one fused linear layer</span></span><br><span class="line">        self.qkv_proj = nn.Linear(d_model, <span class="number">3</span> * d_model, bias=<span class="keyword">False</span>)</span><br><span class="line">        self.out_proj = nn.Linear(d_model, d_model, bias=<span class="keyword">False</span>)</span><br><span class="line">        <span class="comment"># Lower-triangular causal mask prevents attending to future tokens</span></span><br><span class="line">        mask = torch.tril(torch.ones(max_len, max_len)).view(<span class="number">1</span>, <span class="number">1</span>, max_len, max_len)</span><br><span class="line">        self.register_buffer(<span class="string">"causal_mask"</span>, mask)</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">forward</span><span class="params">(self, x: torch.Tensor)</span> -&gt; torch.Tensor:</span></span><br><span class="line">        B, T, C = x.shape  <span class="comment"># Batch, SeqLen, d_model</span></span><br><span class="line">        q, k, v = self.qkv_proj(x).chunk(<span class="number">3</span>, dim=<span class="number">-1</span>)</span><br><span class="line"></span><br><span class="line">        <span class="comment"># Reshape to [B, n_heads, T, d_head]</span></span><br><span class="line">        q = q.view(B, T, self.n_heads, self.d_head).transpose(<span class="number">1</span>, <span class="number">2</span>)</span><br><span class="line">        k = k.view(B, T, self.n_heads, self.d_head).transpose(<span class="number">1</span>, <span class="number">2</span>)</span><br><span class="line">        v = v.view(B, T, self.n_heads, self.d_head).transpose(<span class="number">1</span>, <span class="number">2</span>)</span><br><span class="line"></span><br><span class="line">        <span class="comment"># Scaled dot-product attention + causal masking</span></span><br><span class="line">        scores = (q @ k.transpose(<span class="number">-2</span>, <span class="number">-1</span>)) / math.sqrt(self.d_head)</span><br><span class="line">        scores = scores.masked_fill(self.causal_mask[:, :, :T, :T] == <span class="number">0</span>, float(<span class="string">"-inf"</span>))</span><br><span class="line">        weights = F.softmax(scores, dim=<span class="number">-1</span>)</span><br><span class="line"></span><br><span class="line">        out = (weights @ v).transpose(<span class="number">1</span>, <span class="number">2</span>).contiguous().view(B, T, C)</span><br><span class="line">        <span class="keyword">return</span> self.out_proj(out)</span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> __name__ == <span class="string">"__main__"</span>:</span><br><span class="line">    attn = CausalSelfAttention(d_model=<span class="number">256</span>, n_heads=<span class="number">8</span>)</span><br><span class="line">    dummy = torch.randn(<span class="number">2</span>, <span class="number">16</span>, <span class="number">256</span>)</span><br><span class="line">    print(<span class="string">"Output shape:"</span>, attn(dummy).shape)  <span class="comment"># torch.Size([2, 16, 256])</span></span><br></pre></td></tr></table></figure>
+<div class="col-callout col-callout-tip"><div class="col-callout-title"><span class="col-callout-icon">💡</span>工业级加速提示 / FlashAttention</div><div class="col-callout-body"><p>上面代码中显式构造 <code>[B, H, T, T]</code> 的 <code>scores</code> 矩阵会消耗 <code>O(T²)</code> 显存——当上下文拉到 128K 时直接 OOM。实际生产中调用 <code>F.scaled_dot_product_attention(..., is_causal=True)</code> 会自动触发 <strong>FlashAttention</strong>，利用 GPU 片上 SRAM 分块计算（Tiling），把显存从 <code>O(T²)</code> 降到 <strong><code>O(T)</code></strong> 且速度提升 2~4 倍！</p>
+</div></div>
+<h2 id="4-_2017_原版_vs_2026_现代前沿_LLM_架构演进_/_How_Modern_LLMs_Evolved_Beyond_2017">4. 2017 原版 vs 2026 现代前沿 LLM 架构演进 / How Modern LLMs Evolved Beyond 2017</h2><div class="bi-block bi-zh" data-lang="zh"><span class="bi-badge">中文</span><div class="bi-body"><p>今天的 Llama / Qwen / DeepSeek / Claude / Gemini 等前沿大模型虽然仍流淌着 Transformer 血脉，但几乎都完成了四次关键“基因进化”：</p>
+</div></div>
+<div class="bi-block bi-en" data-lang="en"><span class="bi-badge">EN</span><div class="bi-body"><p>Modern frontier LLMs still inherit the Transformer core, but four architectural upgrades have become universal defaults:</p>
+</div></div>
+<table>
+<thead>
+<tr>
+<th style="text-align:left">组件 Component</th>
+<th style="text-align:left">2017 原版 Transformer</th>
+<th style="text-align:left">现代前沿 LLM 标准</th>
+<th style="text-align:left">核心收益 Why It Matters</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left"><strong>归一化位置与方式</strong></td>
+<td style="text-align:left">Post-LayerNorm</td>
+<td style="text-align:left"><strong>Pre-RMSNorm</strong></td>
+<td style="text-align:left">省去均值计算更快，百层深网训练梯度极稳</td>
+</tr>
+<tr>
+<td style="text-align:left"><strong>位置编码 Position</strong></td>
+<td style="text-align:left">绝对正弦波 (Sinusoidal)</td>
+<td style="text-align:left"><strong>RoPE（旋转位置编码）</strong></td>
+<td style="text-align:left">把相对距离编码成向量旋转角度，极易外推到超长上下文（128K~1M）</td>
+</tr>
+<tr>
+<td style="text-align:left"><strong>前馈网络 FFN</strong></td>
+<td style="text-align:left">ReLU 两层全连接</td>
+<td style="text-align:left"><strong>SwiGLU + MoE（稀疏混合专家）</strong></td>
+<td style="text-align:left">MoE 拥有万亿总参数，但每个 Token 仅激活 Top-2 专家（如 30B），<strong>大脑更大、推理更便宜</strong></td>
+</tr>
+<tr>
+<td style="text-align:left"><strong>注意力头共享</strong></td>
+<td style="text-align:left">MHA（每个 Q 配独立 K/V）</td>
+<td style="text-align:left"><strong>GQA / MLA（分组/潜在注意力）</strong></td>
+<td style="text-align:left">大幅压缩推理期 KV Cache 显存（详见究极篇 L4-01）</td>
+</tr>
+</tbody>
+</table>
+<h2 id="5-_权威延伸阅读_/_Further_Reading">5. 权威延伸阅读 / Further Reading</h2><ul>
+<li>📄 <strong>Original Paper</strong>: <a href="https://arxiv.org/abs/1706.03762" target="_blank" rel="noopener">Attention Is All You Need (Vaswani et al., 2017)</a></li>
+<li>🎥 <strong>3Blue1Brown</strong>: <a href="https://www.youtube.com/watch?v=eMlx5fFNoYc" target="_blank" rel="noopener">Attention in Transformers, Visually Explained</a> — 视觉直觉封神之作。</li>
+<li>💻 <strong>Andrej Karpathy</strong>: <a href="https://github.com/karpathy/nanoGPT" target="_blank" rel="noopener">nanoGPT &amp; Let’s Build GPT from Scratch</a> — 仅 300 行代码的极简 GPT 实现。</li>
+<li>📄 <strong>RoPE Paper</strong>: <a href="https://arxiv.org/abs/2104.09864" target="_blank" rel="noopener">RoFormer: Enhanced Transformer with Rotary Position Embedding (Su et al.)</a> — 苏剑林提出的旋转位置编码奠基论文。</li>
+</ul>
+
+  </div>
+
+  <footer class="col-article-footer">
+    <div class="col-nav-grid">
+      
+        <a class="col-nav-card col-nav-prev" href="/ai-tutorials/l2-02-ai-agents-mcp-react/index.html">
+          <span class="col-nav-dir">← 上一篇 / Previous</span>
+          <span class="col-nav-title">AI Agent 智能体实战：Tool Use、MCP 协议与 ReAct 闭环架构</span>
+        </a>
+      
+
+      
+        <a class="col-nav-card col-nav-next" href="/ai-tutorials/l3-02-finetuning-lora-dpo-eval/index.html">
+          <span class="col-nav-dir">下一篇 / Next →</span>
+          <span class="col-nav-title">微调（Fine-Tuning）与对齐工程：SFT、LoRA/QLoRA 到 DPO 与评估闭环</span>
+        </a>
+      
+    </div>
+  </footer>
+</article>
+
+<script>
+(function() {
+  var root = document.getElementById('column-article-root');
+  if (!root) return;
+  var buttons = root.querySelectorAll('.lang-btn');
+  var storageKey = 'hzan_ai_lang_mode';
+
+  function applyMode(mode) {
+    if (mode !== 'both' && mode !== 'zh' && mode !== 'en') mode = 'both';
+    root.classList.remove('lang-mode-both', 'lang-mode-zh', 'lang-mode-en');
+    root.classList.add('lang-mode-' + mode);
+    buttons.forEach(function(btn) {
+      btn.classList.toggle('active', btn.getAttribute('data-mode') === mode);
+    });
+    try { localStorage.setItem(storageKey, mode); } catch (e) {}
+  }
+
+  buttons.forEach(function(btn) {
+    btn.addEventListener('click', function() {
+      applyMode(btn.getAttribute('data-mode'));
+    });
+  });
+
+  try {
+    var saved = localStorage.getItem(storageKey);
+    if (saved) applyMode(saved);
+  } catch (e) {}
+})();
+</script>
+
+    </div>
+    
+    <footer id="footer">
+  <div class="footer-left">
+    Copyright &copy; 2026 Zan
+  </div>
+  <div class="footer-right">
+    <nav>
+      <ul>
+         
+          <li><a href="/">Home</a></li>
+         
+          <li><a href="/about/">About</a></li>
+         
+          <li><a href="/archives/">Writing</a></li>
+         
+          <li><a href="/ai-tutorials/">AI Tutorials</a></li>
+         
+          <li><a href="/ai-news/">AI News</a></li>
+         
+          <li><a href="http://github.com/H-Zan">Projects</a></li>
+        
+      </ul>
+    </nav>
+  </div>
+</footer>
+
+</body>
+</html>
+<!-- styles -->
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css">
+<link rel="stylesheet" href="/lib/meslo-LG/styles.css">
+<link rel="stylesheet" href="/lib/justified-gallery/justifiedGallery.min.css">
+
+
+<!-- jquery -->
+<script src="/lib/jquery/jquery.min.js"></script>
+<script src="/lib/justified-gallery/jquery.justifiedGallery.min.js"></script>
+<script src="/js/main.js"></script>
+<!-- Google Analytics -->
+
+    <script type="text/javascript">
+        (function(i,s,o,g,r,a,m) {i['GoogleAnalyticsObject']=r;i[r]=i[r]||function() {
+        (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+        m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+        })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+        ga('create', 'UA-86660611-1', 'auto');
+        ga('send', 'pageview');
+    </script>
+
+<!-- Disqus Comments -->
+
+    <script type="text/javascript">
+        var disqus_shortname = 'huzan';
+
+        (function(){
+            var dsq = document.createElement('script');
+            dsq.type = 'text/javascript';
+            dsq.async = true;
+            dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+            (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+        }());
+    </script>
+
+
