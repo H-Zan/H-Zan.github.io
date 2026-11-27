@@ -6,10 +6,19 @@
     ultimate: 'L4 · 究极 Ultimate'
   };
 
+  var columnMeta = {
+    'ai-tutorials':      { href: '/ai-tutorials/',      label: 'AI 教程专栏',       badge: 'AI 教程',         badgeClass: 'level-beginner', sortBy: 'order' },
+    'ai-news':           { href: '/ai-news/',           label: 'AI 热点大事件',     badge: '🔥 AI 热点大事件', badgeClass: 'level-news',     sortBy: 'date'  },
+    'agent-playbook':    { href: '/agent-playbook/',    label: 'Agent 使用技巧专栏', badge: '🤖 AGENT PLAYBOOK', badgeClass: 'level-cyan',   sortBy: 'order' },
+    'python-tutorials':  { href: '/python-tutorials/',  label: 'Python 教程专栏',   badge: '🐍 PYTHON',        badgeClass: 'level-gold',    sortBy: 'order' },
+    'python-ai-practice':{ href: '/python-ai-practice/',label: 'Python AI 实践专栏',badge: '🧠 PYTHON + AI',   badgeClass: 'level-violet',  sortBy: 'order' },
+    'pg-tutorials':      { href: '/pg-tutorials/',      label: 'PostgreSQL 专栏',   badge: '🐘 POSTGRESQL',    badgeClass: 'level-blue',    sortBy: 'order' }
+  };
+
+  var meta = columnMeta[page.column] || { href: '/columns/', label: 'Columns', badge: 'COLUMN', badgeClass: 'level-beginner', sortBy: 'order' };
   var isTutorial = page.column === 'ai-tutorials';
-  var isNews = page.column === 'ai-news';
-  var colHref = isTutorial ? '/ai-tutorials/' : (isNews ? '/ai-news/' : '/');
-  var colLabel = isTutorial ? 'AI 教程专栏' : (isNews ? 'AI 热点大事件' : 'Home');
+  var colHref = meta.href;
+  var colLabel = meta.label;
 
   var siblings = [];
   site.pages.forEach(function(p) {
@@ -17,10 +26,10 @@
       siblings.push(p);
     }
   });
-  if (isTutorial) {
-    siblings.sort(function(a, b) { return (a.order || 999) - (b.order || 999); });
-  } else {
+  if (meta.sortBy === 'date') {
     siblings.sort(function(a, b) { return new Date(b.date) - new Date(a.date); });
+  } else {
+    siblings.sort(function(a, b) { return (a.order || 999) - (b.order || 999); });
   }
   var curIdx = -1;
   for (var idx = 0; idx < siblings.length; idx++) {
@@ -35,6 +44,8 @@
   <nav class="col-breadcrumb" aria-label="Breadcrumb">
     <a href="<%- url_for('/') %>">Home</a>
     <span class="sep">/</span>
+    <a href="<%- url_for('/columns/') %>">Columns</a>
+    <span class="sep">/</span>
     <a href="<%- url_for(colHref) %>"><%= colLabel %></a>
     <% if (isTutorial && page.level && levelMap[page.level]) { %>
       <span class="sep">/</span>
@@ -46,9 +57,8 @@
     <div class="col-article-badges">
       <% if (isTutorial && page.level) { %>
         <span class="level-badge level-<%= page.level %>"><%= levelMap[page.level] || page.level %></span>
-      <% } %>
-      <% if (isNews) { %>
-        <span class="level-badge level-news">🔥 AI 热点大事件 · BRIEFING</span>
+      <% } else { %>
+        <span class="level-badge <%= meta.badgeClass %>"><%= meta.badge %></span>
       <% } %>
       <% if (page.code) { %>
         <span class="col-code-pill"><%= page.code %></span>

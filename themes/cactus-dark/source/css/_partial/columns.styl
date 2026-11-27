@@ -703,11 +703,142 @@ $tier-news = #ff9f43
     font-weight: 700
     color: $color-lightest
 
+// Multi-column Accent Palette & Overview Grid
+$accent-cyan = #38bdf8
+$accent-gold = #f0a500
+$accent-violet = #c678dd
+$accent-blue = #4ea8de
+$accent-orange = #ff9f43
+
+.badge-emerald
+  background: $tier-beginner !important
+  color: #16181a !important
+.badge-cyan
+  background: $accent-cyan !important
+  color: #11161b !important
+.badge-gold
+  background: $accent-gold !important
+  color: #16181a !important
+.badge-violet
+  background: $accent-violet !important
+  color: #ffffff !important
+.badge-blue
+  background: $accent-blue !important
+  color: #11161b !important
+.badge-orange
+  background: $accent-orange !important
+  color: #16181a !important
+
+.level-badge
+  &.level-cyan
+    background: $accent-cyan
+    color: #11161b
+  &.level-gold
+    background: $accent-gold
+    color: #16181a
+  &.level-violet
+    background: $accent-violet
+    color: #ffffff
+  &.level-blue
+    background: $accent-blue
+    color: #11161b
+
+.accent-text-emerald
+  color: $tier-beginner !important
+.accent-text-cyan
+  color: $accent-cyan !important
+.accent-text-gold
+  color: $accent-gold !important
+.accent-text-violet
+  color: $accent-violet !important
+.accent-text-blue
+  color: $accent-blue !important
+.accent-text-orange
+  color: $accent-orange !important
+
+.accent-hover-emerald:hover
+  border-color: $tier-beginner !important
+.accent-hover-cyan:hover
+  border-color: $accent-cyan !important
+.accent-hover-gold:hover
+  border-color: $accent-gold !important
+.accent-hover-violet:hover
+  border-color: $accent-violet !important
+.accent-hover-blue:hover
+  border-color: $accent-blue !important
+.accent-hover-orange:hover
+  border-color: $accent-orange !important
+
+.static-pill
+  cursor: default
+
+.col-list-header
+  display: flex
+  justify-content: space-between
+  align-items: baseline
+  flex-wrap: wrap
+  gap: 0.5rem
+  margin-bottom: 1rem
+  h2
+    margin: 0 !important
+    font-size: 1.2rem !important
+    color: $color-lightest !important
+    &:before
+      display: none !important
+  .col-list-hint
+    font-size: 0.8rem
+    color: $col-muted
+
+.columns-overview
+  .overview-header
+    margin-bottom: 1.6rem
+    h1
+      margin: 0.3rem 0 0.5rem 0 !important
+      font-size: 1.75rem !important
+      color: $color-lightest !important
+  .overview-grid
+    display: grid
+    grid-template-columns: repeat(2, minmax(0, 1fr))
+    gap: 1.15rem
+  .overview-card
+    display: flex
+    flex-direction: column
+    background: $col-surface
+    border: 1px solid $col-border
+    border-radius: 10px
+    overflow: hidden
+    background-image: none !important
+    transition: transform 0.2s ease, border-color 0.2s ease, background-color 0.2s ease
+    &:hover
+      transform: translateY(-2px)
+      background: $col-surface-hover
+  .overview-thumb
+    height: 145px
+    overflow: hidden
+    border-bottom: 1px solid $col-border
+    img
+      width: 100%
+      height: 100%
+      object-fit: cover
+      display: block
+  .overview-body
+    padding: 1.05rem 1.2rem 1.2rem
+    display: flex
+    flex-direction: column
+    flex: 1
+  .overview-title
+    margin: 0.45rem 0 0.2rem 0 !important
+    font-size: 1.08rem !important
+    color: $color-lightest !important
+    &:before
+      display: none !important
+
 @media screen and (max-width: 680px)
   .column-showcase .showcase-grid,
   .col-roadmap .roadmap-bar,
   .col-card-grid,
-  .column-article .col-nav-grid
+  .column-article .col-nav-grid,
+  .columns-overview .overview-grid
     grid-template-columns: 1fr
   .column-page .col-hero-media img
     height: 180px

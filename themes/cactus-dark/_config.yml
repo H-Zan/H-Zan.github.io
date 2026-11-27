@@ -1,11 +1,11 @@
 nav:
   Home: /
-  # Home: /archives/
-  About: /about/
-  Writing: /archives/
+  Columns: /columns/
   AI Tutorials: /ai-tutorials/
+  Agent Tips: /agent-playbook/
   AI News: /ai-news/
-  Projects: http://github.com/H-Zan
+  Writing: /archives/
+  About: /about/
 
 projects_url: http://github.com/H-Zan
 

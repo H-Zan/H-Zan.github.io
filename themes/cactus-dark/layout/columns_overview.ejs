@@ -1,0 +1,100 @@
+<%
+  var columns = [
+    {
+      id: 'agent-playbook',
+      href: '/agent-playbook/',
+      badge: 'AGENT PLAYBOOK',
+      accent: 'cyan',
+      title: 'Agent 使用技巧专栏',
+      title_en: 'AI Agent Efficiency Playbook',
+      desc: 'Codex / Claude Code / Antigravity 全攻略（macOS & Windows），渗透项目、工程、设计与工作流四大思维，用高效 vs 低效对比直接拉满生产力。',
+      hero: '/images/agent-playbook/hero-banner.jpg'
+    },
+    {
+      id: 'ai-tutorials',
+      href: '/ai-tutorials/',
+      badge: 'AI TUTORIALS',
+      accent: 'emerald',
+      title: 'AI 教程专栏（四级体系）',
+      title_en: 'AI Engineering Tutorials (L1–L4)',
+      desc: '初级 / 中级 / 高级 / 究极全链路深度教程：从 Token、Prompt 到 RAG、MCP Agent、Transformer、LoRA/DPO、推理引擎优化与 RLVR/GRPO。',
+      hero: '/images/ai-tutorials/hero-banner.jpg'
+    },
+    {
+      id: 'python-tutorials',
+      href: '/python-tutorials/',
+      badge: 'PYTHON',
+      accent: 'gold',
+      title: 'Python 教程专栏',
+      title_en: 'Modern Python Mastery',
+      desc: '不啰嗦的现代 Python 3.12+ 实战：核心数据结构与类型注解、uv 极速环境管理与 asyncio 并发、FastAPI + Pydantic 工程三板斧。',
+      hero: '/images/python-tutorials/hero-banner.jpg'
+    },
+    {
+      id: 'python-ai-practice',
+      href: '/python-ai-practice/',
+      badge: 'PYTHON + AI',
+      accent: 'violet',
+      title: 'Python AI 实践专栏',
+      title_en: 'Python AI Engineering Practice',
+      desc: '亲手写代码落地 AI 项目：统一 LLM SDK 流式与结构化抽取、80 行透明手写混合检索 RAG、可控 Tool Agent 与 pytest 自动化 Eval。',
+      hero: '/images/python-ai-practice/hero-banner.jpg'
+    },
+    {
+      id: 'pg-tutorials',
+      href: '/pg-tutorials/',
+      badge: 'POSTGRESQL',
+      accent: 'blue',
+      title: 'PostgreSQL 数据库教程',
+      title_en: 'PostgreSQL Practical Guide',
+      desc: 'AI 与全栈时代首选开源数据库：高效 SQL/CTE/窗口函数、B-Tree/GIN 索引与 EXPLAIN/MVCC 调优、JSONB + pgvector 混合向量检索与高可用。',
+      hero: '/images/pg-tutorials/hero-banner.jpg'
+    },
+    {
+      id: 'ai-news',
+      href: '/ai-news/',
+      badge: 'AI HOT EVENTS',
+      accent: 'orange',
+      title: 'AI 热点大事件专栏',
+      title_en: 'AI Hot Events & Briefings',
+      desc: '过滤噪声，只留信号。基于一手权威信源追踪全球 AI 政策、模型、算力与工程前沿突破，附中英双语要点与技术点评。',
+      hero: '/images/ai-news/hero-banner.jpg'
+    }
+  ];
+
+  var counts = {};
+  site.pages.forEach(function(p) {
+    if (p.column) {
+      counts[p.column] = (counts[p.column] || 0) + 1;
+    }
+  });
+%>
+
+<div class="column-page columns-overview">
+  <section class="overview-header">
+    <span class="col-eyebrow">ALL COLUMNS · 知识专栏总览</span>
+    <h1>技术专栏矩阵 <span class="col-hero-sub">Engineering &amp; AI Columns</span></h1>
+    <p class="col-hero-desc">
+      所有专栏均为独立 Markdown 双语知识库，与原有个人随笔完全隔离。每篇文章深入浅出、拒绝水字数、配高清暗色架构图与可运行代码，支持中英一键切换。
+    </p>
+  </section>
+
+  <div class="overview-grid">
+    <% columns.forEach(function(col) { %>
+      <a class="overview-card accent-hover-<%= col.accent %>" href="<%- url_for(col.href) %>">
+        <div class="overview-thumb">
+          <img src="<%- url_for(col.hero) %>" alt="<%= col.title %>">
+        </div>
+        <div class="overview-body">
+          <div class="showcase-head">
+            <span class="showcase-badge badge-<%= col.accent %>"><%= col.badge %></span>
+            <span class="showcase-stat"><%= counts[col.id] || 0 %> 篇</span>
+          </div>
+          <h2 class="overview-title"><%= col.title %></h2>
+          <div class="col-card-title-en"><%= col.title_en %></div>
+          <p class="col-card-summary"><%= col.desc %></p>
+        </div>
+      </a>
+    <% }); %>
+  </div>
+</div>

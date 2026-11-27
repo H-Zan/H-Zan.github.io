@@ -15,42 +15,44 @@
 </section>
 
 <%
-  var aiTutorialsCount = 0;
+  var colCounts = {};
   var latestNews = null;
   site.pages.forEach(function(p) {
-    if (p.column === 'ai-tutorials') aiTutorialsCount++;
+    if (p.column) {
+      colCounts[p.column] = (colCounts[p.column] || 0) + 1;
+    }
     if (p.column === 'ai-news') {
       if (!latestNews || new Date(p.date) > new Date(latestNews.date)) latestNews = p;
     }
   });
+  var homeColumns = [
+    { id: 'agent-playbook', href: '/agent-playbook/', badge: 'AGENT PLAYBOOK', accent: 'cyan', title: 'Agent 使用技巧 · 提效实战', desc: 'Codex / Claude Code / Antigravity（Mac & Win），项目/工程/设计/工作流四大思维与高效对比。' },
+    { id: 'ai-tutorials', href: '/ai-tutorials/', badge: 'AI TUTORIALS', accent: 'emerald', title: 'AI 教程专栏 · 四级体系', desc: '初级 / 中级 / 高级 / 究极全链路深度图文，中英双语一键切换。' },
+    { id: 'python-tutorials', href: '/python-tutorials/', badge: 'PYTHON', accent: 'gold', title: 'Python 教程 · 现代工程', desc: '现代语法与类型注解、uv & asyncio 异步工程、FastAPI + Pydantic 实战。' },
+    { id: 'python-ai-practice', href: '/python-ai-practice/', badge: 'PYTHON + AI', accent: 'violet', title: 'Python AI 实践 · 代码落地', desc: '统一 LLM SDK 结构化抽取、手写混合检索 RAG、可控 Agent 与自动化 Eval。' },
+    { id: 'pg-tutorials', href: '/pg-tutorials/', badge: 'POSTGRESQL', accent: 'blue', title: 'PostgreSQL 数据库教程', desc: 'CTE 与窗口函数、索引/EXPLAIN/MVCC 调优、JSONB + pgvector 混合向量检索。' },
+    { id: 'ai-news', href: '/ai-news/', badge: 'AI HOT EVENTS', accent: 'orange', title: 'AI 热点大事件 · 前沿雷达', desc: latestNews ? latestNews.title : '追踪全球 AI 重大模型、政策与工程突破，一手信源核验。' }
+  ];
 %>
 <section id="columns" class="column-showcase">
-  <span class="h1"><a href="<%- url_for('/ai-tutorials/') %>">Columns · 专栏</a></span>
+  <span class="h1"><a href="<%- url_for('/columns/') %>">Columns · 专栏</a></span>
   <div class="showcase-grid">
-    <a class="showcase-card showcase-tutorials" href="<%- url_for('/ai-tutorials/') %>">
-      <div class="showcase-head">
-        <span class="showcase-badge">AI TUTORIALS</span>
-        <span class="showcase-stat"><%= aiTutorialsCount %> 篇 · 四级体系</span>
-      </div>
-      <div class="showcase-title">AI 教程专栏 · 从入门到究极</div>
-      <p class="showcase-desc">初级 / 中级 / 高级 / 究极全链路实战，深入浅出、图文架构、中英双语对照一键切换。</p>
-    </a>
-    <a class="showcase-card showcase-news" href="<%- url_for('/ai-news/') %>">
-      <div class="showcase-head">
-        <span class="showcase-badge showcase-badge-news">AI HOT EVENTS</span>
-        <% if (latestNews) { %>
-          <span class="showcase-stat">最新 <%= date(latestNews.date, 'YYYY-MM-DD') %></span>
-        <% } %>
-      </div>
-      <div class="showcase-title">AI 热点大事件 · 前沿雷达</div>
-      <p class="showcase-desc">
-        <% if (latestNews) { %>
-          <%= latestNews.title %>
-        <% } else { %>
-          追踪全球 AI 重大模型、政策监管、算力与科研突破，一手信源核验与深度点评。
-        <% } %>
-      </p>
-    </a>
+    <% homeColumns.forEach(function(c) { %>
+      <a class="showcase-card accent-hover-<%= c.accent %>" href="<%- url_for(c.href) %>">
+        <div class="showcase-head">
+          <span class="showcase-badge badge-<%= c.accent %>"><%= c.badge %></span>
+          <span class="showcase-stat">
+            <% if (c.id === 'ai-news' && latestNews) { %>
+              最新 <%= date(latestNews.date, 'YYYY-MM-DD') %>
+            <% } else { %>
+              <%= colCounts[c.id] || 0 %> 篇
+            <% } %>
+          </span>
+        </div>
+        <div class="showcase-title"><%= c.title %></div>
+        <p class="showcase-desc"><%= c.desc %></p>
+      </a>
+    <% }); %>
   </div>
 </section>
 

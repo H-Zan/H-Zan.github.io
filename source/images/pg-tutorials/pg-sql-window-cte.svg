@@ -1,0 +1,59 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 880 290" width="880" height="290">
+  <defs>
+    <marker id="arr-pg1" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M 0 1 L 10 5 L 0 9 z" fill="#4ea8de"/>
+    </marker>
+    <linearGradient id="bg-pg1" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#181a1d"/>
+      <stop offset="100%" stop-color="#22262b"/>
+    </linearGradient>
+  </defs>
+  <rect width="880" height="290" rx="12" fill="url(#bg-pg1)" stroke="#363b42" stroke-width="1.5"/>
+  <text x="440" y="32" text-anchor="middle" fill="#eeeeee" font-family="sans-serif" font-size="16" font-weight="700">SQL 真实执行顺序与 CTE / 窗口函数威力 · SQL Execution Order</text>
+
+  <!-- 6 Execution steps -->
+  <rect x="24" y="66" width="124" height="72" rx="6" fill="#24272b" stroke="#4ea8de"/>
+  <text x="86" y="92" text-anchor="middle" fill="#4ea8de" font-family="monospace" font-size="12" font-weight="700">1. FROM/JOIN</text>
+  <text x="86" y="114" text-anchor="middle" fill="#c9cacc" font-family="sans-serif" font-size="11">定位表并关联</text>
+
+  <line x1="148" y1="102" x2="166" y2="102" stroke="#4ea8de" stroke-width="1.8" marker-end="url(#arr-pg1)"/>
+
+  <rect x="170" y="66" width="114" height="72" rx="6" fill="#24272b" stroke="#4ea8de"/>
+  <text x="227" y="92" text-anchor="middle" fill="#4ea8de" font-family="monospace" font-size="12" font-weight="700">2. WHERE</text>
+  <text x="227" y="114" text-anchor="middle" fill="#c9cacc" font-family="sans-serif" font-size="11">行级早过滤</text>
+
+  <line x1="284" y1="102" x2="302" y2="102" stroke="#4ea8de" stroke-width="1.8" marker-end="url(#arr-pg1)"/>
+
+  <rect x="306" y="66" width="124" height="72" rx="6" fill="#24272b" stroke="#f0a500"/>
+  <text x="368" y="92" text-anchor="middle" fill="#f0a500" font-family="monospace" font-size="12" font-weight="700">3. GROUP BY</text>
+  <text x="368" y="114" text-anchor="middle" fill="#c9cacc" font-family="sans-serif" font-size="11">分组 + HAVING</text>
+
+  <line x1="430" y1="102" x2="448" y2="102" stroke="#4ea8de" stroke-width="1.8" marker-end="url(#arr-pg1)"/>
+
+  <rect x="452" y="66" width="136" height="72" rx="6" fill="#1e2523" stroke="#2bbc8a" stroke-width="1.6"/>
+  <text x="520" y="92" text-anchor="middle" fill="#2bbc8a" font-family="monospace" font-size="12" font-weight="700">4. WINDOW</text>
+  <text x="520" y="114" text-anchor="middle" fill="#d5ff80" font-family="sans-serif" font-size="11">不折叠行做排名/累计</text>
+
+  <line x1="588" y1="102" x2="606" y2="102" stroke="#4ea8de" stroke-width="1.8" marker-end="url(#arr-pg1)"/>
+
+  <rect x="610" y="66" width="114" height="72" rx="6" fill="#24272b" stroke="#c678dd"/>
+  <text x="667" y="92" text-anchor="middle" fill="#c678dd" font-family="monospace" font-size="12" font-weight="700">5. SELECT</text>
+  <text x="667" y="114" text-anchor="middle" fill="#c9cacc" font-family="sans-serif" font-size="11">投影输出列</text>
+
+  <line x1="724" y1="102" x2="742" y2="102" stroke="#4ea8de" stroke-width="1.8" marker-end="url(#arr-pg1)"/>
+
+  <rect x="746" y="66" width="110" height="72" rx="6" fill="#24272b" stroke="#c678dd"/>
+  <text x="801" y="92" text-anchor="middle" fill="#c678dd" font-family="monospace" font-size="12" font-weight="700">6. ORDER/LIMIT</text>
+  <text x="801" y="114" text-anchor="middle" fill="#c9cacc" font-family="sans-serif" font-size="11">最终排序截断</text>
+
+  <!-- Bottom comparison: GROUP BY vs WINDOW -->
+  <rect x="24" y="164" width="406" height="96" rx="8" fill="#24272b" stroke="#f0a500" stroke-opacity="0.7"/>
+  <text x="42" y="190" fill="#f0a500" font-family="monospace" font-size="12" font-weight="700">GROUP BY · 折叠多行为 1 行</text>
+  <text x="42" y="214" fill="#c9cacc" font-family="sans-serif" font-size="11.5">• 100 条订单按部门汇总 → 压缩成 3 条部门总销售额</text>
+  <text x="42" y="236" fill="#9aa0a6" font-family="sans-serif" font-size="11">• 原始明细行信息丢失</text>
+
+  <rect x="450" y="164" width="406" height="96" rx="8" fill="#1e2523" stroke="#2bbc8a" stroke-opacity="0.8"/>
+  <text x="468" y="190" fill="#2bbc8a" font-family="monospace" font-size="12" font-weight="700">WINDOW (OVER PARTITION BY) · 保留明细 + 附加统计</text>
+  <text x="468" y="214" fill="#eeeeee" font-family="sans-serif" font-size="11.5">• 每条订单仍保留，同时算出“组内 Top-3 排名 / 累计营收”</text>
+  <text x="468" y="236" fill="#d5ff80" font-family="sans-serif" font-size="11">• 搭配 WITH (CTE) 彻底告别层层嵌套子查询！</text>
+</svg>

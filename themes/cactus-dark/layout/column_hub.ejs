@@ -1,0 +1,90 @@
+<%
+  var colId = page.column_id || '';
+  var accentKey = page.accent || 'emerald';
+  var articles = [];
+  site.pages.forEach(function(p) {
+    if (p.column === colId) {
+      articles.push(p);
+    }
+  });
+  articles.sort(function(a, b) {
+    return (a.order || 999) - (b.order || 999);
+  });
+%>
+
+<div class="column-page generic-column-hub col-accent-<%= accentKey %>">
+  <nav class="col-breadcrumb" aria-label="Breadcrumb">
+    <a href="<%- url_for('/') %>">Home</a>
+    <span class="sep">/</span>
+    <a href="<%- url_for('/columns/') %>">Columns · 全部专栏</a>
+    <span class="sep">/</span>
+    <span><%= page.title %></span>
+  </nav>
+
+  <section class="col-hero">
+    <% if (page.hero_image) { %>
+      <div class="col-hero-media">
+        <img src="<%- url_for(page.hero_image) %>" alt="<%= page.title %>">
+      </div>
+    <% } %>
+    <div class="col-hero-content">
+      <span class="col-eyebrow accent-text-<%= accentKey %>"><%= page.eyebrow || 'COLUMN · 实战专栏' %></span>
+      <h1 class="col-hero-title">
+        <%= page.title %>
+        <% if (page.title_en) { %>
+          <span class="col-hero-sub"><%= page.title_en %></span>
+        <% } %>
+      </h1>
+      <% if (page.description) { %>
+        <p class="col-hero-desc"><%= page.description %></p>
+      <% } %>
+      <% if (page.highlights && page.highlights.length) { %>
+        <div class="col-tier-pills">
+          <% page.highlights.forEach(function(h) { %>
+            <span class="tier-pill static-pill"><%= h %></span>
+          <% }); %>
+        </div>
+      <% } %>
+    </div>
+  </section>
+
+  <% if (page.content && page.content.trim().length > 0) { %>
+    <section class="col-intro-note">
+      <%- page.content %>
+    </section>
+  <% } %>
+
+  <section class="col-list-section">
+    <div class="col-list-header">
+      <h2>📚 专栏文章列表 · <%= articles.length %> 篇硬核实战</h2>
+      <span class="col-list-hint">按推荐阅读顺序排列 · 支持中英双语一键切换</span>
+    </div>
+
+    <div class="col-card-grid">
+      <% articles.forEach(function(item) { %>
+        <a class="col-card accent-hover-<%= accentKey %>" href="<%- url_for(item.path) %>">
+          <div class="col-card-top">
+            <span class="col-card-code accent-text-<%= accentKey %>"><%= item.code || ('#' + (item.order || '')) %></span>
+            <% if (item.read_time) { %>
+              <span class="col-card-meta">⏱ <%= item.read_time %></span>
+            <% } %>
+          </div>
+          <h3 class="col-card-title"><%= item.title %></h3>
+          <% if (item.title_en) { %>
+            <div class="col-card-title-en"><%= item.title_en %></div>
+          <% } %>
+          <% if (item.summary) { %>
+            <p class="col-card-summary"><%= item.summary %></p>
+          <% } %>
+          <% if (item.tags && item.tags.length) { %>
+            <div class="col-card-tags">
+              <% item.tags.forEach(function(tag) { %>
+                <span class="col-tag">#<%= typeof tag === 'string' ? tag : tag.name %></span>
+              <% }); %>
+            </div>
+          <% } %>
+        </a>
+      <% }); %>
+    </div>
+  </section>
+</div>
